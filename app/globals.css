@@ -1,26 +1,54 @@
 @import "tailwindcss";
 
+@font-face {
+    font-family: "Bricolage Grotesque";
+    src: url("/fonts/BricolageGrotesque.ttf") format("truetype");
+    
+    font-family: "Univers";
+    src: url("/fonts/UniversRegular.ttf") format("truetype");
+  }
+
 :root {
-  --background: #ffffff;
+  --background: var(--color-honeydew);
   --foreground: #171717;
+  --honeydew: #f5fee9;
+  --powder-blush: #f3a5a5;
+  --almond-cream: #e6d4c6;
+  --navy: #0a0087;
+  --rich-cerulean: #3178a4;
+  --dirty-yellow: #dedf2b;
+  --orangish-red: #ed4b25;
+  --dark-blue: #0e287f;
+  --pastel-blue: #b1d4f0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  
+  --color-honeydew: var(--honeydew);
+  --color-powder-blush: var(--powder-blush);
+  --color-almond-cream: var(--almond-cream);
+  --color-navy: var(--navy);
+  --color-rich-cerulean: var(--rich-cerulean);
+  --color-dirty-yellow: var(--dirty-yellow);
+  --color-orangish-red: var(--orangish-red);
+  --color-dark-blue: var(--dark-blue);
+  --color-pastel-blue: var(--pastel-blue);
+
+  --font-bricolage: "Bricolage Grotesque", sans-serif;
+  --font-univers: "Univers", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-univers);
 }
