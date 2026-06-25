@@ -1,13 +1,135 @@
 @import "tailwindcss";
 
 @font-face {
+  font-family: "Univers";
+  src: url("/fonts/UniversRegular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Bricolage";
+  src: url("/fonts/BricolageGrotesque.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* --- Canela Deck Family --- */
+/* Thin */
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-Thin-Trial.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-ThinItalic-Trial.otf") format("opentype");
+  font-weight: 100;
+  font-style: italic;
+}
+
+/* Light */
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-Light-Trial.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-LightItalic-Trial.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Regular */
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-Regular-Trial.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-RegularItalic-Trial.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Medium */
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-Medium-Trial.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-MediumItalic-Trial.otf") format("opentype");
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Bold */
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-Bold-Trial.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-BoldItalic-Trial.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Black */
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-Black-Trial.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Canela Deck";
+  src: url("/fonts/CanelaDeckFamily/CanelaDeck-BlackItalic-Trial.otf") format("opentype");
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* --- Univers Standard --- */
+@font-face {
+  font-family: "Univers";
+  src: url("/fonts/Univers/UniversLight.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Univers";
+  src: url("/fonts/Univers/UniversRegular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Univers";
+  src: url("/fonts/Univers/UniversBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+/* @font-face {
   
   font-family: "Univers";
   src: url("/fonts/UniversRegular.ttf") format("truetype");
   
   font-family: "Bricolage";
   src: url("/fonts/BricolageGrotesque.ttf") format("truetype");
-  }
+  } */
 
 :root {
   --background: var(--color-honeydew);
@@ -39,6 +161,7 @@
 
   --font-bricolage: "Bricolage", sans-serif;
   --font-univers: "Univers", sans-serif;
+  --font-canela: "Canela Deck", serif;
 }
 
 /* @media (prefers-color-scheme: dark) {
