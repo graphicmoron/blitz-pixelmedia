@@ -9,6 +9,8 @@
 
           BLITZ PIXEL MEDIA
 
+          <h1 className="text-6xl font-bold font-bricolage text-rich-cerulean">Blitz</h1>
+
         </div>
       </div>
     );

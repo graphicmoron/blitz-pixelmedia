@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 @font-face {
-    font-family: "Bricolage Grotesque";
-    src: url("/fonts/BricolageGrotesque.ttf") format("truetype");
-    
-    font-family: "Univers";
-    src: url("/fonts/UniversRegular.ttf") format("truetype");
+  
+  font-family: "Univers";
+  src: url("/fonts/UniversRegular.ttf") format("truetype");
+  
+  font-family: "Bricolage";
+  src: url("/fonts/BricolageGrotesque.ttf") format("truetype");
   }
 
 :root {
@@ -36,7 +37,7 @@
   --color-dark-blue: var(--dark-blue);
   --color-pastel-blue: var(--pastel-blue);
 
-  --font-bricolage: "Bricolage Grotesque", sans-serif;
+  --font-bricolage: "Bricolage", sans-serif;
   --font-univers: "Univers", sans-serif;
 }
 
