@@ -1,6 +1,6 @@
 "use client";
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import './CircularGallery.css';
 
@@ -636,6 +636,23 @@ export default function CircularGallery({
   autoScrollDirection = 1
 }) {
   const containerRef = useRef(null);
+  const [isPhone, setIsPhone] = useState(false);
+
+  useEffect(() => {
+    const updateIsPhone = () => {
+      setIsPhone(window.matchMedia('(max-width: 640px)').matches);
+    };
+
+    updateIsPhone();
+    window.addEventListener('resize', updateIsPhone);
+
+    return () => {
+      window.removeEventListener('resize', updateIsPhone);
+    };
+  }, []);
+
+  const effectiveBend = isPhone ? 0 : bend;
+
   useEffect(() => {
     if (!containerRef.current) return;
     let app;
@@ -644,7 +661,7 @@ export default function CircularGallery({
       if (!isMounted || !containerRef.current) return;
       app = new App(containerRef.current, {
         items,
-        bend,
+        bend: effectiveBend,
         textColor,
         borderRadius,
         font: resolvedFont,
@@ -660,7 +677,7 @@ export default function CircularGallery({
       isMounted = false;
       if (app) app.destroy();
     };
-  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, autoScroll, autoScrollSpeed, autoScrollDirection]);
+  }, [items, effectiveBend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, autoScroll, autoScrollSpeed, autoScrollDirection]);
   return (
     <div
       className="circular-gallery"
