@@ -1,8 +1,9 @@
 export default function Home() {
   return (
+    <>
     <div>
 
-      <div className="container border mx-auto p-4 sm:p-6 md:p-8 lg:p-10 grid grid-cols-3">
+      {/* <div className="container border mx-auto p-4 sm:p-6 md:p-8 lg:p-10 grid grid-cols-3">
 
         <div>
           <p>Font: Bricolage Grotesque</p>
@@ -29,7 +30,9 @@ export default function Home() {
           <h1 className="text-3xl font-canela font-black">Canela Black</h1>
           <h1 className="text-3xl font-canela font-black italic">Canela Black Italic</h1>
         </div>
-      </div>
+      </div> */}
+
     </div>
+    </>
   );
 }

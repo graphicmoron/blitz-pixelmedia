@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from './../Components/Navbar';
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "Blitz Pixel Media",
@@ -14,9 +19,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={'h-full antialiased'}
+      className={cn('h-full antialiased', "font-sans", geist.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-black">
+        <Navbar />
+        {children}
+
+      </body>
     </html>
   );
 }
