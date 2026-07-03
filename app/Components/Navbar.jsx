@@ -22,7 +22,7 @@ export default function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:pt-6">
       <nav
         aria-label="Main navigation"
-        className="mx-auto flex h-[60px] w-[600px] max-w-5xl items-center justify-between rounded-md border border-white/20 bg-white/10 px-4 shadow-[0_14px_34px_rgba(0,0,0,0.12)] backdrop-blur md:px-5"
+        className="mx-auto flex h-[60px] w-[600px] max-w-5xl items-center justify-between rounded-md border border-white/20 bg-white px-4 shadow-[0_14px_34px_rgba(0,0,0,0.12)] backdrop-blur md:px-5"
       >
         <Link
           href="/"
@@ -50,7 +50,7 @@ export default function Navbar() {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 className={`text-sm font-medium transition-colors hover:text-orangish-red ${
-                  isActive ? "text-white" : "text-[#6f6f76]"
+                  isActive ? "text-black" : "text-[#6f6f76]"
                 }`}
               >
                 {item.label}

@@ -465,15 +465,15 @@ class App {
   }
   createMedias(items, bend = 1, textColor, borderRadius, font) {
     const defaultItems = [
-      { image: `https://graphicmoron.vercel.app/videos/newMarqVid1.mp4`, text: 'Bridge' },
-      { image: `https://graphicmoron.vercel.app/videos/newMarqVid2.mp4`, text: 'Desk Setup' },
-      { image: `https://graphicmoron.vercel.app/images/newMarqImg1.png`, text: 'Waterfall' },
-      { image: `https://graphicmoron.vercel.app/images/newMarqImg2.png`, text: 'Strawberries' },
-      { image: `https://graphicmoron.vercel.app/images/newMarqImg1.png`, text: 'Deep Diving' },
-      { image: `https://graphicmoron.vercel.app/videos/newMarqVid2.mp4`, text: 'Train Track' },
-      { image: `https://graphicmoron.vercel.app/images/newMarqImg1.png`, text: 'Santorini' },
-      { image: `https://graphicmoron.vercel.app/images/newMarqImg2.png`, text: 'Blurry Lights' },
-      { image: `https://graphicmoron.vercel.app/videos/newMarqVid1.mp4`, text: 'New York' },
+      { image: `https://graphicmoron.vercel.app/videos/newMarqVid1.mp4`, text: '' },
+      { image: `https://graphicmoron.vercel.app/videos/newMarqVid2.mp4`, text: '' },
+      { image: `https://graphicmoron.vercel.app/images/newMarqImg1.png`, text: '' },
+      { image: `https://graphicmoron.vercel.app/images/newMarqImg2.png`, text: '' },
+      { image: `https://graphicmoron.vercel.app/images/newMarqImg1.png`, text: '' },
+      { image: `https://graphicmoron.vercel.app/videos/newMarqVid2.mp4`, text: '' },
+      { image: `https://graphicmoron.vercel.app/images/newMarqImg1.png`, text: '' },
+      { image: `https://graphicmoron.vercel.app/images/newMarqImg2.png`, text: '' },
+      { image: `https://graphicmoron.vercel.app/videos/newMarqVid1.mp4`, text: '' },
       // { image: `https://picsum.photos/seed/10/800/600?grayscale`, text: 'Good Boy' },
       // { image: `https://picsum.photos/seed/21/800/600?grayscale`, text: 'Coastline' },
       // { image: `https://picsum.photos/seed/12/800/600?grayscale`, text: 'Palm Trees' }

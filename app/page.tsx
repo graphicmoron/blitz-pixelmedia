@@ -1,4 +1,6 @@
 import Hero from './Components/Home/Hero';
+import Aboutus from './Components/Home/Aboutus';
+import Loop from './Components/Home/Loop';
 export default function Home() {
   return (
     <>
@@ -33,6 +35,11 @@ export default function Home() {
         </div>
       </div> */}
     <Hero />
+
+    <Aboutus />
+    <div className="">
+    <Loop />
+    </div>
     </div>
     </>
   );
