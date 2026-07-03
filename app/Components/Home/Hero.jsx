@@ -5,7 +5,7 @@ import Image from 'next/image'
 export default function Hero() {
   return (
     <div>
-  <div className="mt-12 flex items-center justify-center gap-3 px-4 scale-75 sm:scale-90 origin-center">
+  <div className="mt-12 flex items-center justify-center px-4 scale-75 gap-4 origin-center">
     <GlitchText
       speed={1}
       enableShadows
@@ -15,11 +15,11 @@ export default function Hero() {
       Blits
     </GlitchText>
     <Image
-      src="/logo.png"
+      src="/logo2.png"
       alt="Picture of the author"
       width={100}
-      height={110}
-      className="h-auto w-40 sm:w-23"
+      height={100}
+      className="h-auto w-[100px]"
     />
     <GlitchText
       speed={1}
