@@ -1,3 +1,4 @@
+import Hero from './Components/Home/Hero';
 export default function Home() {
   return (
     <>
@@ -31,7 +32,7 @@ export default function Home() {
           <h1 className="text-3xl font-canela font-black italic">Canela Black Italic</h1>
         </div>
       </div> */}
-
+    <Hero />
     </div>
     </>
   );
