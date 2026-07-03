@@ -1,3 +1,4 @@
+"use client";
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
 import { useEffect, useRef } from 'react';
 
@@ -33,6 +34,10 @@ function deriveFontFamilyFromUrl(url) {
   const fileName = (url.split('/').pop() || 'custom-font').split('?')[0];
   const base = fileName.replace(/\.(woff2?|ttf|otf|eot)$/i, '');
   return base.replace(/[^a-zA-Z0-9-_ ]/g, '').trim() || 'CircularGalleryFont';
+}
+
+function isVideoUrl(url = '') {
+  return /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(url);
 }
 
 async function loadFontFromStylesheet(url) {
@@ -234,6 +239,7 @@ class Media {
     const texture = new Texture(this.gl, {
       generateMipmaps: true
     });
+    this.texture = texture;
     this.program = new Program(this.gl, {
       depthTest: false,
       depthWrite: false,
@@ -260,7 +266,7 @@ class Media {
         uniform sampler2D tMap;
         uniform float uBorderRadius;
         varying vec2 vUv;
-        
+
         float roundedBoxSDF(vec2 p, vec2 b, float r) {
           vec2 d = abs(p) - b;
           return length(max(d, vec2(0.0))) + min(max(d.x, d.y), 0.0) - r;
@@ -296,13 +302,29 @@ class Media {
       },
       transparent: true
     });
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = this.image;
-    img.onload = () => {
-      texture.image = img;
-      this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight];
-    };
+    if (!isVideoUrl(this.image)) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = this.image;
+      img.onload = () => {
+        texture.image = img;
+        this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight];
+      };
+      return;
+    }
+
+    const video = document.createElement('video');
+    video.crossOrigin = 'anonymous';
+    video.src = this.image;
+    video.autoplay = true;
+    video.loop = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.addEventListener('loadeddata', () => {
+      texture.image = video;
+      this.program.uniforms.uImageSizes.value = [video.videoWidth, video.videoHeight];
+      video.play().catch(() => {});
+    });
   }
   createMesh() {
     this.plane = new Mesh(this.gl, {
@@ -348,6 +370,9 @@ class Media {
     this.speed = scroll.current - scroll.last;
     this.program.uniforms.uTime.value += 0.04;
     this.program.uniforms.uSpeed.value = this.speed;
+    if (this.texture && this.texture.image && this.texture.image.tagName === 'VIDEO') {
+      this.texture.needsUpdate = true;
+    }
 
     const planeOffset = this.plane.scale.x / 2;
     const viewportOffset = this.viewport.width / 2;
@@ -391,12 +416,18 @@ class App {
       borderRadius = 0,
       font = 'bold 30px Figtree',
       scrollSpeed = 2,
-      scrollEase = 0.05
+      scrollEase = 0.05,
+      autoScroll = true,
+      autoScrollSpeed = 0.4,
+      autoScrollDirection = 1
     } = {}
   ) {
     document.documentElement.classList.remove('no-js');
     this.container = container;
     this.scrollSpeed = scrollSpeed;
+    this.autoScroll = autoScroll;
+    this.autoScrollSpeed = autoScrollSpeed;
+    this.autoScrollDirection = autoScrollDirection;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
     this.onCheckDebounce = debounce(this.onCheck, 200);
     this.createRenderer();
@@ -434,18 +465,18 @@ class App {
   }
   createMedias(items, bend = 1, textColor, borderRadius, font) {
     const defaultItems = [
-      { image: `https://picsum.photos/seed/1/800/600?grayscale`, text: 'Bridge' },
-      { image: `https://picsum.photos/seed/2/800/600?grayscale`, text: 'Desk Setup' },
-      { image: `https://picsum.photos/seed/3/800/600?grayscale`, text: 'Waterfall' },
-      { image: `https://picsum.photos/seed/4/800/600?grayscale`, text: 'Strawberries' },
-      { image: `https://picsum.photos/seed/5/800/600?grayscale`, text: 'Deep Diving' },
-      { image: `https://picsum.photos/seed/16/800/600?grayscale`, text: 'Train Track' },
-      { image: `https://picsum.photos/seed/17/800/600?grayscale`, text: 'Santorini' },
-      { image: `https://picsum.photos/seed/8/800/600?grayscale`, text: 'Blurry Lights' },
-      { image: `https://picsum.photos/seed/9/800/600?grayscale`, text: 'New York' },
-      { image: `https://picsum.photos/seed/10/800/600?grayscale`, text: 'Good Boy' },
-      { image: `https://picsum.photos/seed/21/800/600?grayscale`, text: 'Coastline' },
-      { image: `https://picsum.photos/seed/12/800/600?grayscale`, text: 'Palm Trees' }
+      { image: `https://graphicmoron.vercel.app/videos/newMarqVid1.mp4`, text: 'Bridge' },
+      { image: `https://graphicmoron.vercel.app/videos/newMarqVid2.mp4`, text: 'Desk Setup' },
+      { image: `https://graphicmoron.vercel.app/images/newMarqImg1.png`, text: 'Waterfall' },
+      { image: `https://graphicmoron.vercel.app/images/newMarqImg2.png`, text: 'Strawberries' },
+      { image: `https://graphicmoron.vercel.app/images/newMarqImg1.png`, text: 'Deep Diving' },
+      { image: `https://graphicmoron.vercel.app/videos/newMarqVid2.mp4`, text: 'Train Track' },
+      { image: `https://graphicmoron.vercel.app/images/newMarqImg1.png`, text: 'Santorini' },
+      { image: `https://graphicmoron.vercel.app/images/newMarqImg2.png`, text: 'Blurry Lights' },
+      { image: `https://graphicmoron.vercel.app/videos/newMarqVid1.mp4`, text: 'New York' },
+      // { image: `https://picsum.photos/seed/10/800/600?grayscale`, text: 'Good Boy' },
+      // { image: `https://picsum.photos/seed/21/800/600?grayscale`, text: 'Coastline' },
+      // { image: `https://picsum.photos/seed/12/800/600?grayscale`, text: 'Palm Trees' }
     ];
     const galleryItems = items && items.length ? items : defaultItems;
     this.mediasImages = galleryItems.concat(galleryItems);
@@ -538,6 +569,9 @@ class App {
     }
   }
   update() {
+    if (this.autoScroll && !this.isDown) {
+      this.scroll.target += this.autoScrollSpeed * this.autoScrollDirection;
+    }
     this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
     const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
     if (this.medias) {
@@ -596,7 +630,10 @@ export default function CircularGallery({
   font = 'bold 30px Figtree',
   fontUrl,
   scrollSpeed = 2,
-  scrollEase = 0.05
+  scrollEase = 0.05,
+  autoScroll = true,
+  autoScrollSpeed = 0.1,
+  autoScrollDirection = 1
 }) {
   const containerRef = useRef(null);
   useEffect(() => {
@@ -612,7 +649,10 @@ export default function CircularGallery({
         borderRadius,
         font: resolvedFont,
         scrollSpeed,
-        scrollEase
+        scrollEase,
+        autoScroll,
+        autoScrollSpeed,
+        autoScrollDirection
       });
     });
 
@@ -620,7 +660,7 @@ export default function CircularGallery({
       isMounted = false;
       if (app) app.destroy();
     };
-  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase]);
+  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, autoScroll, autoScrollSpeed, autoScrollDirection]);
   return (
     <div
       className="circular-gallery"
