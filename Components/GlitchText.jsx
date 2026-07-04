@@ -4,7 +4,7 @@ const GlitchText = ({ children, speed = 1, enableShadows = true, enableOnHover =
   const inlineStyles = {
     '--after-duration': `${speed * 3}s`,
     '--before-duration': `${speed * 2}s`,
-    '--after-shadow': enableShadows ? '-5px 0 red' : 'none',
+    '--after-shadow': enableShadows ? '-5px 0 #dedf2b' : 'none',
     '--before-shadow': enableShadows ? '5px 0 cyan' : 'none'
   };
 
