@@ -7,6 +7,7 @@ import { GooglePaLM } from '@/Components/ui/svgs/google-palm'
 import { LogoIcon } from '@/Components/logo'
 import { cn } from '@/lib/utils'
 import { Button } from '@/Components/ui/button'
+import type { ReactNode } from 'react'
 import Link from 'next/link'
 
 export default function IntegrationsSection() {
@@ -70,7 +71,7 @@ export default function IntegrationsSection() {
     )
 }
 
-const IntegrationCard = ({ children, className, isCenter = false }) => {
+const IntegrationCard = ({ children, className, isCenter = false }: { children: ReactNode; className?: string; isCenter?: boolean }) => {
     return (
         <div className={cn('relative z-30 flex size-12 rounded-full border bg-white shadow-sm shadow-black/5 dark:bg-white/5 dark:backdrop-blur-md', className)}>
             <div className={cn('m-auto size-fit *:size-5', isCenter && '*:size-8')}>{children}</div>

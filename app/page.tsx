@@ -38,7 +38,7 @@ export default function Home() {
     <Hero />
 
     <Aboutus />
-    <div className="-mt-40">
+    <div className="mt-20">
     <Loop />
     </div>
     <IntegrationCard />

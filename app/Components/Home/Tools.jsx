@@ -12,7 +12,7 @@ import Link from 'next/link'
 export default function IntegrationsSection() {
     return (
         <section className="bg-black text-white">
-            <div className="py-20 md:py-28">
+            <div className="">
                 <div className="mx-auto max-w-5xl px-6">
                     <div className="group relative mx-auto flex aspect-16/10 max-w-88 items-center justify-center sm:max-w-sm">
                         <div
@@ -54,15 +54,15 @@ export default function IntegrationsSection() {
                         </div>
                     </div>
                     <div className="bg-linear-to-t from-black relative z-20 mx-auto mt-12 max-w-xl space-y-6 from-55% text-center">
-                        <h2 className="text-balance text-[2.9rem] font-semibold leading-[1.03] tracking-[-0.04em] md:text-[3.35rem]">Integrate with your favorite tools</h2>
-                        <p className="mx-auto max-w-xl text-base leading-7 text-white/60 md:text-[1.05rem] md:leading-8">Connect seamlessly with popular platforms and services to enhance your workflow.</p>
-
+                        <h2 className="text-balance text-[2.9rem] font-semibold leading-[1.03] tracking-[-0.04em] md:text-[3.35rem]">The tools we trust.</h2>
+                        <p className="mx-auto max-w-xl text-base leading-7 text-white/60 md:text-[1.05rem] md:leading-8">Industry-standard software and platforms that power every shoot, edit, and design we deliver.</p>
+{/* 
                         <Button
                             variant="outline"
                             size="sm"
                             asChild>
                             <Link href="#">Get Started</Link>
-                        </Button>
+                        </Button> */}
                     </div>
                 </div>
             </div>
