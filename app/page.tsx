@@ -1,6 +1,7 @@
 import Hero from './Components/Home/Hero';
 import Aboutus from './Components/Home/Aboutus';
 import Loop from './Components/Home/Loop';
+import IntegrationCard from './Components/Home/Tools';
 export default function Home() {
   return (
     <>
@@ -40,6 +41,7 @@ export default function Home() {
     <div className="-mt-40">
     <Loop />
     </div>
+    <IntegrationCard />
     </div>
     </>
   );
