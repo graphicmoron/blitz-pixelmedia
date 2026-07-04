@@ -144,8 +144,8 @@
   --orangish-red: #ed4b25;
   --dark-blue: #0e287f;
   --pastel-blue: #b1d4f0;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background:#000000 ;
+  --foreground: oklch(1 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
