@@ -5,7 +5,7 @@ export default function Loop() {
   return (
 <>
 <CurvedLoop 
-  marqueeText="Shoot ✦ Edit ✦ Deliver ✦ Repeat"
+  marqueeText="Shoot ✦ Edit ✦ Deliver ✦ Repeat ✦"
   speed={2}
   curveAmount={-210}
   direction="right"

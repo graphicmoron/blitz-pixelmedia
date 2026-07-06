@@ -9,13 +9,13 @@ export default function Hero() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Silk Background */}
       <div className="absolute inset-0 -z-10">
-        <Silk
+        {/* <Silk
           speed={5}
           scale={0.8}
           color="#1f1f1f"
           noiseIntensity={1.5}
           rotation={0}
-        />
+        /> */}
       </div>
 
       {/* Content */}
@@ -31,11 +31,11 @@ export default function Hero() {
           </GlitchText>
 
           <Image
-            src="/logo2.png"
+            src="/logowhite.png"
             alt="Logo"
             width={100}
             height={100}
-            className="h-auto w-[100px]"
+            className="h-auto w-[90px]"
           />
 
           <GlitchText

@@ -2,6 +2,15 @@ import Hero from './Components/Home/Hero';
 import Aboutus from './Components/Home/Aboutus';
 import Loop from './Components/Home/Loop';
 import IntegrationCard from './Components/Home/Tools';
+import { Footer } from '@/Components/ui/modem-animated-footer';
+
+const footerNavLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+];
+
 export default function Home() {
   return (
     <>
@@ -38,10 +47,11 @@ export default function Home() {
     <Hero />
 
     <Aboutus />
-    <div className="mt-20">
+    <div className="mt-40">
     <Loop />
     </div>
     <IntegrationCard />
+
     </div>
     </>
   );
