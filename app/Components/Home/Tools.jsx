@@ -1,4 +1,3 @@
-import { Gemini } from '@/Components/ui/svgs/gemini'
 import { Replit } from '@/Components/ui/svgs/replit'
 import { MagicUI } from '@/Components/ui/svgs/magic-ui'
 import { VSCodium } from '@/Components/ui/svgs/vs-codium'
@@ -8,6 +7,7 @@ import { LogoIcon } from '@/Components/logo'
 import { cn } from '@/lib/utils'
 import { Button } from '@/Components/ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function IntegrationsSection() {
     return (
@@ -23,24 +23,60 @@ export default function IntegrationsSection() {
                             className="bg-linear-to-b border-white/10 absolute inset-16 z-10 aspect-square scale-90 animate-spin rounded-full border-t from-white/5 to-transparent to-25% opacity-0 duration-[3.5s] group-hover:opacity-100"></div>
                         <div className="bg-linear-to-b from-white/5 absolute inset-0 flex aspect-square items-center justify-center rounded-full border-t border-white/5 to-transparent to-25%">
                             <IntegrationCard className="absolute left-[11%] top-[28%] -translate-x-1/2 -translate-y-1/2">
-                                <Gemini />
+                                <Image
+                                    src="/logos/canva-icon.png"
+                                    width={64}
+                                    height={64}
+                                    alt="Canva logo"
+                                    className="object-contain w-[40px] h-[40px]"
+                                />
                             </IntegrationCard>
                             <IntegrationCard className="absolute left-1/2 top-[9%] -translate-x-1/2 -translate-y-1/2">
-                                <Replit />
+                                  <Image
+                                    src="/logos/figma-icon.png"
+                                    width={64}
+                                    height={64}
+                                    alt="Canva logo"
+                                    className="object-contain w-[40px] h-[40px]"
+                                />
                             </IntegrationCard>
                             <IntegrationCard className="absolute right-[11%] top-[28%] translate-x-1/2 -translate-y-1/2">
-                                <MagicUI />
+                                  <Image
+                                    src="/logos/adobe-after-effects-icon.png"
+                                    width={64}
+                                    height={64}
+                                    alt="Canva logo"
+                                    className="object-contain w-[40px] h-[40px]"
+                                />
                             </IntegrationCard>
                         </div>
                         <div className="bg-linear-to-b from-white/5 absolute inset-16 flex aspect-square scale-90 items-center justify-center rounded-full border-t border-white/5 to-transparent to-25%">
                             <IntegrationCard className="absolute left-1/2 top-[10%] -translate-x-1/2 -translate-y-1/2">
-                                <VSCodium />
+                                  <Image
+                                    src="/logos/adobe-premiere-pro-icon.png"
+                                    width={64}
+                                    height={64}
+                                    alt="Canva logo"
+                                    className="object-contain w-[40px] h-[40px]"
+                                />
                             </IntegrationCard>
                             <IntegrationCard className="absolute left-[18%] top-[33%] -translate-x-1/2 -translate-y-1/2">
-                                <MediaWiki />
+                                  <Image
+                                    src="/logos/DaVinci_Resolve_Studio.png"
+                                    width={64}
+                                    height={64}
+                                    alt="Canva logo"
+                                    className="object-contain w-[40px] h-[40px]"
+                                />
                             </IntegrationCard>
                             <IntegrationCard className="absolute right-[18%] top-[33%] translate-x-1/2 -translate-y-1/2">
-                                <GooglePaLM />
+                                  <Image
+                                    src="/logos/adobe-illustrator-icon.png"
+                                    width={64}
+                                    height={64}
+                                    alt="Canva logo"
+                                    className="object-contain w-[40px] h-[40px]"
+                                />
                             </IntegrationCard>
                         </div>
                         <div className="absolute inset-x-0 bottom-0 mx-auto flex w-fit justify-center gap-2">
@@ -48,7 +84,13 @@ export default function IntegrationsSection() {
                                 <IntegrationCard
                                     className="size-16 border-white/15 bg-[#181818] shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_12px_30px_rgba(0,0,0,0.45)]"
                                     isCenter>
-                                    <LogoIcon className="text-blue-500" />
+                                  <Image
+                                    src="/logos/adobe-icon.png"
+                                    width={64}
+                                    height={64}
+                                    alt="Canva logo"
+                                    className="object-contain w-[40px] h-[40px]"
+                                />
                                 </IntegrationCard>
                             </div>
                         </div>
