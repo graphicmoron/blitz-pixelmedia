@@ -43,7 +43,7 @@ export const Footer = ({
   return (
     <section className={cn("relative mt-0 w-full overflow-hidden", className)}>
       <footer className="relative mt-20 bg-background">
-        <div className="relative mx-auto flex min-h-[30rem] max-w-7xl flex-col justify-between p-4 py-10 sm:min-h-[35rem] md:min-h-[40rem]">
+        <div className="relative mx-auto flex min-h-[20rem] max-w-7xl flex-col justify-between p-4 py-10 sm:min-h-[35rem] md:min-h-[30rem]">
           <div className="mb-12 flex w-full flex-col sm:mb-20 md:mb-0">
             <div className="flex w-full flex-col items-center">
               <div className="flex flex-1 flex-col items-center space-y-2">
@@ -113,7 +113,7 @@ export const Footer = ({
 
         <div
           className="pointer-events-none absolute bottom-40 left-1/2 max-w-[95vw] -translate-x-1/2 select-none bg-gradient-to-b from-foreground/20 via-foreground/10 to-transparent bg-clip-text px-4 text-center font-extrabold leading-none tracking-normal text-transparent md:bottom-32"
-          style={{ fontSize: "clamp(3rem, 12vw, 10rem)" }}
+          style={{ fontSize: "clamp(3rem, 12vw, 8rem)" }}
         >
           {brandName.toUpperCase()}
         </div>

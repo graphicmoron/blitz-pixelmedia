@@ -51,13 +51,7 @@ export default function Home() {
     <Loop />
     </div>
     <IntegrationCard />
-    <Footer
-      brandName="BlitzPixelMedia"
-      brandDescription="Digital experiences, brand systems, and creative websites built with clarity and momentum."
-      navLinks={footerNavLinks}
-      creatorName="BlitzPixelMedia"
-      creatorUrl="/"
-    />
+
     </div>
     </>
   );
