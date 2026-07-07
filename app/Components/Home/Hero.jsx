@@ -27,7 +27,7 @@ export default function Hero() {
             enableOnHover={false}
             className="custom-class"
           >
-            Blits
+            Blitz
           </GlitchText>
 
           <Image
