@@ -195,6 +195,7 @@
   --font-bricolage: "Bricolage", sans-serif;
   --font-univers: "Univers", sans-serif;
   --font-canela: "Canela Deck", serif;
+  
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
