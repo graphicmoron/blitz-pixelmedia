@@ -22,6 +22,8 @@ export default function Home() {
         <div>
           <p>Font: Bricolage Grotesque</p>
           <h1 className="text-3xl font-bold text-orangish-red font-bricolage">Bricolage Grotesque</h1>
+          <h1 className="text-3xl font-bold text-rich-cerulean font-bricolage">Bricolage Grotesque</h1>
+          <h1 className="text-3xl font-bold text-pastel-blue font-bricolage">Bricolage Grotesque</h1>
 
         </div>
 
@@ -41,8 +43,8 @@ export default function Home() {
           <h1 className="text-3xl font-canela font-normal italic">Canela Normal Italic</h1>
           <h1 className="text-3xl font-canela font-bold ">Canela Bold</h1>
           <h1 className="text-3xl font-canela font-bold italic">Canela Bold Italic</h1>
-          <h1 className="text-3xl font-canela font-black">Canela Black</h1>
-          <h1 className="text-3xl font-canela font-black italic">Canela Black Italic</h1>
+          <h1 className="text-3xl font-canela font-black text-almond-cream">Canela Black</h1>
+          <h1 className="text-3xl font-canela font-black italic text-powder-blush">Canela Black Italic</h1>
         </div>
       </div> */}
 
