@@ -549,7 +549,7 @@ export default function Aboutus() {
               font-normal
               leading-[1.15]
               tracking-[-0.03em]
-              text-[#E5BF3C]
+              text-orangish-red
               text-[clamp(1.5rem,5vw,3rem)]
             "
           >

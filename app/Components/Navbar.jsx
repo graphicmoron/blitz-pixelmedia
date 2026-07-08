@@ -62,7 +62,7 @@ export default function Navbar() {
         <div className="hidden md:block">
           <Link
             href="/contact"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-black px-5 font-bricolage text-sm font-semibold text-dirty-yellow transition-colors hover:bg-orangish-red hover:text-white"
+            className="inline-flex h-10 items-center justify-center rounded-md bg-black px-5 font-bricolage text-sm font-semibold text-orangish-red transition-colors hover:bg-orangish-red hover:text-white"
           >
             Contact
           </Link>
@@ -106,7 +106,7 @@ export default function Navbar() {
           <Link
             href="/contact"
             onClick={closeMenu}
-            className="mt-2 inline-flex h-12 items-center justify-center rounded-md bg-black px-5 font-bricolage text-sm font-semibold text-dirty-yellow transition-colors hover:bg-orangish-red hover:text-white"
+            className="mt-2 inline-flex h-12 items-center justify-center rounded-md bg-black px-5 font-bricolage text-sm font-semibold text-orangish-red transition-colors hover:bg-orangish-red hover:text-white"
           >
             Contact
           </Link>
