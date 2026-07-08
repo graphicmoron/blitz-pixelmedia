@@ -49,7 +49,7 @@ export default function Hero() {
         </div>
 
         <div className="flex justify-center items-center text-center px-6">
-          <p className="text-white text-2xl font-bricolage font-normal max-w-3xl leading-relaxed">
+          <p className="text-orangish-red text-2xl font-canela font-normal max-w-3xl leading-relaxed">
             We started as a college Instagram page. Today, were a
             full-fledged production agency creating bold, authentic, and
             unforgettable visual stories that leave a lasting impression.

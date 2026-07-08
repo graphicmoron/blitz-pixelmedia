@@ -1,16 +1,8 @@
-import Hero from './Components/Home/Hero';
 import Aboutus from './Components/Home/Aboutus';
 import Loop from './Components/Home/Loop';
 import IntegrationCard from './Components/Home/Tools';
-import { Footer } from '@/Components/ui/modem-animated-footer';
 import Hero2 from './Components/Home/Hero2';
-
-const footerNavLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'Work', href: '/work' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
-];
+import Team from './Components/Home/Team';
 
 export default function Home() {
   return (
@@ -49,16 +41,16 @@ export default function Home() {
       </div> */}
 
     <Hero2 />
-
-    <Hero />
+{/* 
+    <Hero /> */}
 
     <Aboutus />
     <div className="mt-40">
     <Loop />
     </div>
     <IntegrationCard />
-
     </div>
+    <Team />
     </>
   );
 }

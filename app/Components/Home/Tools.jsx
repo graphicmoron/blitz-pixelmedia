@@ -96,7 +96,7 @@ export default function IntegrationsSection() {
                         </div>
                     </div>
                     <div className="bg-linear-to-t from-black relative z-20 mx-auto mt-12 max-w-xl space-y-6 from-55% text-center">
-                        <h2 className="text-balance  font-bricolage text-dirty-yellow text-[2.9rem] font-semibold leading-[1.03] tracking-[-0.04em] md:text-[3.35rem]">The tools we trust.</h2>
+                        <h2 className="text-balance  font-canela text-orangish-red text-[2.9rem] font-semibold leading-[1.03] tracking-[-0.04em] md:text-[3.35rem]">The tools we trust.</h2>
                         <p className="mx-auto max-w-xl text-base leading-7 text-white/60 md:text-[1.05rem] md:leading-8">Industry-standard software and platforms that power every shoot, edit, and design we deliver.</p>
 {/* 
                         <Button

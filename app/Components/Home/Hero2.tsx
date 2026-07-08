@@ -3,6 +3,7 @@
 import { ArrowUpRight } from 'lucide-react'
 import { motion, stagger, useAnimate } from 'motion/react'
 import React, { useEffect } from 'react'
+import CircularGallery from './../../../Components/CircularGallery';
 
 
 interface AnimatedTextProps {
@@ -59,7 +60,8 @@ const AnimatedText = ({ text, className = "text-7xl font-light font-canela" }: A
 const Hero2 = () => {
 
   return (
-    <div className='h-screen flex flex-col items-center justify-center'>
+    <>
+    <div className='h-full mt-40 flex flex-col items-center justify-center'>
       <div className='flex flex-col items-center justify-center gap-4 '>
 
         <AnimatedText text="Agency that makes your"
@@ -136,7 +138,18 @@ const Hero2 = () => {
         </div>
       </div> */}
     </div>
-
+            <div style={{ height: "600px", position: "relative" }}>
+          <CircularGallery
+            bend={16}
+            textColor="#ffffff"
+            borderRadius={0.05}
+            scrollEase={0.05}
+            fontUrl=""
+            font="bold 30px Orbitron"
+            scrollSpeed={2}
+          />
+        </div>
+</>
 
   )
 }
