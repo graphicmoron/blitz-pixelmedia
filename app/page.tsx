@@ -3,6 +3,7 @@ import Aboutus from './Components/Home/Aboutus';
 import Loop from './Components/Home/Loop';
 import IntegrationCard from './Components/Home/Tools';
 import { Footer } from '@/Components/ui/modem-animated-footer';
+import Hero2 from './Components/Home/Hero2';
 
 const footerNavLinks = [
   { label: 'Home', href: '/' },
@@ -14,13 +15,15 @@ const footerNavLinks = [
 export default function Home() {
   return (
     <>
-    <div>
+    <div className='container mx-auto'>
 
       {/* <div className="container border mx-auto p-4 sm:p-6 md:p-8 lg:p-10 grid grid-cols-3">
 
         <div>
           <p>Font: Bricolage Grotesque</p>
           <h1 className="text-3xl font-bold text-orangish-red font-bricolage">Bricolage Grotesque</h1>
+          <h1 className="text-3xl font-bold text-rich-cerulean font-bricolage">Bricolage Grotesque</h1>
+          <h1 className="text-3xl font-bold text-pastel-blue font-bricolage">Bricolage Grotesque</h1>
 
         </div>
 
@@ -40,10 +43,13 @@ export default function Home() {
           <h1 className="text-3xl font-canela font-normal italic">Canela Normal Italic</h1>
           <h1 className="text-3xl font-canela font-bold ">Canela Bold</h1>
           <h1 className="text-3xl font-canela font-bold italic">Canela Bold Italic</h1>
-          <h1 className="text-3xl font-canela font-black">Canela Black</h1>
-          <h1 className="text-3xl font-canela font-black italic">Canela Black Italic</h1>
+          <h1 className="text-3xl font-canela font-black text-almond-cream">Canela Black</h1>
+          <h1 className="text-3xl font-canela font-black italic text-powder-blush">Canela Black Italic</h1>
         </div>
       </div> */}
+
+    <Hero2 />
+
     <Hero />
 
     <Aboutus />
