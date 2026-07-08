@@ -1,8 +1,23 @@
+import Hero from './Components/Home/Hero';
+import Aboutus from './Components/Home/Aboutus';
+import Loop from './Components/Home/Loop';
+import IntegrationCard from './Components/Home/Tools';
+import { Footer } from '@/Components/ui/modem-animated-footer';
+import Hero2 from './Components/Home/Hero2';
+
+const footerNavLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+];
+
 export default function Home() {
   return (
-    <div>
+    <>
+    <div className='container mx-auto'>
 
-      <div className="container border mx-auto p-4 sm:p-6 md:p-8 lg:p-10 grid grid-cols-3">
+      {/* <div className="container border mx-auto p-4 sm:p-6 md:p-8 lg:p-10 grid grid-cols-3">
 
         <div>
           <p>Font: Bricolage Grotesque</p>
@@ -31,7 +46,19 @@ export default function Home() {
           <h1 className="text-3xl font-canela font-black text-almond-cream">Canela Black</h1>
           <h1 className="text-3xl font-canela font-black italic text-powder-blush">Canela Black Italic</h1>
         </div>
-      </div>
+      </div> */}
+
+    <Hero2 />
+
+    <Hero />
+
+    <Aboutus />
+    <div className="mt-40">
+    <Loop />
     </div>
+    <IntegrationCard />
+
+    </div>
+    </>
   );
 }
