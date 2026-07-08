@@ -1,4 +1,4 @@
-import KineticTeamHybrid from '@/components/ui/kinetic-team-hybrid';
+import KineticTeamHybrid from '@/Components/ui/kinetic-team-hybrid';
 
 export default function Team() {
   return (

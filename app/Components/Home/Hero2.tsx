@@ -5,6 +5,33 @@ import { motion, stagger, useAnimate } from 'motion/react'
 import React, { useEffect } from 'react'
 import CircularGallery from './../../../Components/CircularGallery';
 
+const galleryItems = [
+  {
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop',
+    text: 'Strategy',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop',
+    text: 'Production',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop',
+    text: 'Editing',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1200&auto=format&fit=crop',
+    text: 'Launch',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop',
+    text: 'Creative',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop',
+    text: 'Team',
+  },
+]
+
 
 interface AnimatedTextProps {
   text: string;
@@ -140,6 +167,7 @@ const Hero2 = () => {
     </div>
             <div style={{ height: "600px", position: "relative" }}>
           <CircularGallery
+                items={galleryItems}
             bend={16}
             textColor="#ffffff"
             borderRadius={0.05}
