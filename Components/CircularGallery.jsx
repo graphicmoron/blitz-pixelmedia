@@ -514,11 +514,11 @@ class App {
     this.isDown = false;
     this.onCheck();
   }
-  onWheel(e) {
-    const delta = e.deltaY || e.wheelDelta || e.detail;
-    this.scroll.target += (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
-    this.onCheckDebounce();
-  }
+  // onWheel(e) {
+  //   const delta = e.deltaY || e.wheelDelta || e.detail;
+  //   this.scroll.target += (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
+  //   this.onCheckDebounce();
+  // }
   onKeyDown(e) {
     switch (e.key) {
       case 'ArrowRight':
