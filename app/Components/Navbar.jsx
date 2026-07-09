@@ -22,7 +22,7 @@ export default function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:pt-6">
       <nav
         aria-label="Main navigation"
-        className="mx-auto flex h-[60px] w-[600px] max-w-5xl items-center justify-between rounded-md border border-white/20 bg-white px-4 shadow-[0_14px_34px_rgba(0,0,0,0.12)] backdrop-blur md:px-5"
+        className="mx-auto flex h-15 w-full   container items-center justify-between rounded-md  px-4 shadow-[0_14px_34px_rgba(0,0,0,0.12)] backdrop-blur md:px-5"
       >
         <Link
           href="/"
@@ -31,14 +31,13 @@ export default function Navbar() {
           onClick={closeMenu}
         >
           <Image
-            src="/logo.png"
+            src="/logos/logo white-06.svg"
             alt="Blitz Pixel Media"
-            width={120}
-            height={80}
+            width={140}
+            height={100}
             priority
-            className="h-12 w-auto object-contain sm:h-10"
           />
-        </Link> 
+        </Link>
 
         <div className="hidden items-center gap-8 font-bricolage md:flex">
           {navItems.map((item) => {
@@ -49,20 +48,22 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`text-sm font-medium transition-colors hover:text-orangish-red ${
-                  isActive ? "text-black" : "text-[#6f6f76]"
-                }`}
+                className={`text-sm font-medium transition-colors hover:text-orangish-red uppercase ${isActive ? "text-orangish-red" : "text-neutral-500"
+                  }`}
               >
                 {item.label}
+
               </Link>
             );
           })}
         </div>
 
+
+
         <div className="hidden md:block">
           <Link
             href="/contact"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-black px-5 font-bricolage text-sm font-semibold text-orangish-red transition-colors hover:bg-orangish-red hover:text-white"
+            className="inline-flex h-10 items-center justify-center rounded-md bg-white px-5 font-bricolage text-black text-sm font-semibold transition-colors hover:bg-orangish-red hover:text-white"
           >
             Contact
           </Link>
@@ -80,9 +81,8 @@ export default function Navbar() {
       </nav>
 
       <div
-        className={`mx-auto mt-2 w-full max-w-5xl overflow-hidden rounded-md border border-black/10 bg-white/95 shadow-[0_14px_34px_rgba(0,0,0,0.12)] backdrop-blur transition-all duration-200 md:hidden ${
-          isOpen ? "max-h-96 opacity-100" : "max-h-0 border-transparent opacity-0"
-        }`}
+        className={`mx-auto mt-2 w-full max-w-5xl overflow-hidden rounded-md border border-black/10 bg-white/95 shadow-[0_14px_34px_rgba(0,0,0,0.12)] backdrop-blur transition-all duration-200 md:hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 border-transparent opacity-0"
+          }`}
       >
         <div className="flex flex-col p-3 font-bricolage">
           {navItems.map((item) => {
@@ -94,12 +94,12 @@ export default function Navbar() {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 onClick={closeMenu}
-                className={`rounded-md px-3 py-3 text-base font-medium transition-colors hover:bg-almond-cream ${
-                  isActive ? "text-black" : "text-[#6f6f76]"
-                }`}
+                className={`rounded-md px-3 py-3 text-base font-medium transition-colors hover:bg-almond-cream ${isActive ? "text-orangish-red" : "text-neutral-500"
+                  }`}
               >
                 {item.label}
               </Link>
+
             );
           })}
 

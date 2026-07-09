@@ -119,6 +119,7 @@ const Hero2 = () => {
 
             }}
             transition={{
+              delay: 0.4,
               duration: 0.3,
               ease: "easeInOut",
             }}
@@ -146,6 +147,7 @@ const Hero2 = () => {
 
             }}
             transition={{
+              delay: 0.4,
               duration: 0.3,
               ease: "easeInOut",
             }}
@@ -165,7 +167,21 @@ const Hero2 = () => {
         </div>
       </div> */}
       </div>
-      <div style={{ height: "600px", position: "relative" }}
+      <motion.div 
+      initial={{
+        opacity: 0,
+        y: 20,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        delay: 0.5,
+        duration: 1,
+        ease: "easeInOut",
+      }}
+      style={{ height: "600px", position: "relative" }}
       className="mask-b-from-80% mask-x-from-90%"
       >
         <CircularGallery
@@ -178,7 +194,7 @@ const Hero2 = () => {
           font="bold 30px Orbitron"
           scrollSpeed={2}
         />
-      </div>
+      </motion.div>
     </>
 
   )

@@ -514,11 +514,11 @@ class App {
     this.isDown = false;
     this.onCheck();
   }
-  onWheel(e) {
-    const delta = e.deltaY || e.wheelDelta || e.detail;
-    this.scroll.target += (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
-    this.onCheckDebounce();
-  }
+  // onWheel(e) {
+  //   const delta = e.deltaY || e.wheelDelta || e.detail;
+  //   this.scroll.target += (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
+  //   this.onCheckDebounce();
+  // }
   onKeyDown(e) {
     switch (e.key) {
       case 'ArrowRight':
@@ -632,7 +632,7 @@ export default function CircularGallery({
   scrollSpeed = 2,
   scrollEase = 0.05,
   autoScroll = true,
-  autoScrollSpeed = 0.03,
+  autoScrollSpeed = 0.1,
   autoScrollDirection = 1
 }) {
   const containerRef = useRef(null);
