@@ -632,7 +632,7 @@ export default function CircularGallery({
   scrollSpeed = 2,
   scrollEase = 0.05,
   autoScroll = true,
-  autoScrollSpeed = 0.1,
+  autoScrollSpeed = 0.03,
   autoScrollDirection = 1
 }) {
   const containerRef = useRef(null);
