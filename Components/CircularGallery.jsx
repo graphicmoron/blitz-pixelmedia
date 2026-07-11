@@ -26,8 +26,6 @@ function autoBind(instance) {
 }
 
 const DEFAULT_FONT = 'bold 30px Figtree';
-// Figtree is not guaranteed to be available on the host page, so the component
-// loads it on demand whenever the default font is used.
 const DEFAULT_FONT_URL = 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap';
 
 function deriveFontFamilyFromUrl(url) {
@@ -84,23 +82,15 @@ async function loadCustomFont(fontUrl) {
   return isStylesheet ? loadFontFromStylesheet(fontUrl) : loadFontFromFile(fontUrl);
 }
 
-// Loads `fontUrl` (a stylesheet such as a Google Fonts URL, or a direct font
-// file) and returns a canvas-ready font string that keeps the size/weight from
-// `font` but swaps in the freshly loaded family. Falls back to `font` on error.
 async function resolveFont(font, fontUrl) {
-  // Use the bundled Figtree stylesheet when the caller relies on the default
-  // font, otherwise honor the explicit `fontUrl`.
   const effectiveUrl = fontUrl || (font === DEFAULT_FONT ? DEFAULT_FONT_URL : null);
   if (!effectiveUrl) {
-    // A custom family was supplied without a URL – make sure it is ready (in
-    // case the host page declares it) before we draw it to the canvas,
-    // otherwise the first paint silently falls back to a system font.
     if (document.fonts && document.fonts.load) {
       try {
         await document.fonts.load(font);
         await document.fonts.ready;
       } catch {
-        // Ignore – fall back to whatever the browser provides.
+        // Fallback
       }
     }
     return font;
@@ -114,7 +104,7 @@ async function resolveFont(font, fontUrl) {
       try {
         await document.fonts.load(resolved);
       } catch {
-        // Ignore – we still attempt to render with the requested font.
+        // Fallback
       }
     }
     return resolved;
@@ -236,9 +226,7 @@ class Media {
     this.onResize();
   }
   createShader() {
-    const texture = new Texture(this.gl, {
-      generateMipmaps: true
-    });
+    const texture = new Texture(this.gl, { generateMipmaps: true });
     this.texture = texture;
     this.program = new Program(this.gl, {
       depthTest: false,
@@ -284,8 +272,6 @@ class Media {
           vec4 color = texture2D(tMap, uv);
           
           float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
-          
-          // Smooth antialiasing for edges
           float edgeSmooth = 0.002;
           float alpha = 1.0 - smoothstep(-edgeSmooth, edgeSmooth, d);
           
@@ -327,10 +313,7 @@ class Media {
     });
   }
   createMesh() {
-    this.plane = new Mesh(this.gl, {
-      geometry: this.geometry,
-      program: this.program
-    });
+    this.plane = new Mesh(this.gl, { geometry: this.geometry, program: this.program });
     this.plane.setParent(this.scene);
   }
   createTitle() {
@@ -440,11 +423,7 @@ class App {
     this.addEventListeners();
   }
   createRenderer() {
-    this.renderer = new Renderer({
-      alpha: true,
-      antialias: true,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
-    });
+    this.renderer = new Renderer({ alpha: true, antialias: true, dpr: Math.min(window.devicePixelRatio || 1, 2) });
     this.gl = this.renderer.gl;
     this.gl.clearColor(0, 0, 0, 0);
     this.container.appendChild(this.gl.canvas);
@@ -458,10 +437,7 @@ class App {
     this.scene = new Transform();
   }
   createGeometry() {
-    this.planeGeometry = new Plane(this.gl, {
-      heightSegments: 50,
-      widthSegments: 100
-    });
+    this.planeGeometry = new Plane(this.gl, { heightSegments: 50, widthSegments: 100 });
   }
   createMedias(items, bend = 1, textColor, borderRadius, font) {
     const defaultItems = [
@@ -474,9 +450,6 @@ class App {
       { image: `https://graphicmoron.vercel.app/images/newMarqImg1.png`, text: '' },
       { image: `https://graphicmoron.vercel.app/images/newMarqImg2.png`, text: '' },
       { image: `https://graphicmoron.vercel.app/videos/newMarqVid1.mp4`, text: '' },
-      // { image: `https://picsum.photos/seed/10/800/600?grayscale`, text: 'Good Boy' },
-      // { image: `https://picsum.photos/seed/21/800/600?grayscale`, text: 'Coastline' },
-      // { image: `https://picsum.photos/seed/12/800/600?grayscale`, text: 'Palm Trees' }
     ];
     const galleryItems = items && items.length ? items : defaultItems;
     this.mediasImages = galleryItems.concat(galleryItems);
@@ -514,11 +487,6 @@ class App {
     this.isDown = false;
     this.onCheck();
   }
-  // onWheel(e) {
-  //   const delta = e.deltaY || e.wheelDelta || e.detail;
-  //   this.scroll.target += (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
-  //   this.onCheckDebounce();
-  // }
   onKeyDown(e) {
     switch (e.key) {
       case 'ArrowRight':
@@ -543,7 +511,6 @@ class App {
         break;
     }
   }
-
   onCheck() {
     if (!this.medias || !this.medias[0]) return;
     const width = this.medias[0].width;
@@ -552,14 +519,9 @@ class App {
     this.scroll.target = this.scroll.target < 0 ? -item : item;
   }
   onResize() {
-    this.screen = {
-      width: this.container.clientWidth,
-      height: this.container.clientHeight
-    };
+    this.screen = { width: this.container.clientWidth, height: this.container.clientHeight };
     this.renderer.setSize(this.screen.width, this.screen.height);
-    this.camera.perspective({
-      aspect: this.screen.width / this.screen.height
-    });
+    this.camera.perspective({ aspect: this.screen.width / this.screen.height });
     const fov = (this.camera.fov * Math.PI) / 180;
     const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
     const width = height * this.camera.aspect;
@@ -583,15 +545,12 @@ class App {
   }
   addEventListeners() {
     this.boundOnResize = this.onResize.bind(this);
-    this.boundOnWheel = this.onWheel.bind(this);
     this.boundOnTouchDown = this.onTouchDown.bind(this);
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
     this.boundOnKeyDown = this.onKeyDown.bind(this);
 
     window.addEventListener('resize', this.boundOnResize);
-    window.addEventListener('mousewheel', this.boundOnWheel);
-    window.addEventListener('wheel', this.boundOnWheel);
     window.addEventListener('mousedown', this.boundOnTouchDown);
     window.addEventListener('mousemove', this.boundOnTouchMove);
     window.addEventListener('mouseup', this.boundOnTouchUp);
@@ -604,8 +563,6 @@ class App {
   destroy() {
     window.cancelAnimationFrame(this.raf);
     window.removeEventListener('resize', this.boundOnResize);
-    window.removeEventListener('mousewheel', this.boundOnWheel);
-    window.removeEventListener('wheel', this.boundOnWheel);
     window.removeEventListener('mousedown', this.boundOnTouchDown);
     window.removeEventListener('mousemove', this.boundOnTouchMove);
     window.removeEventListener('mouseup', this.boundOnTouchUp);
@@ -632,7 +589,7 @@ export default function CircularGallery({
   scrollSpeed = 2,
   scrollEase = 0.05,
   autoScroll = true,
-  autoScrollSpeed = 0.1,
+  autoScrollSpeed = 0.03,
   autoScrollDirection = 1
 }) {
   const containerRef = useRef(null);
