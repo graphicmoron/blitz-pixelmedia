@@ -88,7 +88,7 @@ const Hero2 = () => {
 
   return (
     <>
-      <div className='h-full mt-40 flex flex-col items-center justify-center'>
+      <div className='h-full mt-30 flex flex-col items-center justify-center'>
         <div className='flex flex-col items-center justify-center gap-4 '>
 
           <AnimatedText text="Agency that makes your"

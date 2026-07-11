@@ -19,7 +19,7 @@ export default function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:pt-6">
+    <header className="mt-10 px-4 pt-4 sm:pt-6">
       <nav
         aria-label="Main navigation"
         className="mx-auto flex h-15 w-full   container items-center justify-between rounded-md  px-4 shadow-[0_14px_34px_rgba(0,0,0,0.12)] backdrop-blur md:px-5"
@@ -48,7 +48,7 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`text-sm font-medium transition-colors hover:text-orangish-red uppercase ${isActive ? "text-orangish-red" : "text-neutral-500"
+                className={`text-sm font-medium transition-colors duration-400 hover:text-orangish-red uppercase ${isActive ? "text-orangish-red" : "text-neutral-500"
                   }`}
               >
                 {item.label}
