@@ -3,6 +3,7 @@ import Loop from './Components/Home/Loop';
 import IntegrationCard from './Components/Home/Tools';
 import Hero2 from './Components/Home/Hero2';
 import Team from './Components/Home/Team';
+import BookMeet from './Components/BookMeet';
 
 export default function Home() {
   return (
@@ -48,7 +49,8 @@ export default function Home() {
         <div className="mt-40">
           <Loop />
         </div>
-        <IntegrationCard />
+          <BookMeet />
+        {/* <IntegrationCard /> */}
       </div>
       <Team />
     </>
