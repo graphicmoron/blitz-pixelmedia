@@ -48,7 +48,7 @@ export default function Home() {
         <div className="mt-40">
           <Loop />
         </div>
-        <IntegrationCard />
+        {/* <IntegrationCard /> */}
       </div>
       <Team />
     </>
