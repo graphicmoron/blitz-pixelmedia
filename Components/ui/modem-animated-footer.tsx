@@ -48,11 +48,11 @@ export const Footer = ({
             <div className="flex w-full flex-col items-center">
               <div className="flex flex-1 flex-col items-center space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-3xl font-bold text-foreground">
+                  <span className="text-3xl font-bold text-foreground text-3xl lg:text-7xl font-light font-canela tracking-tight text-orangish-red">
                     {brandName}
                   </span>
                 </div>
-                <p className="w-full max-w-sm px-4 text-center font-semibold text-muted-foreground sm:w-96 sm:px-0">
+                <p className="w-full max-w-sm px-4 text-center text-foreground text-muted-foreground sm:w-96 sm:px-0">
                   {brandDescription}
                 </p>
               </div>

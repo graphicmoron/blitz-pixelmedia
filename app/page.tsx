@@ -1,8 +1,9 @@
 import Aboutus from './Components/Home/Aboutus';
 import Loop from './Components/Home/Loop';
-import IntegrationCard from './Components/Home/Tools';
+import LogoCloud from './Components/Home/Tools';
 import Hero2 from './Components/Home/Hero2';
 import Team from './Components/Home/Team';
+import BookMeet from './Components/BookMeet';
 
 export default function Home() {
   return (
@@ -45,10 +46,13 @@ export default function Home() {
     <Hero /> */}
 
         <Aboutus />
-        <div className="mt-40">
+        <LogoCloud />
+        <BookMeet />
+
+        <div className="mt-68">
           <Loop />
         </div>
-        <IntegrationCard />
+        {/* <IntegrationCard /> */}
       </div>
       <Team />
     </>
