@@ -247,6 +247,106 @@ body {
   font-family: var(--font-univers);
 }
 
+.scroll-progress {
+  position: fixed;
+  z-index: 9999;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) 58px;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
+  color: #2f82ff;
+  background:#0000001c;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  pointer-events: none;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(8px);
+}
+
+.scroll-progress__timeline {
+  position: relative;
+  height: 12px;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.14) 0,
+    rgba(255, 255, 255, 0.14) 1px,
+    transparent 1px,
+    transparent 3.125%
+  );
+}
+
+.scroll-progress__timeline::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.scroll-progress__fill {
+  position: absolute;
+  z-index: 1;
+  top: 4px;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: #287cff;
+  transform-origin: left center;
+  box-shadow: 0 0 8px rgba(40, 124, 255, 0.55);
+  will-change: transform;
+}
+
+.scroll-progress__playhead {
+  position: absolute;
+  z-index: 2;
+  top: -5px;
+  width: 1px;
+  height: 17px;
+  background: #287cff;
+  transform: translateX(-50%);
+  will-change: left;
+}
+
+.scroll-progress__playhead::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-top: 5px solid #287cff;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  transform: translateX(-50%);
+}
+
+.scroll-progress__fps {
+  color: rgba(255, 255, 255, 0.55);
+  text-align: right;
+  font-size: 9px;
+}
+
+@media (max-width: 640px) {
+  .scroll-progress {
+    grid-template-columns: 76px minmax(0, 1fr);
+    height: 24px;
+    padding: 0 8px;
+    font-size: 9px;
+  }
+
+  .scroll-progress__fps {
+    display: none;
+  }
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);

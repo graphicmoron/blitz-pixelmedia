@@ -15,25 +15,49 @@ interface TeamMember {
 const TEAM: TeamMember[] = [
   {
     id: '01',
-    name: 'ManavAditya Singh',
+    name: 'Manavaditya Singh',
     role: 'Motion Designer',
-    image:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop',
+    image:'/team/manavadityasingh.jpeg',
   },
   {
     id: '02',
     name: 'Gaurav Agrawal',
     role: 'Lead Photographer',
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1000&auto=format&fit=crop',
+    image:'/team/gauravagrawal.jpeg',
   },
   {
     id: '03',
     name: 'Ritul Tripathi',
     role: 'Creative Technologist',
+    image:'/team/ritultripathi.jpeg',
+  },
+    {
+    id: '04',
+    name: 'Arihant Jain',
+    role: 'Creative Technologist',
+    image:'/team/arihantjain.jpg',
+  },
+      {
+    id: '05',
+    name: 'Herain Deegwal',
+    role: 'Creative Technologist',
     image:
       'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop',
   },
+  {
+    id: '06',
+    name: 'Herain Deegwal',
+    role: 'Creative Technologist',
+    image:
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop',
+  },
+  {
+    id: '07',
+    name: 'Herain Deegwal',
+    role: 'Creative Technologist',
+    image:
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop',
+  }
 ];
 
 export default function KineticTeamHybrid() {
