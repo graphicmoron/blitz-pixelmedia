@@ -5,6 +5,7 @@ import FolderBanner from './Components/FolderBanner';
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Footer } from '@/Components/ui/modem-animated-footer';
+import ScrollProgress from './Components/ScrollProgress';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -41,6 +42,7 @@ export default function RootLayout({
           creatorName="BlitzPixelMedia"
           creatorUrl="/"
         />
+        <ScrollProgress />
       </body>
     </html>
   );
