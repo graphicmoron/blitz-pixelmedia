@@ -1,6 +1,4 @@
-import React from 'react'
-import BookMeet from '../components/BookMeet'
-import { div } from 'motion/react-client'
+import BookMeet from '../Components/BookMeet'
 
 const Booking = () => {
   return (
