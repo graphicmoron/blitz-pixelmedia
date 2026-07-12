@@ -121,8 +121,8 @@
 // }
 
 
-import { InfiniteSlider } from '@/components/motion-primitives/infinite-slider'
-import { ProgressiveBlur } from '@/components/motion-primitives/progressive-blur'
+import { InfiniteSlider } from '@/Components/motion-primitives/infinite-slider'
+import { ProgressiveBlur } from '@/Components/motion-primitives/progressive-blur'
 import Image from 'next/image'
 
 export default function LogoCloud() {
