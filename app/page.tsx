@@ -7,9 +7,9 @@ import Team from './Components/Home/Team';
 export default function Home() {
   return (
     <>
-    <div className='container mx-auto'>
+      <div className='container mx-auto relative'>
 
-      {/* <div className="container border mx-auto p-4 sm:p-6 md:p-8 lg:p-10 grid grid-cols-3">
+        {/* <div className="container border mx-auto p-4 sm:p-6 md:p-8 lg:p-10 grid grid-cols-3">
 
         <div>
           <p>Font: Bricolage Grotesque</p>
@@ -40,17 +40,17 @@ export default function Home() {
         </div>
       </div> */}
 
-    <Hero2 />
-{/* 
+        <Hero2 />
+        {/* 
     <Hero /> */}
 
-    <Aboutus />
-    <div className="mt-40">
-    <Loop />
-    </div>
-    <IntegrationCard />
-    </div>
-    <Team />
+        <Aboutus />
+        <div className="mt-40">
+          <Loop />
+        </div>
+        <IntegrationCard />
+      </div>
+      <Team />
     </>
   );
 }
