@@ -553,9 +553,9 @@ export default function Aboutus() {
               text-[clamp(1.5rem,5vw,3rem)]
             "
           >
-            We're a creative production team that started as a small Instagram
-            page run by a bunch of college students who simply loved creating
-            things.
+           We create work that stands out, starts conversations, and challenges the expected.
+"Design to Disrupt" represents our drive to experiment, think differently,
+and turn bold ideas into memorable visual experiences.
           </h2>
         </div>
       </motion.div>
