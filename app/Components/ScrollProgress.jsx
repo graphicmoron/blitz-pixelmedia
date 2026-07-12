@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "motion/react"
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 const FPS = 24;
@@ -58,7 +59,19 @@ export default function ScrollProgress() {
   const timecode = formatTimecode(progress);
 
   return (
-    <div
+    <motion.div
+      initial={{
+        opacity:0,
+        y:20,
+      }}
+      animate={{
+        opacity:1,
+        y:0,
+      }}
+      transition={{
+        duration:0.8,
+        ease: "easeInOut"
+      }}
       className="scroll-progress"
       role="progressbar"
       aria-label="Page scroll progress"
@@ -77,7 +90,7 @@ export default function ScrollProgress() {
           style={{ left: `${progress * 100}%` }}
         />
       </div>
-      <span className="scroll-progress__fps">24 fps</span>
-    </div>
+      <span className="scroll-progress__fps">30 fps</span>
+    </motion.div>
   );
 }

@@ -103,7 +103,7 @@ const Hero2 = () => {
           </div>
 
         </div>
-        <div className='px-4 md:px-0 flex items-center justify-center gap-4 mt-10'>
+        <div className='px-10 md:px-0 flex flex-col md:flex-row items-center justify-center gap-4 mt-10 w-full'>
           <motion.button
             initial={{
               opacity: 0,
@@ -122,7 +122,7 @@ const Hero2 = () => {
               duration: 0.3,
               ease: "easeInOut",
             }}
-            className='group flex items-center justify-center gap-2 bg-orangish-red text-sm md:text-lg text-white px-4 py-2 md:px-6 md:py-4 rounded-xl cursor-pointer'>
+            className='w-full md:w-auto group flex items-center justify-center gap-2 bg-orangish-red text-white px-4 py-3 md:px-6 md:py-4 rounded-lg cursor-pointer'>
 
             Book a Free Meeting <ArrowUpRight size={20} />
 
@@ -149,7 +149,7 @@ const Hero2 = () => {
               duration: 0.3,
               ease: "easeInOut",
             }}
-            className='group flex items-center justify-center gap-2 bg-white text-black px-6 py-4 rounded-xl cursor-pointer'>View Our Work</motion.button>
+            className='w-full md:w-auto group flex items-center justify-center gap-2 bg-white text-black  px-4 py-3 md:px-6 md:py-4 rounded-lg cursor-pointer'>View Our Work</motion.button>
           <span className="absolute inset-x-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bottom-px bg-linear-to-r from-transparent via-white to-transparent h-1 mx-auto blur-md"></span>
         </div>
       </div>
