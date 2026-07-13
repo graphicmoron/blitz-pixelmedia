@@ -30,7 +30,6 @@ const TEAM: TeamMember[] = [
     skills: [
       { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
       { name: 'Adobe Premiere Pro', icon: '/logos/adobe-premiere-pro-icon.png' },
-      { name: 'DaVinci Resolve', icon: '/logos/DaVinci_Resolve_Studio.png' },
     ],
   },
   {
@@ -40,9 +39,10 @@ const TEAM: TeamMember[] = [
     role: 'Lead Photographer',
     image: '/team/gauravagrawal.jpeg',
     skills: [
-      { name: 'Adobe Lightroom', icon: '/logos/adobe-lightroom-icon.png' },
+      { name: 'DaVinci Resolve', icon: '/logos/DaVinci_Resolve_Studio.png' },
       { name: 'Adobe Photoshop', icon: '/logos/adobe-photoshop-icon.png' },
       { name: 'Adobe Premiere Pro', icon: '/logos/adobe-premiere-pro-icon.png' },
+      { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
     ],
   },
   {
@@ -52,9 +52,10 @@ const TEAM: TeamMember[] = [
     role: 'Creative Technologist',
     image: '/team/ritultripathi.jpeg',
     skills: [
-      { name: 'Figma', icon: '/logos/figma-icon.png' },
+      { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
       { name: 'Adobe Illustrator', icon: '/logos/adobe-illustrator-icon.png' },
       { name: 'Adobe Photoshop', icon: '/logos/adobe-photoshop-icon.png' },
+      { name: 'Adobe Lightroom', icon: '/logos/adobe-lightroom-icon.png' },
     ],
   },
   {
@@ -64,9 +65,8 @@ const TEAM: TeamMember[] = [
     role: 'Creative Technologist',
     image: '/team/arihantjain.jpg',
     skills: [
-      { name: 'Figma', icon: '/logos/figma-icon.png' },
-      { name: 'Canva', icon: '/logos/canva-icon.png' },
-      { name: 'Adobe Illustrator', icon: '/logos/adobe-illustrator-icon.png' },
+      { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
+      { name: 'Adobe Premiere Pro', icon: '/logos/adobe-premiere-pro-icon.png' },
     ],
   },
   {
@@ -77,9 +77,8 @@ const TEAM: TeamMember[] = [
     image:
       '/team/Herain.jpg',
     skills: [
-      { name: 'Adobe Premiere Pro', icon: '/logos/adobe-premiere-pro-icon.png' },
-      { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
-      { name: 'Figma', icon: '/logos/figma-icon.png' },
+      { name: 'Adobe Illustrator', icon: '/logos/adobe-illustrator-icon.png' },
+      { name: 'Adobe Photoshop', icon: '/logos/adobe-photoshop-icon.png' },
     ],
   },
 ];
