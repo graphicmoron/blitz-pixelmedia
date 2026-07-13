@@ -12,6 +12,12 @@ interface TeamMember {
   username?: string;
   role: string;
   image: string;
+  skills: Skill[];
+}
+
+interface Skill {
+  name: string;
+  icon: string;
 }
 
 const TEAM: TeamMember[] = [
@@ -21,6 +27,11 @@ const TEAM: TeamMember[] = [
     username: 'manavaditya',
     role: 'Motion Designer',
     image: '/team/manavadityasingh.jpeg',
+    skills: [
+      { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
+      { name: 'Adobe Premiere Pro', icon: '/logos/adobe-premiere-pro-icon.png' },
+      { name: 'DaVinci Resolve', icon: '/logos/DaVinci_Resolve_Studio.png' },
+    ],
   },
   {
     id: '02',
@@ -28,6 +39,11 @@ const TEAM: TeamMember[] = [
     username: 'gaurav',
     role: 'Lead Photographer',
     image: '/team/gauravagrawal.jpeg',
+    skills: [
+      { name: 'Adobe Lightroom', icon: '/logos/adobe-lightroom-icon.png' },
+      { name: 'Adobe Photoshop', icon: '/logos/adobe-photoshop-icon.png' },
+      { name: 'Adobe Premiere Pro', icon: '/logos/adobe-premiere-pro-icon.png' },
+    ],
   },
   {
     id: '03',
@@ -35,6 +51,11 @@ const TEAM: TeamMember[] = [
     username: 'ritul',
     role: 'Creative Technologist',
     image: '/team/ritultripathi.jpeg',
+    skills: [
+      { name: 'Figma', icon: '/logos/figma-icon.png' },
+      { name: 'Adobe Illustrator', icon: '/logos/adobe-illustrator-icon.png' },
+      { name: 'Adobe Photoshop', icon: '/logos/adobe-photoshop-icon.png' },
+    ],
   },
   {
     id: '04',
@@ -42,6 +63,11 @@ const TEAM: TeamMember[] = [
     username: 'arihant',
     role: 'Creative Technologist',
     image: '/team/arihantjain.jpg',
+    skills: [
+      { name: 'Figma', icon: '/logos/figma-icon.png' },
+      { name: 'Canva', icon: '/logos/canva-icon.png' },
+      { name: 'Adobe Illustrator', icon: '/logos/adobe-illustrator-icon.png' },
+    ],
   },
   {
     id: '05',
@@ -50,6 +76,11 @@ const TEAM: TeamMember[] = [
     role: 'Creative Technologist',
     image:
       '/team/Herain.jpg',
+    skills: [
+      { name: 'Adobe Premiere Pro', icon: '/logos/adobe-premiere-pro-icon.png' },
+      { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
+      { name: 'Figma', icon: '/logos/figma-icon.png' },
+    ],
   },
 ];
 
@@ -187,11 +218,50 @@ function TeamRow({
         }`}
     >
       <div className="relative z-10 flex flex-col py-8 md:flex-row md:items-center md:justify-between md:py-12">
-        <div className="flex items-baseline gap-6 pl-4 transition-transform duration-500 group-hover:translate-x-4 md:gap-12 md:pl-0">
+        <div className="flex items-start gap-6 pl-4 transition-transform duration-500 group-hover:translate-x-4 md:gap-12 md:pl-0">
           <span className="font-mono text-xs text-neutral-600">0{index + 1}</span>
-          <h2 className="text-3xl font-medium font-canela tracking-tight text-neutral-400 transition-colors duration-300 group-hover:text-white md:text-6xl">
-            {data.name}
-          </h2>
+          <div>
+            <h2 className="text-3xl font-medium font-canela tracking-tight text-neutral-400 transition-colors duration-300 group-hover:text-white md:text-6xl">
+              {data.name}
+            </h2>
+
+            <motion.div
+              initial={false}
+              animate={{
+                height: isActive ? 'auto' : 0,
+                marginTop: isActive ? 16 : 0,
+                opacity: isActive ? 1 : 0,
+                y: isActive ? 0 : -8,
+              }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="flex overflow-hidden"
+              aria-label={`${data.name}'s software skills`}
+            >
+              <div className="flex items-center gap-2">
+                {data.skills.map((skill, skillIndex) => (
+                  <motion.div
+                    key={skill.name}
+                    initial={false}
+                    animate={{ scale: isActive ? 1 : 0.75 }}
+                    transition={{
+                      duration: 0.25,
+                      delay: isActive ? skillIndex * 0.05 : 0,
+                    }}
+                    title={skill.name}
+                    className="relative flex size-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] p-2 backdrop-blur-sm md:size-11"
+                  >
+                    <Image
+                      src={skill.icon}
+                      alt={`${skill.name} logo`}
+                      width={32}
+                      height={32}
+                      className="size-full object-contain"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
 
         <div className="mt-4 flex items-center justify-between pl-12 pr-4 md:mt-0 md:justify-end md:gap-12 md:pl-0 md:pr-0">
