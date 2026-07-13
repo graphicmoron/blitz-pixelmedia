@@ -17,14 +17,14 @@ interface TeamMember {
 const TEAM: TeamMember[] = [
   {
     id: '01',
-    name: 'Manavaditya Singh',
+    name: 'Manvaditya Singh',
     username: 'manavaditya',
     role: 'Motion Designer',
     image: '/team/manavadityasingh.jpeg',
   },
   {
     id: '02',
-    name: 'Gaurav Agrawal',
+    name: 'Gaurav Agarwal',
     username: 'gaurav',
     role: 'Lead Photographer',
     image: '/team/gauravagrawal.jpeg',
@@ -38,7 +38,7 @@ const TEAM: TeamMember[] = [
   },
   {
     id: '04',
-    name: 'Arihant Jain',
+    name: 'Arihan Jain',
     username: 'arihant',
     role: 'Creative Technologist',
     image: '/team/arihantjain.jpg',
