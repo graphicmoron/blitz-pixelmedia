@@ -33,7 +33,7 @@ const BookMeet = () => {
                 <div className='text-center px-2 text-md md:text-xl flex flex-col gap-2 mt-6'>
                     <p>Please select the time that fits you or just</p>
                     <p>Email us at &nbsp;
-                        <a href="mailto:info.blitzpixelmedia@gmail.com" className='underline font-semibold text-orangish-red hover:text-neutral-600 '>info.blitzpixelmedia@gmail.com</a>
+                        <a href="mailto:connect@blitzpixelmedia.com" className='underline font-semibold text-orangish-red hover:text-neutral-600 '>connect@blitzpixelmedia.com</a>
                     </p>
                 </div>
 
