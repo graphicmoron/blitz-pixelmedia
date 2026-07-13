@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { motion } from "motion/react"
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -19,27 +20,28 @@ export default function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="mt-10 px-4 pt-4 sm:pt-6">
+    <header className="px-4 pt-16 flex justify-center">
       <nav
         aria-label="Main navigation"
-        className="mx-auto flex h-15 w-full   container items-center justify-between rounded-md  px-4 shadow-[0_14px_34px_rgba(0,0,0,0.12)] backdrop-blur md:px-5"
+        className="hidden mx-auto w-full container rounded-md md:grid grid-cols-2 md:grid-cols-3 items-center z-30"
       >
         <Link
           href="/"
           aria-label="Blitz Pixel Media home"
-          className="flex shrink-0 items-center"
+          className="flex justify-start shrink-0 col-span-1"
           onClick={closeMenu}
         >
           <Image
-            src="/logos/logo white-06.svg"
+            className=""
+            src="/logos/Blitz-logo-white.svg"
             alt="Blitz Pixel Media"
-            width={140}
+            width={100}
             height={100}
             priority
           />
         </Link>
 
-        <div className="hidden items-center gap-8 font-bricolage md:flex">
+        <div className="hidden gap-8 font-bricolage md:flex justify-center col-span-1">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
 
@@ -58,30 +60,53 @@ export default function Navbar() {
           })}
         </div>
 
-
-
-        <div className="hidden md:block">
+        <div className="hidden md:flex col-span-1 justify-end">
           <Link
             href="/contact"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-white px-5 font-bricolage text-black text-sm font-semibold transition-colors hover:bg-orangish-red hover:text-white"
+            className="inline-flex h-10 items-center justify-center rounded-md bg-white px-5 font-bricolage text-black text-sm font-semibold transition-colors duration-500 hover:bg-orangish-red hover:text-white"
           >
             Contact
           </Link>
         </div>
 
-        <button
-          type="button"
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-          onClick={() => setIsOpen((open) => !open)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-black/10 bg-white text-black transition-colors hover:bg-almond-cream md:hidden"
-        >
-          {isOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
-        </button>
+
       </nav>
 
-      <div
-        className={`mx-auto mt-2 w-full max-w-5xl overflow-hidden rounded-md border border-black/10 bg-white/95 shadow-[0_14px_34px_rgba(0,0,0,0.12)] backdrop-blur transition-all duration-200 md:hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 border-transparent opacity-0"
+
+      {/* Mobile Nav */}
+      <nav className="grid grid-cols-2 md:hidden container relative">
+        <Link
+          href="/"
+          aria-label="Blitz Pixel Media home"
+          className="flex justify-start shrink-0 col-span-1"
+          onClick={closeMenu}
+        >
+          <Image
+            className=""
+            src="/logos/Blitz-logo-white.svg"
+            alt="Blitz Pixel Media"
+            width={80}
+            height={100}
+            priority
+          />
+        </Link>
+
+        {/* Mobile Nav Menu Button */}
+        <div className="flex col-span-1 justify-end">
+          <button
+            type="button"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            onClick={() => setIsOpen((open) => !open)}
+            className="inline-flex col-span-1 h-10 w-10 items-center justify-center rounded-md border border-black/10 bg-white text-black transition-colors hover:bg-almond-cream md:hidden"
+          >
+            {isOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
+          </button>
+        </div>
+
+      {/* Mobile Nav Modal  */}
+      <motion.div
+        className={`absolute top-10 z-10 mx-auto mt-2 w-full max-w-5xl overflow-hidden rounded-md border border-black/10 bg-white/95 shadow-[0_14px_34px_rgba(0,0,0,0.12)] backdrop-blur transition-all duration-200 md:hidden ${isOpen ? "max-h-96 opacity-100" : "max-h-0 border-transparent opacity-0"
           }`}
       >
         <div className="flex flex-col p-3 font-bricolage">
@@ -111,7 +136,10 @@ export default function Navbar() {
             Contact
           </Link>
         </div>
-      </div>
+      </motion.div>
+
+      </nav>
+
     </header>
   );
 }

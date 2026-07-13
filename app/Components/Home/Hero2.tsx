@@ -89,7 +89,7 @@ const Hero2 = () => {
   return (
     <>
       <div className='h-full mt-30 flex flex-col items-center justify-center'>
-        <div className='flex flex-col items-center justify-center gap-4 '>
+        <div className='flex flex-col items-center justify-center gap-1 md:gap-4'>
 
           <AnimatedText text="Agency that makes your"
             className="text-3xl lg:text-7xl font-light font-canela" />
@@ -97,13 +97,13 @@ const Hero2 = () => {
           <AnimatedText text="videos & reels viral"
             className="text-3xl lg:text-7xl font-light text-orangish-red font-canela tracking-tight -mt-3" />
 
-          <div className='p-2 '>
+          <div className='px-4 text-center'>
             <AnimatedText text="Short-form video editing for Influencers, Creators and Brands"
-              className="text-sm lg:text-lg font-normal text-center text-foreground mt-6" />
+              className="text-sm lg:text-lg font-normal text-center text-foreground md:mt-6" />
           </div>
 
         </div>
-        <div className='flex items-center justify-center gap-4 mt-10'>
+        <div className='px-10 md:px-0 flex flex-col md:flex-row items-center justify-center gap-4 mt-10 w-full'>
           <motion.button
             initial={{
               opacity: 0,
@@ -119,11 +119,10 @@ const Hero2 = () => {
 
             }}
             transition={{
-              delay: 0.4,
               duration: 0.3,
               ease: "easeInOut",
             }}
-            className='group flex items-center justify-center gap-2 bg-orangish-red text-white px-6 py-4 rounded-xl cursor-pointer'>
+            className='w-full md:w-auto group flex items-center justify-center gap-2 bg-orangish-red text-white px-4 py-3 md:px-6 md:py-4 rounded-lg cursor-pointer'>
 
             Book a Free Meeting <ArrowUpRight size={20} />
 
@@ -147,25 +146,12 @@ const Hero2 = () => {
 
             }}
             transition={{
-              delay: 0.4,
               duration: 0.3,
               ease: "easeInOut",
             }}
-            className='group flex items-center justify-center gap-2 bg-white text-black px-6 py-4 rounded-xl cursor-pointer'>View Our Work</motion.button>
+            className='w-full md:w-auto group flex items-center justify-center gap-2 bg-white text-black  px-4 py-3 md:px-6 md:py-4 rounded-lg cursor-pointer'>View Our Work</motion.button>
           <span className="absolute inset-x-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bottom-px bg-linear-to-r from-transparent via-white to-transparent h-1 mx-auto blur-md"></span>
         </div>
-
-        {/* <div className="z-10 flex items-center justify-center rounded-2xl border-2 border-border bg-background/60 p-2.5 backdrop-blur-sm drop-shadow-[0_0px_20px_rgba(0,0,0,0.5)] duration-300 hover:border-foreground dark:drop-shadow-[0_0px_20px_rgba(255,255,255,0.3)] md:bottom-20">
-
-        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-foreground to-foreground/80 shadow-lg sm:h-16 sm:w-16 md:h-16 md:w-16">
-
-          <Image src="/logo.png" alt="Blitz Pixel Media"
-            width={200}
-            height={80}
-            className="w-[400px] h-full" />
-
-        </div>
-      </div> */}
       </div>
       <motion.div 
       initial={{

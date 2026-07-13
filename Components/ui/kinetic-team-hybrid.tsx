@@ -4,10 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowUpRight, Minus, Plus } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface TeamMember {
   id: string;
   name: string;
+  username?: string;
   role: string;
   image: string;
 }
@@ -16,48 +18,39 @@ const TEAM: TeamMember[] = [
   {
     id: '01',
     name: 'Manavaditya Singh',
+    username: 'manavaditya',
     role: 'Motion Designer',
-    image:'/team/manavadityasingh.jpeg',
+    image: '/team/manavadityasingh.jpeg',
   },
   {
     id: '02',
     name: 'Gaurav Agrawal',
+    username: 'gaurav',
     role: 'Lead Photographer',
-    image:'/team/gauravagrawal.jpeg',
+    image: '/team/gauravagrawal.jpeg',
   },
   {
     id: '03',
     name: 'Ritul Tripathi',
+    username: 'ritul',
     role: 'Creative Technologist',
-    image:'/team/ritultripathi.jpeg',
+    image: '/team/ritultripathi.jpeg',
   },
-    {
+  {
     id: '04',
     name: 'Arihant Jain',
+    username: 'arihant',
     role: 'Creative Technologist',
-    image:'/team/arihantjain.jpg',
+    image: '/team/arihantjain.jpg',
   },
-      {
+  {
     id: '05',
     name: 'Herain Deegwal',
+    username: 'herain',
     role: 'Creative Technologist',
     image:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop',
+      '/team/Herain.jpg',
   },
-  {
-    id: '06',
-    name: 'Herain Deegwal',
-    role: 'Creative Technologist',
-    image:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop',
-  },
-  {
-    id: '07',
-    name: 'Herain Deegwal',
-    role: 'Creative Technologist',
-    image:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop',
-  }
 ];
 
 export default function KineticTeamHybrid() {
@@ -107,15 +100,17 @@ export default function KineticTeamHybrid() {
 
         <div className="flex flex-col">
           {TEAM.map((member, index) => (
-            <TeamRow
-              key={member.id}
-              data={member}
-              index={index}
-              isActive={activeId === member.id}
-              setActiveId={setActiveId}
-              isMobile={isMobile}
-              isAnyActive={activeId !== null}
-            />
+            <Link key={member.id} href={`/team/${member.username}`} className="group">
+              <TeamRow
+                key={member.id}
+                data={member}
+                index={index}
+                isActive={activeId === member.id}
+                setActiveId={setActiveId}
+                isMobile={isMobile}
+                isAnyActive={activeId !== null}
+              />
+            </Link>
           ))}
         </div>
       </div>
@@ -188,9 +183,8 @@ function TeamRow({
       onMouseEnter={() => !isMobile && setActiveId(data.id)}
       onMouseLeave={() => !isMobile && setActiveId(null)}
       onClick={() => isMobile && setActiveId(isActive ? null : data.id)}
-      className={`group relative border-t border-neutral-900 transition-colors duration-500 last:border-b ${
-        isMobile ? 'cursor-pointer' : 'cursor-default'
-      }`}
+      className={`group relative border-t border-neutral-900 transition-colors duration-500 last:border-b ${isMobile ? 'cursor-pointer' : 'cursor-default'
+        }`}
     >
       <div className="relative z-10 flex flex-col py-8 md:flex-row md:items-center md:justify-between md:py-12">
         <div className="flex items-baseline gap-6 pl-4 transition-transform duration-500 group-hover:translate-x-4 md:gap-12 md:pl-0">
