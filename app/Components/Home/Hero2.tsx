@@ -87,7 +87,23 @@ const AnimatedText = ({ text, className = "text-7xl font-light font-canela" }: A
 const Hero2 = () => {
 
   return (
-    <>
+    <div className='relative'>
+
+      <motion.img 
+      initial={{
+        opacity: 0,
+        y: 300,
+      }}
+      animate={{
+        opacity: 0.07,
+        y: 0,
+      }}
+      transition={{
+        duration: 1,
+        ease: "easeInOut",
+      }}
+      src="/pattern/pattern2.svg" alt="" height={700} width={700} className='absolute -left-90 opacity-7 rotate-90' />
+
       <div className='h-full mt-30 flex flex-col items-center justify-center'>
         <div className='flex flex-col items-center justify-center gap-1 md:gap-4'>
 
@@ -153,22 +169,22 @@ const Hero2 = () => {
           <span className="absolute inset-x-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bottom-px bg-linear-to-r from-transparent via-white to-transparent h-1 mx-auto blur-md"></span>
         </div>
       </div>
-      <motion.div 
-      initial={{
-        opacity: 0,
-        y: 20,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-      }}
-      transition={{
-        delay: 0.5,
-        duration: 1,
-        ease: "easeInOut",
-      }}
-      style={{ height: "600px", position: "relative" }}
-      className="mask-b-from-80% mask-x-from-90%"
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 20,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          delay: 0.5,
+          duration: 1,
+          ease: "easeInOut",
+        }}
+        style={{ height: "600px", position: "relative" }}
+        className="mask-b-from-80% mask-x-from-90%"
       >
         <CircularGallery
           items={galleryItems}
@@ -181,7 +197,7 @@ const Hero2 = () => {
           scrollSpeed={2}
         />
       </motion.div>
-    </>
+    </div>
 
   )
 }
