@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import PhotoArc from '@/Components/ui/photo-arc';
 import CareerTimeline from '@/Components/ui/career-timeline';
+import MyWork from '@/Components/ui/my-work';
 import { TEAM, DEFAULT_GALLERY, getMemberByUsername } from '@/lib/team';
 
 export function generateStaticParams() {
@@ -114,7 +115,7 @@ export default async function Page({ params }) {
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ TIMELINE */}
+      {/* TIMELINE */}
       <section className="relative z-10 px-6 pb-32 md:px-12">
         <div className="mx-auto mb-10 max-w-5xl text-center">
           <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-orangish-red">
@@ -126,6 +127,20 @@ export default async function Page({ params }) {
         </div>
 
         <CareerTimeline member={member} />
+      </section>
+
+      {/* MY WORK */}
+      <section className="relative z-10 px-6 pb-32 md:px-12">
+        <div className="mb-12 text-center">
+          <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-orangish-red">
+            Selected
+          </p>
+          <h2 className="mt-3 font-canela text-4xl font-light tracking-tight text-white md:text-6xl">
+            My <span className="text-orangish-red">Work</span>
+          </h2>
+        </div>
+
+        <MyWork member={member} />
       </section>
 
     </main>
