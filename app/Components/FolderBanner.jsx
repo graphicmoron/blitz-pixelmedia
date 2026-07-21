@@ -41,7 +41,7 @@ const FolderBanner = () => {
                             ease: "easeOut",
                             times: [0, 0.2, 1] 
                         }}
-                        className='absolute h-1.5 w-1.5 bg-green-500 blur-xs rounded-full'></motion.div>
+                        className='absolute h-2 w-2 bg-green-500 rounded-full'></motion.div>
                 </div>
                 <p className='text-sm text-white tracking-tight'>Available For New Projects!</p>
             </div>
