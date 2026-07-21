@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import PhotoArc from '@/Components/ui/photo-arc';
+import CareerTimeline from '@/Components/ui/career-timeline';
+import MyWork from '@/Components/ui/my-work';
 import { TEAM, DEFAULT_GALLERY, getMemberByUsername } from '@/lib/team';
 
 export function generateStaticParams() {
@@ -71,12 +73,33 @@ export default async function Page({ params }) {
             </div>
 
             <div className="absolute left-1/2 top-full w-max -translate-x-1/2 pt-5 text-center">
-              <h1 className="text-sm font-bold uppercase tracking-[0.25em] text-white">
+              <h1 className="font-canela text-xl font-light italic tracking-tight text-white md:text-4xl">
                 {member.name}
               </h1>
-              <p className="mt-1.5 text-[11px] uppercase tracking-[0.25em] text-neutral-500">
+              <p className="mt-1.5 text-[11px] uppercase tracking-[0.25em] text-orangish-red">
                 {member.role}
               </p>
+
+              {/* Tool kit — the member's skill logos, small */}
+              {member.skills?.length > 0 && (
+                <div className="mt-3 flex items-center justify-center gap-2.5">
+                  {member.skills.map((skill) => (
+                    <span
+                      key={skill.name}
+                      title={skill.name}
+                      className="relative size-5 opacity-90 transition-opacity hover:opacity-100 md:size-6"
+                    >
+                      <Image
+                        src={skill.icon}
+                        alt={skill.name}
+                        fill
+                        sizes="24px"
+                        className="object-contain"
+                      />
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </PhotoArc>
@@ -86,13 +109,38 @@ export default async function Page({ params }) {
           className="relative z-10 text-center"
           style={{ marginTop: 'calc(var(--ring) * -0.16)' }}
         >
-          <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-orangish-red">
-            The art of sonic and visual
-          </p>
-          <h2 className="mt-4 font-canela text-6xl font-light italic tracking-tight text-white md:text-8xl">
-            Storytelling
+          <h2 className="mt-4 font-canela text2xl font-light italic tracking-tight text-white md:text-6xl">
+            The <span className="text-orangish-red" > Timeline </span>
           </h2>
         </div>
+      </section>
+
+      {/* TIMELINE */}
+      <section className="relative z-10 px-6 pb-32 md:px-12">
+        <div className="mx-auto mb-10 max-w-5xl text-center">
+          <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-orangish-red">
+            The Cut
+          </p>
+          <h3 className="mt-3 font-canela text-2xl font-light italic tracking-tight text-white md:text-3xl">
+            {member.name.split(' ')[0]}&rsquo;s career, on the reel
+          </h3>
+        </div>
+
+        <CareerTimeline member={member} />
+      </section>
+
+      {/* MY WORK */}
+      <section className="relative z-10 px-6 pb-32 md:px-12">
+        <div className="mb-12 text-center">
+          <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-orangish-red">
+            Selected
+          </p>
+          <h2 className="mt-3 font-canela text-4xl font-light tracking-tight text-white md:text-6xl">
+            My <span className="text-orangish-red">Work</span>
+          </h2>
+        </div>
+
+        <MyWork member={member} />
       </section>
 
     </main>

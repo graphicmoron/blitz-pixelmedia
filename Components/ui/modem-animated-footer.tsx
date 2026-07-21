@@ -48,7 +48,7 @@ export const Footer = ({
             <div className="flex w-full flex-col items-center">
               <div className="flex flex-1 flex-col items-center space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-3xl font-bold text-foreground text-3xl lg:text-7xl font-light font-canela tracking-tight text-orangish-red">
+                  <span className="text-3xl font-bold text-foreground text-3xl lg:text-4xl font-light font-canela tracking-tight text-orangish-red">
                     {brandName}
                   </span>
                 </div>
