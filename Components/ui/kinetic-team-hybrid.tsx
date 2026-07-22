@@ -54,7 +54,7 @@ export default function KineticTeamHybrid() {
 
         <div className="flex flex-col">
           {TEAM.map((member, index) => (
-            <Link key={member.id} href={`/team/${member.username}`} className="group">
+            <Link key={member.id} href={`/team/${member.username}`} className="group curspor-pointer">
               <TeamRow
                 key={member.id}
                 data={member}

@@ -21,7 +21,21 @@ export default function Navbar() {
 
   return (
     <header className="px-4 pt-16 flex justify-center">
-      <nav
+      <motion.nav
+        initial={{
+          width: "30%",
+          y:10,
+          opacity:0,
+        }}
+        animate={{
+          width: "100%",
+          y:0,
+          opacity:1,
+        }}
+        transition={{
+          duration: 1,
+          ease: "easeInOut",
+        }}
         aria-label="Main navigation"
         className="hidden mx-auto w-full container rounded-md md:grid grid-cols-2 md:grid-cols-3 items-center z-30"
       >
@@ -70,7 +84,7 @@ export default function Navbar() {
         </div>
 
 
-      </nav>
+      </motion.nav>
 
 
       {/* Mobile Nav */}
