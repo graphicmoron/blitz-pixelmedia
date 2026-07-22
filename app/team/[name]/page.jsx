@@ -115,17 +115,9 @@ export default async function Page({ params }) {
         </div>
       </section>
 
-      {/* TIMELINE */}
+      {/* TIMELINE — heading is rendered inside the component so it can share
+          the editor's tool state (editable while the Select tool is active). */}
       <section className="relative z-10 px-6 pb-32 md:px-12">
-        <div className="mx-auto mb-10 max-w-5xl text-center">
-          <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-orangish-red">
-            The Cut
-          </p>
-          <h3 className="mt-3 font-canela text-2xl font-light italic tracking-tight text-white md:text-3xl">
-            {member.name.split(' ')[0]}&rsquo;s career, on the reel
-          </h3>
-        </div>
-
         <CareerTimeline member={member} />
       </section>
 

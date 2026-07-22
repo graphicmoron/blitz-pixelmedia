@@ -245,21 +245,21 @@ export const DEFAULT_WORK: WorkItem[] = [
     title: 'Acne Scars — Skincare Reel',
     category: 'Med Spa',
     youtubeId: 'aqz-KE-bpKQ',
-    tool: '/logos/adobe-photoshop-icon.png',
+    // tool: '/logos/adobe-photoshop-icon.png',
   },
   {
     id: 'w2',
     title: 'Take It At Night — Promo',
     category: 'Med Spa',
     youtubeId: 'eRsGyueVLvQ',
-    tool: '/logos/adobe-after-effects-icon.png',
+    // tool: '/logos/adobe-after-effects-icon.png',
   },
   {
     id: 'w3',
     title: 'Jaw Dropper — Brand Ad',
     category: 'Advertisement',
     youtubeId: 'R6MlUcmOul8',
-    tool: '/logos/adobe-premiere-pro-icon.png',
+    // tool: '/logos/adobe-premiere-pro-icon.png',
   },
   {
     id: 'w4',
@@ -272,7 +272,7 @@ export const DEFAULT_WORK: WorkItem[] = [
     title: 'Kinetic Type — Animation',
     category: 'Animation',
     youtubeId: 'TLkA0RELQ1g',
-    tool: '/logos/adobe-after-effects-icon.png',
+    // tool: '/logos/adobe-after-effects-icon.png',
   },
   {
     id: 'w6',
