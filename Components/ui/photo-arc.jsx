@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 
 /** Tiles distributed evenly around the full circle. Those that rotate past the
@@ -48,6 +48,11 @@ export default function PhotoArc({ images, children }) {
 
   const slotRefs = useRef([]);
   const photoRefs = useRef([]);
+
+  // Which tile the pointer is over; the rest blur while it's set. Blur rides on
+  // the CSS `filter` property, which the rotation loop never writes, so the two
+  // never fight over the same style.
+  const [hovered, setHovered] = useState(null);
 
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -131,7 +136,13 @@ export default function PhotoArc({ images, children }) {
               ref={(node) => {
                 photoRefs.current[index] = node;
               }}
-              className="relative overflow-hidden rounded-[26%] shadow-[0_18px_50px_-20px_rgba(0,0,0,0.85)] will-change-transform [backface-visibility:hidden] [transform-style:preserve-3d]"
+              onMouseEnter={() => setHovered(index)}
+              onMouseLeave={() => setHovered((h) => (h === index ? null : h))}
+              className={`relative cursor-pointer overflow-hidden rounded-[26%] shadow-[0_18px_50px_-20px_rgba(0,0,0,0.85)] transition-[filter] duration-300 will-change-transform [backface-visibility:hidden] [transform-style:preserve-3d] ${
+                hovered !== null && hovered !== index
+                  ? 'blur-[3px] brightness-75'
+                  : ''
+              }`}
               style={{ width: 'var(--tile)', height: 'var(--tile)' }}
             >
               <Image
