@@ -131,7 +131,7 @@ export const TEAM: TeamMember[] = [
     name: 'Arihan Jain',
     username: 'arihant',
     role: 'Creative Technologist',
-    image: '/team/arihantjain.jpg',
+    image: '/team/arihanjain.jpg',
     tagline: 'Ideas built into pixels',
     skills: [
       { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
