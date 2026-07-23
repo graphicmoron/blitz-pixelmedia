@@ -1,93 +1,14 @@
-// 'use client';
-
-// import React, { useRef } from 'react';
-// import { motion, useScroll, useTransform } from 'motion/react';
-
-// export default function VideoIntro() {
-//     const containerRef = useRef < HTMLDivElement > (null);
-
-//     // Track scroll progress relative to this container
-//     const { scrollYProgress } = useScroll({
-//         target: containerRef,
-//         offset: ['start end', 'center center'],
-//     });
-
-//     // Interpolate scroll progress to layout values
-//     const scale = useTransform(scrollYProgress, [0, 1], [0.75, 1]);
-//     const borderRadius = useTransform(scrollYProgress, [0, 1], ['32px', '0px']);
-//     const opacity = useTransform(scrollYProgress, [0, 0.3], [0.4, 1]);
-
-//     return (
-//         <>
-//             <section
-//                 ref={containerRef}
-//                 className="relative min-h-[120vh] w-full bg-neutral-950 py-24 text-neutral-100"
-//             >
-//                 <div className="mx-auto flex max-w-6xl flex-col items-center px-6 text-center">
-//                     {/* Header Section */}
-//                     <motion.div
-//                         initial={{ opacity: 0, y: 20 }}
-//                         whileInView={{ opacity: 1, y: 0 }}
-//                         transition={{ duration: 0.6 }}
-//                         viewport={{ once: true }}
-//                         className="mb-12 max-w-2xl space-y-4"
-//                     >
-//                         <span className="font-mono text-xs uppercase tracking-widest text-neutral-400">
-//                             Showcase
-//                         </span>
-//                         <h2 className="text-4xl font-light tracking-tight md:text-6xl">
-//                             Designed for seamless movement.
-//                         </h2>
-//                         <p className="text-neutral-400 md:text-lg">
-//                             Experience the fluidity in real-time as you scroll through the vision.
-//                         </p>
-//                     </motion.div>
-
-//                     {/* Expanding Video Container */}
-//                     <div className="sticky top-20 flex w-full justify-center overflow-hidden">
-//                         <motion.div
-//                             style={{
-//                                 scale,
-//                                 borderRadius,
-//                                 opacity,
-//                             }}
-//                             className="relative aspect-video w-full max-w-7xl overflow-hidden border border-white/10 shadow-2xl"
-//                         >
-//                             <video
-//                                 autoPlay
-//                                 loop
-//                                 muted
-//                                 playsInline
-//                                 className="h-full w-full object-cover"
-//                             >
-//                                 <source
-//                                     src="/LandingVideo.mp4"
-//                                     type="video/mp4"
-//                                 />
-//                                 Your browser does not support the video tag.
-//                             </video>
-
-//                             {/* Subtle Gradient Overlay */}
-//                             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
-//                         </motion.div>
-//                     </div>
-//                 </div>
-//             </section>
-//         </>
-//     );
-// }
-
 'use client';
 
-import React, { useRef, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import {
   Play,
-  Pause,
   Volume2,
   VolumeX,
   Camera,
-  StepBack,  StepForward,
+  StepBack,
+  StepForward,
   Square,
   Wrench,
   Plus,
@@ -97,15 +18,20 @@ import {
   Bookmark,
 } from 'lucide-react';
 
-export default function ExpandablePremiereSection() {
+export default function VideoIntro() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Video State
+  // InView Detection for Auto Play/Pause
+  const isInView = useInView(containerRef, { amount: 0.3 });
+
+  // Video & Audio State
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [audioMeterHeight, setAudioMeterHeight] = useState(0);
+  const [peakHeight, setPeakHeight] = useState(0);
+  const DURATION = 34.03; // Fixed 34s duration
 
   // Framer Motion Scroll Progress
   const { scrollYProgress } = useScroll({
@@ -113,20 +39,73 @@ export default function ExpandablePremiereSection() {
     offset: ['start end', 'center center'],
   });
 
-  // Smooth Interpolation Values for Video Scale
   const scale = useTransform(scrollYProgress, [0, 1], [0.75, 1]);
   const borderRadius = useTransform(scrollYProgress, [0, 1], ['24px', '8px']);
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0.4, 1]);
 
-  // Video Event Handlers
+  // Handle Play / Pause based on Viewport visibility
+  useEffect(() => {
+    if (!videoRef.current) return;
+
+    if (isInView) {
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => setIsPlaying(true))
+          .catch(() => {
+            // Autoplay might be blocked if unmuted initially
+            setIsPlaying(false);
+          });
+      }
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [isInView]);
+
+  // Dynamic Audio Level Animation Loop
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const animateAudioMeter = () => {
+      if (isPlaying && !isMuted) {
+        // Generate pseudo-random realistic audio levels (60% to 88% height)
+        const randomLevel = Math.floor(60 + Math.random() * 28);
+        setAudioMeterHeight(randomLevel);
+
+        // Peak line stays slightly above the level bar
+        setPeakHeight((prev) => {
+          const targetPeak = randomLevel + Math.random() * 6;
+          return targetPeak > prev ? targetPeak : Math.max(prev - 2, randomLevel);
+        });
+      } else {
+        setAudioMeterHeight(0);
+        setPeakHeight(0);
+      }
+
+      animationFrameId = requestAnimationFrame(animateAudioMeter);
+    };
+
+    if (isPlaying && !isMuted) {
+      animationFrameId = requestAnimationFrame(animateAudioMeter);
+    } else {
+      setAudioMeterHeight(0);
+      setPeakHeight(0);
+    }
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isPlaying, isMuted]);
+
+  // Manual Handlers
   const togglePlay = () => {
     if (!videoRef.current) return;
     if (isPlaying) {
       videoRef.current.pause();
+      setIsPlaying(false);
     } else {
       videoRef.current.play();
+      setIsPlaying(true);
     }
-    setIsPlaying(!isPlaying);
   };
 
   const toggleMute = () => {
@@ -140,15 +119,11 @@ export default function ExpandablePremiereSection() {
     setCurrentTime(videoRef.current.currentTime);
   };
 
-  const handleLoadedMetadata = () => {
-    if (!videoRef.current) return;
-    setDuration(videoRef.current.duration);
-  };
-
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!videoRef.current) return;
     const time = parseFloat(e.target.value);
-    videoRef.current.currentTime = time;
+    if (videoRef.current) {
+      videoRef.current.currentTime = time;
+    }
     setCurrentTime(time);
   };
 
@@ -162,14 +137,16 @@ export default function ExpandablePremiereSection() {
     return `${pad(hrs)}:${pad(mins)}:${pad(secs)}:${pad(frames)}`;
   };
 
+  const progressPercent = (currentTime / DURATION) * 100;
+
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[140vh] w-full bg-neutral-950 py-24 text-neutral-200"
+      className="relative min-h-[140vh] w-full py-24 text-neutral-200"
     >
       <div className="mx-auto flex max-w-6xl flex-col items-center px-6">
         {/* Header Section */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -182,75 +159,90 @@ export default function ExpandablePremiereSection() {
           <h2 className="mt-2 text-4xl font-light tracking-tight md:text-6xl">
             Precision in Motion
           </h2>
-        </motion.div>
+        </motion.div> */}
 
         {/* Outer Layout Container */}
         <div className="sticky top-12 flex w-full max-w-5xl flex-col gap-6">
           {/* ================= 1. SCROLL-EXPANDING VIDEO PLAYER ================= */}
           <motion.div
-            style={{
-              scale,
-              borderRadius,
-              opacity,
-            }}
-            className="relative aspect-video w-full overflow-hidden border border-[#2a2a2a] bg-black shadow-2xl"
+            style={{ scale, borderRadius, opacity }}
+            className="relative aspect-video w-full overflow-hidden border border-neutral-500 bg-black shadow-2xl"
           >
             <video
               ref={videoRef}
               onTimeUpdate={handleTimeUpdate}
-              onLoadedMetadata={handleLoadedMetadata}
               onClick={togglePlay}
+              playsInline
               src="/LandingVideo.mp4"
-              className="h-full w-full cursor-pointer object-contain"
+              loop
+              className="h-full w-full cursor-pointer object-contain rounded-xl"
             />
           </motion.div>
 
-          {/* ================= 2. PROGRAM MONITOR CONTROLS (SEPARATE DIV) ================= */}
-          <div className="w-full rounded-md border border-[#1a1a1a] bg-[#232323] p-3 text-xs text-[#a0a0a0] shadow-xl select-none">
+          {/* ================= 2. PROGRAM MONITOR CONTROLS ================= */}
+          <div className="w-full rounded-md p-3 text-xs text-[#a0a0a0] shadow-xl select-none">
             {/* Top Bar info */}
             <div className="mb-2 flex items-center justify-between text-[11px]">
               <div className="flex items-center gap-3">
                 <span className="font-mono font-semibold text-[#2da8ec]">
                   {formatTimecode(currentTime)}
                 </span>
-                <div className="flex items-center gap-1 text-[#808080]">
+                <div className="flex items-center gap-4 border-neutral-700 border px-2 py-0.5 rounded-[4px] bg-black">
                   <span>Fit</span>
                   <span className="text-[9px]">▼</span>
                 </div>
               </div>
               <div className="flex items-center gap-3 text-[#808080]">
-                <span>1/2</span>
-                <span className="text-[9px]">▼</span>
-                <Wrench size={13} className="hover:text-white" />
-                <span className="font-mono text-[#a0a0a0]">
-                  {formatTimecode(duration)}
-                </span>
+                <div className="flex items-center gap-4 border-neutral-700 border px-2 py-0.5 rounded-[4px] bg-black">
+                  <span>1/2</span>
+                  <span className="text-[9px]">▼</span>
+                </div>
+                <Wrench size={13} className="hover:text-white -rotate-90 fill-[#808080] hover:fill-white" />
+                <span className="font-mono text-[#a0a0a0]">00:00:34:01</span>
               </div>
             </div>
 
-            {/* Timeline Mini Scrubber Bar */}
-            <div className="relative mb-3 flex items-center">
+            {/* PREMIERE SCRUBBER BAR */}
+            <div className="relative mb-3 flex h-12 w-full flex-col justify-end">
+              {/* Tick Marks Container */}
+              <div className="absolute inset-x-0 top-0 flex h-6 justify-between items-end overflow-hidden px-3 opacity-50 bg-neutral-600">
+
+                 <div className="absolute top-0 left-0 w-px h-full border border-blue-400 z-20"></div>
+              
+                  {Array.from({ length: 60 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={`w-px bg-white ${i % 5 === 0 ? 'h-2' : 'h-1'
+                        }`}
+                    />
+                  ))}
+                
+                <div
+                  className="pointer-events-none absolute -bottom-1 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center z-10"
+                  style={{ left: `${Math.min(Math.max(progressPercent, 1), 99)}%` }}
+                >
+                  <div className="clip-premiere-head h-3 w-2.5 bg-[#2da8ec]" />
+                </div>
+              </div>
+
+              {/* Slider Track Background & Handles */}
+              <div className="relative flex h-2 w-full items-center bg-neutral-700 px-px">
+                <div className="size-2.5 rounded-full border-2 border-neutral-500 bg-black" />
+                <div className="mx-1 h-full flex-1" />
+                <div className="size-2.5 rounded-full border-2 border-neutral-500 bg-black" />
+
+                {/* Blue Premiere Shield Playhead */}
+              </div>
+
+              {/* Native Scrubber Input Overlay */}
               <input
                 type="range"
                 min="0"
-                max={duration || 100}
+                max={DURATION}
+                step="0.01"
                 value={currentTime}
                 onChange={handleSeek}
-                className="absolute z-10 h-3 w-full cursor-pointer opacity-0"
-              />
-              <div className="h-1.5 w-full rounded-sm bg-[#141414]">
-                <div
-                  className="h-full rounded-sm bg-[#2da8ec]"
-                  style={{
-                    width: `${duration ? (currentTime / duration) * 100 : 0}%`,
-                  }}
-                />
-              </div>
-              <div
-                className="pointer-events-none absolute h-3 w-2.5 -translate-x-1/2 bg-[#2da8ec] clip-playhead"
-                style={{
-                  left: `${duration ? (currentTime / duration) * 100 : 0}%`,
-                }}
+                className="absolute inset-0 z-20 h-full w-full cursor-grab active:cursor-grabbing opacity-0"
               />
             </div>
 
@@ -258,7 +250,7 @@ export default function ExpandablePremiereSection() {
             <div className="flex items-center justify-between text-[#8c8c8c]">
               <div className="mx-auto flex items-center gap-5">
                 <button className="hover:text-white">
-                  <Bookmark size={13} />
+                  <div className="clip-premiere-head h-3 w-2.5 bg-[#8c8c8c] hover:bg-white" />
                 </button>
                 <span className="font-mono text-[10px]">{`{ }`}</span>
                 <button className="hover:text-white">
@@ -266,7 +258,7 @@ export default function ExpandablePremiereSection() {
                 </button>
                 <button
                   onClick={togglePlay}
-                  className="text-neutral-200 hover:text-white"
+                  className="text-neutral-200 hover:text-white cursor-pointer"
                 >
                   {isPlaying ? (
                     <Square size={12} fill="currentColor" />
@@ -290,28 +282,41 @@ export default function ExpandablePremiereSection() {
             </div>
           </div>
 
-          {/* ================= 3. TIMELINE TRACKS SEGMENT (SEPARATE DIV) ================= */}
-          <div className="grid w-full grid-cols-[1fr_28px] overflow-hidden rounded-md border border-[#1a1a1a] bg-[#1d1d1d] text-xs shadow-xl select-none">
+          {/* ================= 3. TIMELINE TRACKS SEGMENT ================= */}
+          <div className="grid w-full grid-cols-[1fr_60px] overflow-hidden rounded-md border border-[#1a1a1a] bg-[#1d1d1d] text-xs shadow-xl select-none">
             {/* Main Timeline Workspace */}
             <div className="flex flex-col border-r border-[#141414]">
               {/* Ruler Header */}
-              <div className="flex h-6 border-b border-[#141414] bg-[#232323] px-2 text-[10px] text-[#707070]">
+              <div className="relative flex h-6 border-b border-[#141414] bg-[#232323] px-2 text-[10px] text-[#707070]">
                 <div className="w-32 border-r border-[#1a1a1a] pr-2 font-mono text-[#2da8ec]">
                   {formatTimecode(currentTime)}
                 </div>
                 <div className="relative flex-1 overflow-hidden font-mono text-[9px]">
                   <div className="flex justify-between px-2 pt-1 opacity-50">
                     <span>00:00:00:00</span>
-                    <span>00:00:04:00</span>
                     <span>00:00:08:00</span>
-                    <span>00:00:12:00</span>
                     <span>00:00:16:00</span>
+                    <span>00:00:24:00</span>
+                    <span>00:00:32:00</span>
                   </div>
+
+                  <div
+                    className="absolute bottom-0 top-0 z-10 w-[1px] bg-[#2da8ec]"
+                    style={{ left: `${progressPercent}%` }}
+                  />
                 </div>
               </div>
 
               {/* Tracks Stack */}
-              <div className="flex flex-col gap-[1px] bg-[#141414]">
+              <div className="relative flex flex-col gap-[1px] bg-[#141414]">
+                {/* Global Timeline Playhead Overlay Line */}
+                <div
+                  className="pointer-events-none absolute bottom-0 top-0 z-20 ml-[140px] w-[1px] bg-[#2da8ec]"
+                  style={{
+                    left: `calc((100% - 140px) * ${progressPercent / 100})`,
+                  }}
+                />
+
                 {/* Track V1 */}
                 <div className="grid h-12 grid-cols-[140px_1fr] bg-[#232323]">
                   <div className="flex items-center justify-between border-r border-[#181818] bg-[#282828] px-2">
@@ -324,16 +329,13 @@ export default function ExpandablePremiereSection() {
                     </div>
                   </div>
                   <div className="relative bg-[#1a1a1a] p-1">
-                    <div
-                      className="h-full overflow-hidden rounded-[2px] border border-[#3b7190] bg-[#28536b] px-2 py-0.5 text-[9px] text-[#bce3f7]"
-                      style={{ width: '85%' }}
-                    >
+                    <div className="h-full w-full overflow-hidden rounded-[2px] border border-[#3b7190] bg-[#28536b] px-2 py-0.5 text-[9px] text-[#bce3f7]">
                       A001_C001_08153V.MOV [100%]
                     </div>
                   </div>
                 </div>
 
-                {/* Track A1 (Interactable Audio) */}
+                {/* Track A1 */}
                 <div className="grid h-12 grid-cols-[140px_1fr] bg-[#232323]">
                   <div className="flex items-center justify-between border-r border-[#181818] bg-[#282828] px-2">
                     <div className="flex items-center gap-1.5">
@@ -342,11 +344,10 @@ export default function ExpandablePremiereSection() {
                       </span>
                       <button
                         onClick={toggleMute}
-                        className={`rounded px-1 text-[9px] font-bold transition-colors ${
-                          isMuted
+                        className={`rounded px-1 text-[9px] font-bold transition-colors ${isMuted
                             ? 'bg-red-600 text-white'
                             : 'bg-[#333333] text-[#aaaaaa] hover:bg-[#444444]'
-                        }`}
+                          }`}
                       >
                         M
                       </button>
@@ -368,15 +369,12 @@ export default function ExpandablePremiereSection() {
                     </button>
                   </div>
 
-                  {/* Audio Track Block */}
                   <div className="relative bg-[#1a1a1a] p-1">
                     <div
-                      className={`h-full overflow-hidden rounded-[2px] border px-2 py-0.5 text-[9px] transition-colors ${
-                        isMuted
+                      className={`h-full w-full overflow-hidden rounded-[2px] border px-2 py-0.5 text-[9px] transition-colors ${isMuted
                           ? 'border-[#3a3a3a] bg-[#222222] text-[#666666]'
                           : 'border-[#2d734e] bg-[#1b432e] text-[#8ce0b0]'
-                      }`}
-                      style={{ width: '85%' }}
+                        }`}
                     >
                       <div className="flex items-center justify-between">
                         <span>A001_C001_AUDIO.WAV</span>
@@ -415,10 +413,7 @@ export default function ExpandablePremiereSection() {
                     </div>
                   </div>
                   <div className="relative bg-[#1a1a1a] p-1">
-                    <div
-                      className="ml-[10%] h-full overflow-hidden rounded-[2px] border border-[#2b5d7d] bg-[#1a3d54] px-2 py-0.5 text-[9px] text-[#80c3eb]"
-                      style={{ width: '35%' }}
-                    >
+                    <div className="ml-[10%] h-full w-[40%] overflow-hidden rounded-[2px] border border-[#2b5d7d] bg-[#1a3d54] px-2 py-0.5 text-[9px] text-[#80c3eb]">
                       Swoosh_01.wav
                     </div>
                   </div>
@@ -426,32 +421,49 @@ export default function ExpandablePremiereSection() {
               </div>
             </div>
 
-            {/* Right Side Audio Meter */}
-            <div className="flex flex-col justify-between border-l border-[#141414] bg-[#1a1a1a] px-1 py-1 font-mono text-[8px] text-[#606060]">
-              <div className="flex h-full flex-col items-center gap-1 py-1">
+            {/* ================= 4. PREMIERE PRO REALISTIC VU METER ================= */}
+            <div className="flex bg-[#222222] px-1.5 py-1 text-[8px] font-mono text-[#808080] border-l border-[#141414]">
+              {/* Level Bar Container */}
+              <div className="relative flex flex-1 items-end justify-center bg-[#111111] h-full rounded-[1px] overflow-hidden border border-[#181818]">
+                {/* Audio Level Color Fill */}
+                <div
+                  className="w-full transition-all duration-75 bg-gradient-to-t from-[#22c55e] via-[#38ef7d] via-75% to-[#eab308]"
+                  style={{ height: `${audioMeterHeight}%` }}
+                />
+
+                {/* Audio Peak Indicator Line */}
+                {peakHeight > 0 && (
+                  <div
+                    className="absolute left-0 right-0 h-[2px] bg-[#adff2f] transition-all duration-100"
+                    style={{ bottom: `${peakHeight}%` }}
+                  />
+                )}
+              </div>
+
+              {/* Scale Tick Numbers */}
+              <div className="flex flex-col justify-between pl-1 h-full text-[7px] leading-none select-none opacity-80">
                 <span>0</span>
                 <span>-6</span>
                 <span>-12</span>
                 <span>-18</span>
                 <span>-24</span>
                 <span>-30</span>
+                <span>-36</span>
                 <span>-42</span>
-
-                {/* Meter Indicator */}
-                <div className="flex h-full w-2 flex-col-reverse overflow-hidden rounded-sm bg-[#111111] p-0.5">
-                  <div
-                    className={`w-full transition-all duration-150 ${
-                      isMuted || !isPlaying
-                        ? 'h-0'
-                        : 'h-3/4 bg-gradient-to-t from-green-500 via-yellow-400 to-red-500'
-                    }`}
-                  />
-                </div>
+                <span>-48</span>
+                <span>-54</span>
+                <span className="text-[6px] text-[#555555]">dB</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        .clip-premiere-head {
+          clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 60%);
+        }
+      `}</style>
     </section>
   );
 }

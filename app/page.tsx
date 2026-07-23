@@ -7,7 +7,6 @@ import Hero2 from './Components/Home/Hero2';
 import Team from './Components/Home/Team';
 import BookMeet from './Components/BookMeet';
 import VideoIntro from './Components/Home/VideoIntro';
-import VideoIntro2 from './Components/Home/VideoIntro2';
 import { useEffect } from 'react';
 import Lenis from 'lenis';
 import ScrollProgress from './Components/ScrollProgress';
@@ -29,8 +28,7 @@ export default function Home() {
 
         <Hero2 />
 
-        {/* <VideoIntro /> */}
-        <VideoIntro2 />
+        <VideoIntro />
 
         {/* <Aboutus /> */}
         {/* <LogoCloud /> */}
