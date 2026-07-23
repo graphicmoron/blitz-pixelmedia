@@ -273,6 +273,12 @@ function Clip({
   };
 
   const onCardDown = (event) => {
+    // The audio track is locked (read-only). Swallow the press so neither the
+    // clip nor the stage acts on it — no select, cut, trim or drag.
+    if (seg.audio) {
+      event.stopPropagation();
+      return;
+    }
     if (tool === 'razor') {
       event.stopPropagation();
       onCut(laneIndex, seg.id, clamp(fracFromEvent(event), 0.18, 0.82));
@@ -333,8 +339,13 @@ function Clip({
     .filter(Boolean)
     .join(', ');
 
-  const cursor = tool === 'hand' ? 'cursor-grab' : TOOL_CURSOR[tool] ?? 'cursor-default';
-  const canDrag = tool === 'hand';
+  const locked = seg.audio;
+  const cursor = locked
+    ? 'cursor-not-allowed'
+    : tool === 'hand'
+      ? 'cursor-grab'
+      : TOOL_CURSOR[tool] ?? 'cursor-default';
+  const canDrag = tool === 'hand' && !locked;
 
   return (
     <div
@@ -424,8 +435,9 @@ function Clip({
           </div>
         )}
 
-        {/* Trim grips — only while this clip is selected in Select mode. */}
-        {tool === 'select' && selected && (
+        {/* Trim grips — only while this clip is selected in Select mode.
+            Never on the locked audio track. */}
+        {tool === 'select' && selected && !locked && (
           <>
             <ResizeHandle side="left" color={c.bar} onResize={beginResize} />
             <ResizeHandle side="right" color={c.bar} onResize={beginResize} />
@@ -504,7 +516,7 @@ export default function CareerTimeline({ member }) {
   const tracks = useMemo(
     () => [
       ...clips.map((cl) => ({ track: cl.track, period: cl.period })),
-      { track: audio.track, period: audio.period },
+      { track: audio.track, period: audio.period, locked: true },
     ],
     [clips, audio],
   );
@@ -536,6 +548,10 @@ export default function CareerTimeline({ member }) {
   // ---- Edits (all persistent — this is a real little editor now).
   const swapLanes = (a, b) =>
     setLanes((prev) => {
+      // The audio lane is locked in place (always the last lane), so refuse any
+      // swap that would move it or drop another clip onto it.
+      const audioLane = prev.length - 1;
+      if (a === audioLane || b === audioLane) return prev;
       const next = [...prev];
       [next[a], next[b]] = [next[b], next[a]];
       return next;
@@ -706,6 +722,27 @@ export default function CareerTimeline({ member }) {
 
   const togglePlay = () => (playing ? pause() : play());
 
+  // ---- Restart. Rewind the playhead to the top, discard every edit (cuts,
+  // trims, renames, track swaps) back to the pristine sequence, then play from
+  // the start with the pad rolling.
+  const restart = () => {
+    head.stop();
+    if (idleTimer.current) clearTimeout(idleTimer.current);
+    setLanes(cloneLanes(base));
+    setSelected(null);
+    head.set(0);
+    setPlaying(true);
+    fadeSound(0.12);
+    animate(head, 100, {
+      duration: PLAY_SECONDS,
+      ease: 'linear',
+      onComplete: () => {
+        setPlaying(false);
+        fadeSound(0);
+      },
+    });
+  };
+
   // Keep the Spacebar handler pointing at the current transport state without
   // re-subscribing the global key listener on every play/pause.
   useEffect(() => {
@@ -783,7 +820,22 @@ export default function CareerTimeline({ member }) {
               {member.name.split(' ')[0]} · Sequence 01
             </span>
 
-            {/* Transport — play/pause sweeps the playhead and the ambient pad */}
+            {/* Transport — restart rewinds & clears every edit, play/pause
+                sweeps the playhead and the ambient pad */}
+            <motion.button
+              type="button"
+              onClick={restart}
+              whileTap={{ scale: 0.9, rotate: -45 }}
+              aria-label="Restart from start and reset all edits"
+              title="Restart · rewind and reset all cuts"
+              className="ml-auto grid size-6 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-neutral-300 transition hover:bg-white/[0.12] hover:text-white"
+            >
+              <svg viewBox="0 0 24 24" className="size-3.5" {...strokeProps}>
+                <path d="M3 12a9 9 0 1 0 3-6.7" />
+                <polyline points="3 3 3 6 6 6" />
+              </svg>
+            </motion.button>
+
             <motion.button
               type="button"
               onClick={togglePlay}
@@ -791,7 +843,7 @@ export default function CareerTimeline({ member }) {
               aria-label={playing ? 'Pause' : 'Play'}
               aria-pressed={playing}
               title={playing ? 'Pause · Space' : 'Play · Space'}
-              className="ml-auto grid size-6 place-items-center rounded-full bg-orangish-red text-black shadow-[0_2px_8px_rgba(237,75,37,0.5)] transition hover:brightness-110"
+              className="grid size-6 place-items-center rounded-full bg-orangish-red text-black shadow-[0_2px_8px_rgba(237,75,37,0.5)] transition hover:brightness-110"
             >
               {playing ? (
                 <svg viewBox="0 0 24 24" className="size-3.5" fill="currentColor">
@@ -822,11 +874,37 @@ export default function CareerTimeline({ member }) {
                       key={t.track}
                       className="flex h-[76px] flex-col justify-center rounded-lg border border-white/[0.07] bg-white/[0.02] px-2.5"
                     >
-                      <span className="font-mono text-xs font-semibold tracking-wider text-neutral-300">
-                        {t.track}
-                      </span>
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-xs font-semibold tracking-wider text-neutral-300">
+                          {t.track}
+                        </span>
+                        {/* Track controls — decorative UI only, not interactive.
+                            Video tracks show visible + unlocked; audio is locked. */}
+                        <span
+                          className="flex items-center gap-1 text-neutral-500"
+                          aria-hidden="true"
+                        >
+                          {t.locked ? (
+                            <svg viewBox="0 0 24 24" className="size-3" {...strokeProps}>
+                              <rect x="5" y="11" width="14" height="9" rx="2" />
+                              <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                            </svg>
+                          ) : (
+                            <>
+                              <svg viewBox="0 0 24 24" className="size-3" {...strokeProps}>
+                                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                                <circle cx="12" cy="12" r="3" />
+                              </svg>
+                              <svg viewBox="0 0 24 24" className="size-3" {...strokeProps}>
+                                <rect x="5" y="11" width="14" height="9" rx="2" />
+                                <path d="M8 11V7a4 4 0 0 1 7.9-1" />
+                              </svg>
+                            </>
+                          )}
+                        </span>
+                      </div>
                       <span className="mt-0.5 font-mono text-[9px] uppercase tracking-[0.15em] text-neutral-500">
-                        {t.period}
+                        {t.locked ? 'Locked' : t.period}
                       </span>
                     </div>
                   ))}

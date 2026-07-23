@@ -137,6 +137,11 @@ export default function page() {
 
     return (
         <section className="mx-auto w-full max-w-6xl px-4 py-12">
+            <div className="mb-12 flex flex-wrap items-center justify-center">
+           <h2 className="mt-3 font-canela text-4xl font-light tracking-tight text-white md:text-6xl">
+            Our <span className="text-orangish-red">Work</span>
+          </h2>
+          </div>
             {/* Category Tabs */}
             <div className="mb-12 flex flex-wrap items-center justify-center gap-2.5">
                 {categories.map((cat) => {

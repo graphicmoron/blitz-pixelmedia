@@ -231,8 +231,9 @@ export function getTimeline(member: TeamMember): Timeline {
       track: 'A1',
       period: 'Always',
       tags: craftWords(member.tagline),
+      // Runs the full length of the sequence (start → duration).
       start: 2,
-      span: 20,
+      span: 22,
     },
   };
 }

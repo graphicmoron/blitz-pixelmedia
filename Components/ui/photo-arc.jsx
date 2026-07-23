@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
+import { motion, animate, useMotionValue, useTransform } from 'framer-motion';
 
 /** Tiles distributed evenly around the full circle. Those that rotate past the
  *  fade window at the bottom go transparent, leaving the visible horseshoe. */
@@ -33,9 +34,56 @@ function opacityFor(angle) {
   return 0.5 * (1 + Math.cos(Math.PI * progress));
 }
 
+/** A single orbiting tile. It derives everything it needs — angle, opacity and
+ *  both transforms — from the shared `rotation` motion value with `useTransform`,
+ *  so Framer updates the DOM on its own batched frame loop and React never
+ *  re-renders per frame. */
+function Tile({ rotation, base, tilt, src, index, dimmed, onHover, onLeave }) {
+  const angle = useTransform(rotation, (r) => normalize(base + r));
+  const slotTransform = useTransform(
+    angle,
+    (a) => `rotate(${a}deg) translateY(calc(var(--arc-r) * -1))`,
+  );
+  const opacity = useTransform(angle, opacityFor);
+  const visibility = useTransform(opacity, (o) => (o <= 0.001 ? 'hidden' : 'visible'));
+  const photoTransform = useTransform(
+    angle,
+    (a) => `translate(-50%, -50%) rotate(${tilt - a}deg)`,
+  );
+
+  return (
+    <motion.div
+      className="absolute left-0 top-0 origin-top-left will-change-[transform,opacity]"
+      style={{ transform: slotTransform, opacity, visibility }}
+    >
+      <motion.div
+        onMouseEnter={() => onHover(index)}
+        onMouseLeave={() => onLeave(index)}
+        className={`relative cursor-pointer overflow-hidden rounded-[26%] shadow-[0_18px_50px_-20px_rgba(0,0,0,0.85)] transition-[filter] duration-300 will-change-transform [backface-visibility:hidden] [transform-style:preserve-3d] ${
+          dimmed ? 'blur-[3px] brightness-75' : ''
+        }`}
+        style={{
+          width: 'var(--tile)',
+          height: 'var(--tile)',
+          transform: photoTransform,
+        }}
+      >
+        <Image
+          src={src}
+          alt=""
+          aria-hidden
+          fill
+          sizes="128px"
+          className="object-cover"
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function PhotoArc({ images, children }) {
-  // Every tile keeps a stable base angle and tilt; only the live rotation
-  // changes per frame, and it's written straight to the DOM.
+  // Every tile keeps a stable base angle and tilt; only the shared rotation
+  // changes over time.
   const tiles = useMemo(
     () =>
       Array.from({ length: TILE_COUNT }, (_, index) => ({
@@ -46,61 +94,27 @@ export default function PhotoArc({ images, children }) {
     [images],
   );
 
-  const slotRefs = useRef([]);
-  const photoRefs = useRef([]);
-
-  // Which tile the pointer is over; the rest blur while it's set. Blur rides on
-  // the CSS `filter` property, which the rotation loop never writes, so the two
-  // never fight over the same style.
+  // Which tile the pointer is over; the rest blur while it's set.
   const [hovered, setHovered] = useState(null);
 
+  // The one continuous rotation the whole ring reads from.
+  const rotation = useMotionValue(0);
+
   useEffect(() => {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    let frame = null;
-    let offset = 0;
-    let last = performance.now();
-
-    // Writes only — never read layout in here, or we'd force a reflow.
-    const paint = () => {
-      for (let index = 0; index < tiles.length; index += 1) {
-        const slot = slotRefs.current[index];
-        const photo = photoRefs.current[index];
-
-        if (!slot || !photo) continue;
-
-        const tile = tiles[index];
-        const angle = normalize(tile.base + offset);
-        const opacity = opacityFor(angle);
-
-        slot.style.transform = `rotate(${angle}deg) translateY(calc(var(--arc-r) * -1))`;
-        slot.style.opacity = opacity;
-        slot.style.visibility = opacity === 0 ? 'hidden' : 'visible';
-
-        photo.style.transform = `translate(-50%, -50%) rotate(${
-          tile.tilt - angle
-        }deg)`;
-      }
-    };
-
-    paint();
-
-    if (reduceMotion.matches) return undefined;
-
-    const tick = (now) => {
-      offset = (offset + ((now - last) / 1000) * SPEED) % 360;
-      last = now;
-
-      paint();
-      frame = requestAnimationFrame(tick);
-    };
-
-    frame = requestAnimationFrame(tick);
-
-    return () => {
-      if (frame !== null) cancelAnimationFrame(frame);
-    };
-  }, [tiles]);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      rotation.set(0);
+      return undefined;
+    }
+    // 0 → 360 looped linearly: the wrap point is visually identical to the
+    // start, so the loop is seamless and the angular speed is perfectly even.
+    const controls = animate(rotation, 360, {
+      duration: 360 / SPEED,
+      ease: 'linear',
+      repeat: Infinity,
+      repeatType: 'loop',
+    });
+    return () => controls.stop();
+  }, [rotation]);
 
   return (
     <div
@@ -125,36 +139,17 @@ export default function PhotoArc({ images, children }) {
             centre rather than the ring's, throwing it off the circle by an
             amount that varies with its angle. */}
         {tiles.map((tile, index) => (
-          <div
+          <Tile
             key={index}
-            ref={(node) => {
-              slotRefs.current[index] = node;
-            }}
-            className="absolute left-0 top-0 origin-top-left will-change-[transform,opacity]"
-          >
-            <div
-              ref={(node) => {
-                photoRefs.current[index] = node;
-              }}
-              onMouseEnter={() => setHovered(index)}
-              onMouseLeave={() => setHovered((h) => (h === index ? null : h))}
-              className={`relative cursor-pointer overflow-hidden rounded-[26%] shadow-[0_18px_50px_-20px_rgba(0,0,0,0.85)] transition-[filter] duration-300 will-change-transform [backface-visibility:hidden] [transform-style:preserve-3d] ${
-                hovered !== null && hovered !== index
-                  ? 'blur-[3px] brightness-75'
-                  : ''
-              }`}
-              style={{ width: 'var(--tile)', height: 'var(--tile)' }}
-            >
-              <Image
-                src={tile.src}
-                alt=""
-                aria-hidden
-                fill
-                sizes="128px"
-                className="object-cover"
-              />
-            </div>
-          </div>
+            index={index}
+            rotation={rotation}
+            base={tile.base}
+            tilt={tile.tilt}
+            src={tile.src}
+            dimmed={hovered !== null && hovered !== index}
+            onHover={setHovered}
+            onLeave={(i) => setHovered((h) => (h === i ? null : h))}
+          />
         ))}
       </div>
 
