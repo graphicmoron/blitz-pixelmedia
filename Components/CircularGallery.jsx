@@ -487,6 +487,12 @@ class App {
     this.isDown = false;
     this.onCheck();
   }
+  onWheel(e) {
+    e.preventDefault();
+    const delta = e.deltaY || e.wheelDelta || e.detail || 0;
+    this.scroll.target += delta * 0.05 * this.scrollSpeed;
+    this.onCheckDebounce();
+  }
   onKeyDown(e) {
     switch (e.key) {
       case 'ArrowRight':
@@ -549,6 +555,7 @@ class App {
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
     this.boundOnKeyDown = this.onKeyDown.bind(this);
+    this.boundOnWheel = this.onWheel.bind(this);
 
     window.addEventListener('resize', this.boundOnResize);
     window.addEventListener('mousedown', this.boundOnTouchDown);
@@ -559,6 +566,7 @@ class App {
     window.addEventListener('touchend', this.boundOnTouchUp);
 
     this.container?.addEventListener('keydown', this.boundOnKeyDown);
+    this.container?.addEventListener('wheel', this.boundOnWheel, { passive: false });
   }
   destroy() {
     window.cancelAnimationFrame(this.raf);
@@ -575,6 +583,7 @@ class App {
 
     if (this.container) {
       this.container.removeEventListener('keydown', this.boundOnKeyDown);
+      this.container.removeEventListener('wheel', this.boundOnWheel);
     }
   }
 }
