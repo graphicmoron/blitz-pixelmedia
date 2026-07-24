@@ -38,8 +38,7 @@ export default async function Page({ params }) {
 
       {/* ---------------------------------------------------------------- HERO */}
       <section
-        className="relative flex min-h-screen flex-col items-center justify-center px-6 pb-16 pt-24 md:px-12"
-        style={{ ['--ring']: 'min(92vw, 92vh, 880px)' }}
+        className="relative flex min-h-[82svh] flex-col items-center justify-center px-6 pb-16 pt-24 [--ring:min(84vw,52vh,560px)] md:min-h-screen md:px-12 md:[--ring:min(92vw,92vh,880px)]"
       >
         {/* Ghosted display type behind the arc */}
         <span
@@ -105,30 +104,28 @@ export default async function Page({ params }) {
           </div>
         </PhotoArc>
 
-        {/* Headline */}
-        <div
-          className="relative z-10 text-center"
-          style={{ marginTop: 'calc(var(--ring) * -0.16)' }}
-        >
-          <h2 className="mt-4 font-canela text2xl font-light italic tracking-tight text-white md:text-6xl">
-            The <span className="text-orangish-red" > Timeline </span>
+        {/* Headline — sits below the caption on phones; tucks up into the
+            ring's faded lower half only from md up (where there's room). */}
+        <div className="relative z-10 mt-10 text-center md:mt-[calc(var(--ring)*-0.16)]">
+          <h2 className="font-canela text-3xl font-light italic tracking-tight text-white sm:text-4xl md:text-6xl">
+            The <span className="text-orangish-red">Timeline</span>
           </h2>
         </div>
       </section>
 
       {/* TIMELINE — heading is rendered inside the component so it can share
           the editor's tool state (editable while the Select tool is active). */}
-      <section className="relative z-10 px-6 pb-32 md:px-12">
+      <section className="relative z-10 px-6 pb-20 md:px-12 md:pb-32">
         <CareerTimeline member={member} />
       </section>
 
       {/* MY WORK */}
-      <section className="relative z-10 px-6 pb-32 md:px-12">
-        <div className="mb-12 text-center">
+      <section className="relative z-10 px-6 pb-20 md:px-12 md:pb-32">
+        <div className="mb-10 text-center md:mb-12">
           <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-orangish-red">
             Selected
           </p>
-          <h2 className="mt-3 font-canela text-4xl font-light tracking-tight text-white md:text-6xl">
+          <h2 className="mt-3 font-canela text-3xl font-light tracking-tight text-white sm:text-4xl md:text-6xl">
             My <span className="text-orangish-red">Work</span>
           </h2>
         </div>
