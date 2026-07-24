@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
+import { DesignHelpCTA } from '@/Components/ui/design-help-cta';
 
 export interface WorkItem {
     id: string | number;
@@ -176,6 +177,12 @@ export default function page() {
                     />
                 ))}
             </div>
+
+                  {/* DESIGN-HELP CTA */}
+                  <section className="relative z-10 px-6 md:px-12">
+                    <DesignHelpCTA />
+                  </section>
+            
         </section>
     );
 }

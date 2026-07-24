@@ -10,6 +10,7 @@ import VideoIntro from './Components/Home/VideoIntro';
 import { useEffect } from 'react';
 import Lenis from 'lenis';
 import ScrollProgress from './Components/ScrollProgress';
+import { DesignHelpCTA } from '@/Components/ui/design-help-cta';
 
 export default function Home() {
 
@@ -42,7 +43,10 @@ export default function Home() {
         {/* <IntegrationCard /> */}
 
         <Team />
-
+                  {/* DESIGN-HELP CTA */}
+                  <section className="relative z-10 px-6 md:px-12">
+                    <DesignHelpCTA />
+                  </section>
         <ScrollProgress />
       </div>
 
