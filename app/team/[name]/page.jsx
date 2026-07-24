@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import PhotoArc from '@/Components/ui/photo-arc';
 import CareerTimeline from '@/Components/ui/career-timeline';
 import MyWork from '@/Components/ui/my-work';
+import DesignHelpCTA from '@/Components/ui/design-help-cta';
 import { TEAM, DEFAULT_GALLERY, getMemberByUsername } from '@/lib/team';
 
 export function generateStaticParams() {
@@ -133,6 +134,11 @@ export default async function Page({ params }) {
         </div>
 
         <MyWork member={member} />
+      </section>
+
+      {/* DESIGN-HELP CTA */}
+      <section className="relative z-10 px-6 md:px-12">
+        <DesignHelpCTA member={member} />
       </section>
 
     </main>

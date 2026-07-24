@@ -424,6 +424,37 @@ body {
   }
 }
 
+/* ------------------------------------------------ Design-help CTA (open box) */
+@keyframes tag-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(-10px) rotate(var(--rot, 0deg));
+  }
+}
+
+@keyframes lid-breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.tag-float {
+  animation: tag-float 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tag-float {
+    animation: none;
+  }
+}
+
 /* Keep an element scrollable but hide its scrollbar on every browser/device. */
 .no-scrollbar {
   -ms-overflow-style: none;
