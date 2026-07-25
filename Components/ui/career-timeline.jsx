@@ -531,7 +531,13 @@ export default function CareerTimeline({ member }) {
   // Each member is its own route, so this fresh-mount init is enough.
   const [lanes, setLanes] = useState(() => cloneLanes(base));
 
-  const rest = useMemo(() => (clips[0].start / duration) * 100, [clips, duration]);
+  // Where the playhead settles — the first clip's start, but never flush against
+  // 00:00, so the intro sweep and the drift-home still read as movement now that
+  // clips begin at zero.
+  const rest = useMemo(
+    () => Math.max((clips[0].start / duration) * 100, 8),
+    [clips, duration],
+  );
 
   const ticks = useMemo(() => {
     const out = [];

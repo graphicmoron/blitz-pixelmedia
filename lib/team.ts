@@ -203,8 +203,8 @@ export function getTimeline(member: TeamMember): Timeline {
         subtitle: `${member.role} · Present`,
         tags: [...tools.slice(0, 2), 'Bangalore'],
         color: 'brand',
-        start: 2,
-        span: 20,
+        start: 0,
+        span: 22,
       },
       {
         track: 'V2',
@@ -213,8 +213,8 @@ export function getTimeline(member: TeamMember): Timeline {
         subtitle: 'Sharpening the reel',
         tags: tools.slice(0, 3),
         color: 'amber',
-        start: 2,
-        span: 16,
+        start: 0,
+        span: 18,
       },
       {
         track: 'V1',
@@ -223,17 +223,17 @@ export function getTimeline(member: TeamMember): Timeline {
         subtitle: 'Where it started',
         tags: ['Curiosity', 'Practice'],
         color: 'violet',
-        start: 2,
-        span: 9,
+        start: 0,
+        span: 11,
       },
     ],
     audio: {
       track: 'A1',
       period: 'Always',
       tags: craftWords(member.tagline),
-      // Runs the full length of the sequence (start → duration).
-      start: 2,
-      span: 22,
+      // Runs the full length of the sequence (00:00 → duration).
+      start: 0,
+      span: 24,
     },
   };
 }
