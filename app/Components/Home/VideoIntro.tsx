@@ -16,6 +16,7 @@ import {
   Mic,
   Maximize2,
   Bookmark,
+  Loader2,
 } from 'lucide-react';
 
 export default function VideoIntro() {
@@ -27,35 +28,44 @@ export default function VideoIntro() {
 
   // Video & Audio State
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isBuffering, setIsBuffering] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [audioMeterHeight, setAudioMeterHeight] = useState(0);
   const [peakHeight, setPeakHeight] = useState(0);
+  
+  // Ref to track if user explicitly paused the video manually
+  const userPausedRef = useRef(false);
   const DURATION = 34.03; // Fixed 34s duration
+
+  // Cursor Badge State for Video Hover
+  const [isHoveringVideo, setIsHoveringVideo] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
   // Framer Motion Scroll Progress
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start end', 'center center'],
+    offset: ['start end', 'center end'],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [0.75, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.75, 0.95]);
   const borderRadius = useTransform(scrollYProgress, [0, 1], ['24px', '8px']);
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0.4, 1]);
 
-  // Handle Play / Pause based on Viewport visibility
+  // Handle Play / Pause based on Viewport visibility and user pause preference
   useEffect(() => {
     if (!videoRef.current) return;
 
     if (isInView) {
-      const playPromise = videoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => setIsPlaying(true))
-          .catch(() => {
-            // Autoplay might be blocked if unmuted initially
-            setIsPlaying(false);
-          });
+      videoRef.current.muted = isMuted;
+      // Only auto-play if the user HAS NOT manually paused it previously
+      if (!userPausedRef.current) {
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => setIsPlaying(true))
+            .catch(() => setIsPlaying(false));
+        }
       }
     } else {
       videoRef.current.pause();
@@ -68,12 +78,10 @@ export default function VideoIntro() {
     let animationFrameId: number;
 
     const animateAudioMeter = () => {
-      if (isPlaying && !isMuted) {
-        // Generate pseudo-random realistic audio levels (60% to 88% height)
+      if (isPlaying && !isMuted && !isBuffering) {
         const randomLevel = Math.floor(60 + Math.random() * 28);
         setAudioMeterHeight(randomLevel);
 
-        // Peak line stays slightly above the level bar
         setPeakHeight((prev) => {
           const targetPeak = randomLevel + Math.random() * 6;
           return targetPeak > prev ? targetPeak : Math.max(prev - 2, randomLevel);
@@ -86,7 +94,7 @@ export default function VideoIntro() {
       animationFrameId = requestAnimationFrame(animateAudioMeter);
     };
 
-    if (isPlaying && !isMuted) {
+    if (isPlaying && !isMuted && !isBuffering) {
       animationFrameId = requestAnimationFrame(animateAudioMeter);
     } else {
       setAudioMeterHeight(0);
@@ -94,7 +102,7 @@ export default function VideoIntro() {
     }
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isPlaying, isMuted]);
+  }, [isPlaying, isMuted, isBuffering]);
 
   // Manual Handlers
   const togglePlay = () => {
@@ -102,16 +110,19 @@ export default function VideoIntro() {
     if (isPlaying) {
       videoRef.current.pause();
       setIsPlaying(false);
+      userPausedRef.current = true; // Store explicit user intent to pause
     } else {
       videoRef.current.play();
       setIsPlaying(true);
+      userPausedRef.current = false; // Reset intent on explicit play
     }
   };
 
   const toggleMute = () => {
     if (!videoRef.current) return;
-    videoRef.current.muted = !isMuted;
-    setIsMuted(!isMuted);
+    const newMuteState = !isMuted;
+    videoRef.current.muted = newMuteState;
+    setIsMuted(newMuteState);
   };
 
   const handleTimeUpdate = () => {
@@ -125,6 +136,14 @@ export default function VideoIntro() {
       videoRef.current.currentTime = time;
     }
     setCurrentTime(time);
+  };
+
+  const handleMouseMoveVideo = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setCursorPos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
   };
 
   const formatTimecode = (seconds: number) => {
@@ -142,41 +161,66 @@ export default function VideoIntro() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[140vh] w-full py-24 text-neutral-200"
+      className="relative min-h-[140vh] w-full pt-24 text-neutral-200"
     >
       <div className="mx-auto flex max-w-6xl flex-col items-center px-6">
-        {/* Header Section */}
-        {/* <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="mb-12 text-center"
-        >
-          <span className="font-mono text-xs uppercase tracking-widest text-neutral-400">
-            Timeline Experience
-          </span>
-          <h2 className="mt-2 text-4xl font-light tracking-tight md:text-6xl">
-            Precision in Motion
-          </h2>
-        </motion.div> */}
-
         {/* Outer Layout Container */}
         <div className="sticky top-12 flex w-full max-w-5xl flex-col gap-6">
           {/* ================= 1. SCROLL-EXPANDING VIDEO PLAYER ================= */}
           <motion.div
             style={{ scale, borderRadius, opacity }}
-            className="relative aspect-video w-full overflow-hidden border border-neutral-500 bg-black shadow-2xl"
+            onMouseEnter={() => setIsHoveringVideo(true)}
+            onMouseLeave={() => setIsHoveringVideo(false)}
+            onMouseMove={handleMouseMoveVideo}
+            className="relative aspect-video w-full overflow-hidden border border-neutral-500 bg-black shadow-2xl cursor-none"
           >
             <video
               ref={videoRef}
               onTimeUpdate={handleTimeUpdate}
-              onClick={togglePlay}
+              onClick={toggleMute}
+              onWaiting={() => setIsBuffering(true)}
+              onPlaying={() => setIsBuffering(false)}
+              onCanPlay={() => setIsBuffering(false)}
               playsInline
+              muted={isMuted}
               src="/LandingVideo.mp4"
               loop
-              className="h-full w-full cursor-pointer object-contain rounded-xl"
+              className="h-full w-full object-contain rounded-xl"
             />
+
+            {/* Video Loading / Buffering Spinner Overlay */}
+            {isBuffering && (
+              <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
+                <div className="flex flex-col items-center gap-2 rounded-lg border border-white/10 bg-neutral-900/80 px-4 py-3 text-neutral-300 shadow-xl">
+                  <Loader2 size={24} className="animate-spin text-orangish-red" />
+                  <span className="font-mono text-[10px] tracking-wider uppercase text-neutral-400">
+                    Loading...
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Custom Floating Cursor Volume Badge with Subtext */}
+            {isHoveringVideo && (
+              <div
+                className="pointer-events-none absolute z-30 flex flex-col items-center justify-center -translate-x-1/2 -translate-y-1/2 transition-transform duration-75 ease-out"
+                style={{
+                  left: `${cursorPos.x}px`,
+                  top: `${cursorPos.y}px`,
+                }}
+              >
+                <div className="flex size-11 items-center justify-center rounded-full shadow-2xl bg-white backdrop-blur-md shadow-2xl text-black">
+                  {isMuted ? (
+                    <VolumeX size={18}  />
+                  ) : (
+                    <Volume2 size={18}  />
+                  )}
+                </div>
+                <span className="mt-1 whitespace-nowrap rounded-md bg-neutral-800 px-2 py-0.5 font-sans text-[10px] font-medium tracking-wide text-neutral-300">
+                  {isMuted ? 'Click to Unmute' : 'Click to Mute'}
+                </span>
+              </div>
+            )}
           </motion.div>
 
           {/* ================= 2. PROGRAM MONITOR CONTROLS ================= */}
@@ -206,17 +250,17 @@ export default function VideoIntro() {
             <div className="relative mb-3 flex h-12 w-full flex-col justify-end">
               {/* Tick Marks Container */}
               <div className="absolute inset-x-0 top-0 flex h-6 justify-between items-end overflow-hidden px-3 opacity-50 bg-neutral-600">
+                <div className="absolute top-0 left-0 w-px h-full border border-blue-400 z-20"></div>
 
-                 <div className="absolute top-0 left-0 w-px h-full border border-blue-400 z-20"></div>
-              
-                  {Array.from({ length: 60 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className={`w-px bg-white ${i % 5 === 0 ? 'h-2' : 'h-1'
-                        }`}
-                    />
-                  ))}
-                
+                {Array.from({ length: 60 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className={`w-px bg-white ${
+                      i % 5 === 0 ? 'h-2' : 'h-1'
+                    }`}
+                  />
+                ))}
+
                 <div
                   className="pointer-events-none absolute -bottom-1 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center z-10"
                   style={{ left: `${Math.min(Math.max(progressPercent, 1), 99)}%` }}
@@ -230,8 +274,6 @@ export default function VideoIntro() {
                 <div className="size-2.5 rounded-full border-2 border-neutral-500 bg-black" />
                 <div className="mx-1 h-full flex-1" />
                 <div className="size-2.5 rounded-full border-2 border-neutral-500 bg-black" />
-
-                {/* Blue Premiere Shield Playhead */}
               </div>
 
               {/* Native Scrubber Input Overlay */}
@@ -344,10 +386,11 @@ export default function VideoIntro() {
                       </span>
                       <button
                         onClick={toggleMute}
-                        className={`rounded px-1 text-[9px] font-bold transition-colors ${isMuted
+                        className={`rounded px-1 text-[9px] font-bold transition-colors ${
+                          isMuted
                             ? 'bg-red-600 text-white'
                             : 'bg-[#333333] text-[#aaaaaa] hover:bg-[#444444]'
-                          }`}
+                        }`}
                       >
                         M
                       </button>
@@ -355,7 +398,7 @@ export default function VideoIntro() {
                       <Mic size={11} className="text-[#606060]" />
                       <span className="text-[10px] text-[#aaaaaa]">Dialogue</span>
                     </div>
-
+{/* 
                     <button
                       onClick={toggleMute}
                       className="rounded p-1 text-[#a0a0a0] hover:bg-white/5 hover:text-white"
@@ -366,15 +409,16 @@ export default function VideoIntro() {
                       ) : (
                         <Volume2 size={13} />
                       )}
-                    </button>
+                    </button> */}
                   </div>
 
                   <div className="relative bg-[#1a1a1a] p-1">
                     <div
-                      className={`h-full w-full overflow-hidden rounded-[2px] border px-2 py-0.5 text-[9px] transition-colors ${isMuted
+                      className={`h-full w-full overflow-hidden rounded-[2px] border px-2 py-0.5 text-[9px] transition-colors ${
+                        isMuted
                           ? 'border-[#3a3a3a] bg-[#222222] text-[#666666]'
                           : 'border-[#2d734e] bg-[#1b432e] text-[#8ce0b0]'
-                        }`}
+                      }`}
                     >
                       <div className="flex items-center justify-between">
                         <span>A001_C001_AUDIO.WAV</span>
