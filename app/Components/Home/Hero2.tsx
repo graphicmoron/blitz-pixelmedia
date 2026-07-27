@@ -4,6 +4,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { motion, stagger, useAnimate } from 'motion/react'
 import React, { useEffect } from 'react'
 import CircularGallery from './../../../Components/CircularGallery';
+import Link from 'next/link';
 
 const galleryItems = [
   {
@@ -120,6 +121,7 @@ const Hero2 = () => {
 
         </div>
         <div className='px-10 md:px-0 flex flex-col md:flex-row items-center justify-center gap-4 mt-10 w-full'>
+          <Link href="/contact">
           <motion.button
             initial={{
               opacity: 0,
@@ -132,7 +134,7 @@ const Hero2 = () => {
             whileHover={{
               y: -4,
               boxShadow: "0px 20px 50px rgba(255, 0, 150, 0.2)",
-
+              
             }}
             transition={{
               duration: 0.3,
@@ -145,6 +147,7 @@ const Hero2 = () => {
             <span className="absolute inset-x-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bottom-px bg-linear-to-r from-transparent via-orangish-red to-transparent h-1 mx-auto blur-md"></span>
 
           </motion.button>
+            </Link>
 
 
           <motion.button

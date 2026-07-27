@@ -29,7 +29,9 @@ export default function Home() {
 
         <Hero2 />
 
-        <VideoIntro />
+        <section className="mt-20">
+          <VideoIntro />
+        </section>
 
         {/* <Aboutus /> */}
         {/* <LogoCloud /> */}
@@ -43,10 +45,10 @@ export default function Home() {
         {/* <IntegrationCard /> */}
 
         <Team />
-                  {/* DESIGN-HELP CTA */}
-                  <section className="relative z-10 px-6 md:px-12">
-                    <DesignHelpCTA />
-                  </section>
+        {/* DESIGN-HELP CTA */}
+        <section className="relative z-10 px-6 md:px-12 mt-20">
+          <DesignHelpCTA />
+        </section>
         <ScrollProgress />
       </div>
 

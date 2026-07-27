@@ -5,9 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'motion/react';
 
-/* Service words that "fly out" of the box. Positions (in %), rotation and delay
-   mirror the reference mock so the cloud drifts out of sync. Accent tags carry
-   the orangish-red highlight. */
 const TAGS = [
   { label: 'vfx', x: 79, y: 8, rot: 14, delay: 1.8, small: true },
   { label: 'brand', x: 44, y: 24, rot: 12, delay: 0.9, faint: true },
@@ -64,11 +61,7 @@ function Tag({ progress, label, x, y, rot, delay, faint, small, accent, index })
   );
 }
 
-/* Open cardboard box, themed dark to sit on the black stage — realistic
-   perspective front face, an inset inner cavity with an orange bounce-light,
-   two back flaps standing up, two side flaps opened out like wings, a warm
-   orangish-red rim-light on the opening and a soft ambient glow lifting it off
-   the black. */
+// Open cardboard box 
 function OpenBox() {
   return (
     <svg
@@ -166,15 +159,8 @@ function OpenBox() {
   );
 }
 
-/** "Have Design Project and need help?" — reference layout in the Blitz Pixel
- *  Media theme: dark stage, heavy white italic heading with an orangish-red
- *  accent, white service tags flying out of a realistic open box, and a booking
- *  pill carrying the member's portrait. No frame — blends into the page. */
 export function DesignHelpCTA({ member = DEFAULT_MEMBER }) {
   const sceneRef = useRef(null);
-  // Progress 0 → 1 as the box scene rises from the bottom of the viewport to
-  // its centre. Driving the tags off this makes them scrub: out on scroll down,
-  // back into the box on scroll up.
   const { scrollYProgress } = useScroll({
     target: sceneRef,
     offset: ['start end', 'center center'],
