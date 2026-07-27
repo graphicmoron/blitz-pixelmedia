@@ -3,7 +3,7 @@ export interface Skill {
   icon: string;
 }
 
-export type ClipColor = 'brand' | 'amber' | 'violet' | 'blue';
+export type ClipColor = "brand" | "amber" | "violet" | "blue";
 
 /** A single video "clip" on the career timeline. */
 export interface TimelineClip {
@@ -57,6 +57,7 @@ export interface TeamMember {
   image: string;
   /** Short line under the name on the detail page. */
   tagline: string;
+  bio: string;
   skills: Skill[];
   /** Photos orbiting the portrait on the detail page. Falls back to
    *  DEFAULT_GALLERY — swap in real project stills per person. */
@@ -70,84 +71,141 @@ export interface TeamMember {
 
 /** Placeholder stock photography for the orbiting arc. */
 export const DEFAULT_GALLERY: string[] = [
-  'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05',
-  'https://images.unsplash.com/photo-1441974231531-c6227db76b6e',
-  'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429',
-  'https://images.unsplash.com/photo-1502082553048-f009c37129b9',
-  'https://images.unsplash.com/photo-1494548162494-384bba4ab999',
-  'https://images.unsplash.com/photo-1483347756197-71ef80e95f73',
-  'https://images.unsplash.com/photo-1518709268805-4e9042af9f23',
-  'https://images.unsplash.com/photo-1487958449943-2429e8be8625',
-  'https://images.unsplash.com/photo-1439066615861-d1af74d74000',
-  'https://images.unsplash.com/photo-1510784722466-f2aa9c52fff6',
-  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4',
-  'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d',
-  'https://images.unsplash.com/photo-1444927714506-8492d94b4e3d',
+  "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
+  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+  "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429",
+  "https://images.unsplash.com/photo-1502082553048-f009c37129b9",
+  "https://images.unsplash.com/photo-1494548162494-384bba4ab999",
+  "https://images.unsplash.com/photo-1483347756197-71ef80e95f73",
+  "https://images.unsplash.com/photo-1518709268805-4e9042af9f23",
+  "https://images.unsplash.com/photo-1487958449943-2429e8be8625",
+  "https://images.unsplash.com/photo-1439066615861-d1af74d74000",
+  "https://images.unsplash.com/photo-1510784722466-f2aa9c52fff6",
+  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
+  "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d",
+  "https://images.unsplash.com/photo-1444927714506-8492d94b4e3d",
 ];
 
 export const TEAM: TeamMember[] = [
   {
-    id: '01',
-    name: 'Manvaditya Singh',
-    username: 'manavaditya',
-    role: 'Motion Designer',
-    image: '/team/manavadityasingh.jpeg',
-    tagline: 'Motion, rhythm and timing',
+    id: "01",
+    name: "Manvaditya Singh",
+    username: "manavaditya",
+    role: "Motion Designer",
+    image: "/team/manavadityasingh.jpeg",
+    tagline: "Motion, rhythm and timing",
+    bio: "Creating scroll-stopping short-form edits with fast-paced storytelling and seamless transitions.",
     skills: [
-      { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
-      { name: 'Adobe Premiere Pro', icon: '/logos/adobe-premiere-pro-icon.png' },
+      {
+        name: "Adobe After Effects",
+        icon: "/logos/adobe-after-effects-icon.png",
+      },
+      {
+        name: "Adobe Premiere Pro",
+        icon: "/logos/adobe-premiere-pro-icon.png",
+      },
     ],
   },
   {
-    id: '02',
-    name: 'Gaurav Agarwal',
-    username: 'gaurav',
-    role: 'Lead Photographer',
-    image: '/team/gauravagrawal.jpeg',
-    tagline: 'Light, frame and colour',
+    id: "02",
+    name: "Gaurav Agarwal",
+    username: "gaurav",
+    role: "Lead Photographer",
+    image: "/team/gauravagrawal.jpeg",
+    tagline: "Light, frame and colour",
+    bio: "Using professional editing and color grading software to craft polished, cinematic visuals",
     skills: [
-      { name: 'DaVinci Resolve', icon: '/logos/DaVinci_Resolve_Studio.png' },
-      { name: 'Adobe Photoshop', icon: '/logos/adobe-photoshop-icon.png' },
-      { name: 'Adobe Premiere Pro', icon: '/logos/adobe-premiere-pro-icon.png' },
-      { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
+      { name: "DaVinci Resolve", icon: "/logos/DaVinci_Resolve_Studio.png" },
+      { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
+      {
+        name: "Adobe Premiere Pro",
+        icon: "/logos/adobe-premiere-pro-icon.png",
+      },
+      {
+        name: "Adobe After Effects",
+        icon: "/logos/adobe-after-effects-icon.png",
+      },
     ],
   },
   {
-    id: '03',
-    name: 'Ritul Tripathi',
-    username: 'ritul',
-    role: 'Creative Technologist',
-    image: '/team/ritultripathi.jpeg',
-    tagline: 'Ideas built into pixels',
+    id: "03",
+    name: "Ritul Tripathi",
+    username: "ritul",
+    role: "Creative Technologist",
+    image: "/team/ritultripathi.jpeg",
+    tagline: "Ideas built into pixels",
+    bio: "I turn ideas into bold visuals that stand out. From branding and illustrations to animation and graphic design",
     skills: [
-      { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
-      { name: 'Adobe Illustrator', icon: '/logos/adobe-illustrator-icon.png' },
-      { name: 'Adobe Photoshop', icon: '/logos/adobe-photoshop-icon.png' },
-      { name: 'Adobe Lightroom', icon: '/logos/adobe-lightroom-icon.png' },
+      {
+        name: "Adobe After Effects",
+        icon: "/logos/adobe-after-effects-icon.png",
+      },
+      { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
+      { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
+      { name: "Adobe Lightroom", icon: "/logos/adobe-lightroom-icon.png" },
     ],
   },
   {
-    id: '04',
-    name: 'Arihan Jain',
-    username: 'arihant',
-    role: 'Creative Technologist',
-    image: '/team/arihanjain.jpg',
-    tagline: 'Ideas built into pixels',
+    id: "04",
+    name: "Arihan Jain",
+    username: "arihant",
+    role: "Creative Technologist",
+    image: "/team/arihanjain.jpg",
+    tagline: "Ideas built into pixels",
+    bio: "I specialize in flow-style edits, dynamic pacing, and immersive sound design. From viral editing styles to seamless transitions",
     skills: [
-      { name: 'Adobe After Effects', icon: '/logos/adobe-after-effects-icon.png' },
-      { name: 'Adobe Premiere Pro', icon: '/logos/adobe-premiere-pro-icon.png' },
+      {
+        name: "Adobe After Effects",
+        icon: "/logos/adobe-after-effects-icon.png",
+      },
+      {
+        name: "Adobe Premiere Pro",
+        icon: "/logos/adobe-premiere-pro-icon.png",
+      },
     ],
   },
   {
-    id: '05',
-    name: 'Herain Deegwal',
-    username: 'herain',
-    role: 'Creative Technologist',
-    image: '/team/Herain.jpg',
-    tagline: 'Ideas built into pixels',
+    id: "05",
+    name: "Herain Deegwal",
+    username: "herain",
+    role: "Creative Technologist",
+    image: "/team/Herain.jpg",
+    tagline: "Ideas built into pixels",
+    bio: "Always chasing the perfect frame. From photography and cinematography to camera handling, I create clean, cinematic visuals with purpose—where every frame tells a story.",
     skills: [
-      { name: 'Adobe Illustrator', icon: '/logos/adobe-illustrator-icon.png' },
-      { name: 'Adobe Photoshop', icon: '/logos/adobe-photoshop-icon.png' },
+      { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
+      { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
+    ],
+  },
+  {
+    id: "06",
+    name: "Bharat Kumar",
+    username: "bharat",
+    role: "Photography/Cinematography",
+    image: "/team/bharat.JPG",
+    tagline: "Ideas built into pixels",
+    bio: "A photographer and videographer capturing fresh, authentic moments with a cinematic touch. From quirky visuals to modern vlogs, I bring creativity and energy to every frame.",
+    skills: [
+      { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
+      { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
+      {
+        name: "Adobe Premiere Pro",
+        icon: "/logos/adobe-premiere-pro-icon.png",
+      },
+    ],
+  },
+  {
+    id: "07",
+    name: "Kunal Tak",
+    username: "kunal",
+    role: "Video Editor/ Motion Designer",
+    image: "/team/kunal.jpg",
+    tagline: "Ideas built into pixels",
+    bio: "Turning ideas into motion with sleek animations and dynamic video edits that are clean, engaging, and built to stand out",
+    skills: [
+      { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
+      { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
+      { name: "Blender", icon: "/logos/blender.png" },
     ],
   },
 ];
@@ -157,7 +215,17 @@ export function getMemberByUsername(username: string) {
 }
 
 const STOP_WORDS = new Set([
-  'into', 'with', 'and', 'the', 'of', 'for', 'a', 'an', 'to', 'on', 'in',
+  "into",
+  "with",
+  "and",
+  "the",
+  "of",
+  "for",
+  "a",
+  "an",
+  "to",
+  "on",
+  "in",
 ]);
 
 function titleCase(word: string) {
@@ -183,7 +251,7 @@ function craftWords(tagline: string): string[] {
 
 /** Short, tool-name tags: "Adobe After Effects" -> "After Effects". */
 function skillTags(member: TeamMember): string[] {
-  return member.skills.map((skill) => skill.name.replace(/^Adobe\s+/, ''));
+  return member.skills.map((skill) => skill.name.replace(/^Adobe\s+/, ""));
 }
 
 /** The member's own timeline, or an honest default assembled from their role,
@@ -197,39 +265,39 @@ export function getTimeline(member: TeamMember): Timeline {
     duration: 24,
     clips: [
       {
-        track: 'V3',
-        period: 'Now',
-        title: 'Blitz Pixel Media',
+        track: "V3",
+        period: "Now",
+        title: "Blitz Pixel Media",
         subtitle: `${member.role} · Present`,
-        tags: [...tools.slice(0, 2), 'Bangalore'],
-        color: 'brand',
+        tags: [...tools.slice(0, 2), "Bangalore"],
+        color: "brand",
         start: 0,
         span: 22,
       },
       {
-        track: 'V2',
-        period: 'Craft',
-        title: 'Studio & Client Work',
-        subtitle: 'Sharpening the reel',
+        track: "V2",
+        period: "Craft",
+        title: "Studio & Client Work",
+        subtitle: "Sharpening the reel",
         tags: tools.slice(0, 3),
-        color: 'amber',
+        color: "amber",
         start: 0,
         span: 18,
       },
       {
-        track: 'V1',
-        period: 'Roots',
-        title: 'Learning the Craft',
-        subtitle: 'Where it started',
-        tags: ['Curiosity', 'Practice'],
-        color: 'violet',
+        track: "V1",
+        period: "Roots",
+        title: "Learning the Craft",
+        subtitle: "Where it started",
+        tags: ["Curiosity", "Practice"],
+        color: "violet",
         start: 0,
         span: 11,
       },
     ],
     audio: {
-      track: 'A1',
-      period: 'Always',
+      track: "A1",
+      period: "Always",
       tags: craftWords(member.tagline),
       // Runs the full length of the sequence (00:00 → duration).
       start: 0,
@@ -242,44 +310,44 @@ export function getTimeline(member: TeamMember): Timeline {
  *  Uses open-content YouTube ids so the embeds and posters resolve. */
 export const DEFAULT_WORK: WorkItem[] = [
   {
-    id: 'w1',
-    title: 'Acne Scars — Skincare Reel',
-    category: 'Med Spa',
-    youtubeId: 'aqz-KE-bpKQ',
+    id: "w1",
+    title: "Acne Scars — Skincare Reel",
+    category: "Med Spa",
+    youtubeId: "aqz-KE-bpKQ",
     // tool: '/logos/adobe-photoshop-icon.png',
   },
   {
-    id: 'w2',
-    title: 'Take It At Night — Promo',
-    category: 'Med Spa',
-    youtubeId: 'eRsGyueVLvQ',
+    id: "w2",
+    title: "Take It At Night — Promo",
+    category: "Med Spa",
+    youtubeId: "eRsGyueVLvQ",
     // tool: '/logos/adobe-after-effects-icon.png',
   },
   {
-    id: 'w3',
-    title: 'Jaw Dropper — Brand Ad',
-    category: 'Advertisement',
-    youtubeId: 'R6MlUcmOul8',
+    id: "w3",
+    title: "Jaw Dropper — Brand Ad",
+    category: "Advertisement",
+    youtubeId: "R6MlUcmOul8",
     // tool: '/logos/adobe-premiere-pro-icon.png',
   },
   {
-    id: 'w4',
-    title: 'Studio Sessions — Podcast Cut',
-    category: 'Podcast',
-    youtubeId: 'LXb3EKWsInQ',
+    id: "w4",
+    title: "Studio Sessions — Podcast Cut",
+    category: "Podcast",
+    youtubeId: "LXb3EKWsInQ",
   },
   {
-    id: 'w5',
-    title: 'Kinetic Type — Animation',
-    category: 'Animation',
-    youtubeId: 'TLkA0RELQ1g',
+    id: "w5",
+    title: "Kinetic Type — Animation",
+    category: "Animation",
+    youtubeId: "TLkA0RELQ1g",
     // tool: '/logos/adobe-after-effects-icon.png',
   },
   {
-    id: 'w6',
-    title: 'Launch Day — Social Reel',
-    category: 'Social Media',
-    youtubeId: 'ScMzIvxBSi4',
+    id: "w6",
+    title: "Launch Day — Social Reel",
+    category: "Social Media",
+    youtubeId: "ScMzIvxBSi4",
   },
 ];
 
