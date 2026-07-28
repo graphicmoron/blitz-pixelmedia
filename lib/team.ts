@@ -37,14 +37,31 @@ export interface Timeline {
   audio: AudioClip;
 }
 
+/** Filter rail for the work galleries — order here is the order shown on
+ *  screen. Shared by /work and the "My Work" section on a member page. */
+export const WORK_CATEGORIES = [
+  "All",
+  "Video Editing",
+  "Motion Graphics",
+  "Photography",
+  "Videography",
+  "Graphic Designing",
+] as const;
+
+export type WorkCategory = (typeof WORK_CATEGORIES)[number];
+
 /** A portfolio piece shown in the "My Work" gallery. */
 export interface WorkItem {
   id: string;
   title: string;
-  /** Filter chip this belongs to, e.g. "Med Spa", "Advertisement". */
-  category: string;
+  /** 3–5 word line that sits under the title. */
+  description: string;
+  /** Filter chip this belongs to. */
+  category: Exclude<WorkCategory, "All">;
   /** YouTube id — drives both the embed and the poster thumbnail. */
   youtubeId: string;
+  /** Domains / services delivered on the project — rendered as pills. */
+  tags: string[];
   /** Optional app-logo badge (a path under /public), e.g. a skill icon. */
   tool?: string;
 }
@@ -71,19 +88,19 @@ export interface TeamMember {
 
 /** Placeholder stock photography for the orbiting arc. */
 export const DEFAULT_GALLERY: string[] = [
-  "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
-  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
-  "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429",
-  "https://images.unsplash.com/photo-1502082553048-f009c37129b9",
-  "https://images.unsplash.com/photo-1494548162494-384bba4ab999",
-  "https://images.unsplash.com/photo-1483347756197-71ef80e95f73",
-  "https://images.unsplash.com/photo-1518709268805-4e9042af9f23",
-  "https://images.unsplash.com/photo-1487958449943-2429e8be8625",
-  "https://images.unsplash.com/photo-1439066615861-d1af74d74000",
-  "https://images.unsplash.com/photo-1510784722466-f2aa9c52fff6",
-  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
-  "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d",
-  "https://images.unsplash.com/photo-1444927714506-8492d94b4e3d",
+  "/work/1.jpg",
+  "/work/2.jpg",
+  "/work/3.png",
+  "/work/4.png",
+  "/work/5.jpg",
+  "/work/6.jpg",
+  "/work/7.jpg",
+  "/work/8.jpg",
+  "/work/9.jpg",
+  "/work/10.jpg",
+  "/work/11.jpg",
+  "/work/12.jpg",
+  "/work/13.jpg",
 ];
 
 export const TEAM: TeamMember[] = [
@@ -171,7 +188,7 @@ export const TEAM: TeamMember[] = [
     role: "Creative Technologist",
     image: "/team/Herain.jpg",
     tagline: "Ideas built into pixels",
-    bio: "Always chasing the perfect frame. From photography and cinematography to camera handling, I create clean, cinematic visuals with purpose—where every frame tells a story.",
+    bio: "Always chasing the perfect frame. From photography and cinematography to camera handling, I create clean, cinematic visuals with purpose where every frame tells a story.",
     skills: [
       { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
       { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
@@ -311,43 +328,93 @@ export function getTimeline(member: TeamMember): Timeline {
 export const DEFAULT_WORK: WorkItem[] = [
   {
     id: "w1",
-    title: "Acne Scars — Skincare Reel",
-    category: "Med Spa",
+    title: "Acne Scars",
+    description: "Skincare reel cut for retention and clean pacing.",
+    category: "Video Editing",
     youtubeId: "aqz-KE-bpKQ",
-    // tool: '/logos/adobe-photoshop-icon.png',
+    tags: ["Med Spa", "Social Media"],
+    tool: "/logos/adobe-premiere-pro-icon.png",
   },
   {
     id: "w2",
-    title: "Take It At Night — Promo",
-    category: "Med Spa",
+    title: "Take It At Night",
+    description: "Night-routine promo built around a single hook.",
+    category: "Video Editing",
     youtubeId: "eRsGyueVLvQ",
-    // tool: '/logos/adobe-after-effects-icon.png',
+    tags: ["Promo", "Colour Grade"],
+    tool: "/logos/adobe-premiere-pro-icon.png",
   },
   {
     id: "w3",
-    title: "Jaw Dropper — Brand Ad",
-    category: "Advertisement",
+    title: "Jaw Dropper",
+    description: "Kinetic brand ad driven by bold type.",
+    category: "Motion Graphics",
     youtubeId: "R6MlUcmOul8",
-    // tool: '/logos/adobe-premiere-pro-icon.png',
+    tags: ["Advertisement", "Animation"],
+    tool: "/logos/adobe-after-effects-icon.png",
   },
   {
     id: "w4",
-    title: "Studio Sessions — Podcast Cut",
-    category: "Podcast",
-    youtubeId: "LXb3EKWsInQ",
+    title: "Kinetic Type",
+    description: "Typography animation with layered sound design.",
+    category: "Motion Graphics",
+    youtubeId: "TLkA0RELQ1g",
+    tags: ["Titles", "Sound Design"],
+    tool: "/logos/adobe-after-effects-icon.png",
   },
   {
     id: "w5",
-    title: "Kinetic Type — Animation",
-    category: "Animation",
-    youtubeId: "TLkA0RELQ1g",
-    // tool: '/logos/adobe-after-effects-icon.png',
+    title: "Studio Sessions",
+    description: "Multi-cam podcast set, shot and lit in-house.",
+    category: "Videography",
+    youtubeId: "LXb3EKWsInQ",
+    tags: ["Podcast", "Multi-Cam"],
+    tool: "/logos/DaVinci_Resolve_Studio.png",
   },
   {
     id: "w6",
-    title: "Launch Day — Social Reel",
-    category: "Social Media",
+    title: "Launch Day",
+    description: "Product launch film shot across one day.",
+    category: "Videography",
     youtubeId: "ScMzIvxBSi4",
+    tags: ["Brand Film", "Direction"],
+    tool: "/logos/DaVinci_Resolve_Studio.png",
+  },
+  {
+    id: "w7",
+    title: "Lookbook 01",
+    description: "Studio product stills retouched for campaign use.",
+    category: "Photography",
+    youtubeId: "eRsGyueVLvQ",
+    tags: ["Product", "Retouching"],
+    tool: "/logos/adobe-lightroom-icon.png",
+  },
+  {
+    id: "w8",
+    title: "Portrait Series",
+    description: "Founder portraits shot for a rebrand rollout.",
+    category: "Photography",
+    youtubeId: "LXb3EKWsInQ",
+    tags: ["Editorial", "Colour Grade"],
+    tool: "/logos/adobe-photoshop-icon.png",
+  },
+  {
+    id: "w9",
+    title: "AXN",
+    description: "Minimal streetwear identity with bold attitude.",
+    category: "Graphic Designing",
+    youtubeId: "R6MlUcmOul8",
+    tags: ["Branding", "Social Media"],
+    tool: "/logos/adobe-illustrator-icon.png",
+  },
+  {
+    id: "w10",
+    title: "Rivermark",
+    description: "Street campaign system built to grab attention.",
+    category: "Graphic Designing",
+    youtubeId: "TLkA0RELQ1g",
+    tags: ["Campaign", "Print"],
+    tool: "/logos/adobe-photoshop-icon.png",
   },
 ];
 

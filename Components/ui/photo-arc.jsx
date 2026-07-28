@@ -59,7 +59,7 @@ function Tile({ rotation, base, tilt, src, index, dimmed, onHover, onLeave }) {
       <motion.div
         onMouseEnter={() => onHover(index)}
         onMouseLeave={() => onLeave(index)}
-        className={`relative cursor-pointer overflow-hidden rounded-[26%] shadow-[0_18px_50px_-20px_rgba(0,0,0,0.85)] transition-[filter] duration-300 will-change-transform [backface-visibility:hidden] [transform-style:preserve-3d] ${
+        className={`relative cursor-pointer overflow-hidden rounded-[26%] shadow-[0_18px_50px_-20px_rgba(0,0,0,0.85)] transition-[filter] duration-300 will-change-transform ${
           dimmed ? 'blur-[3px] brightness-75' : ''
         }`}
         style={{
@@ -68,12 +68,18 @@ function Tile({ rotation, base, tilt, src, index, dimmed, onHover, onLeave }) {
           transform: photoTransform,
         }}
       >
+        {/* `sizes` has to describe the *cover* size, not the box size: these
+            are landscape photos cropped into a square, so the browser scales
+            them until the short edge fills the tile — the rendered width ends
+            up ~1.5x the box. A tile is ~120px, so 192 lands on the 384w
+            candidate at 2x DPR and nothing gets upscaled. */}
         <Image
           src={src}
           alt=""
           aria-hidden
           fill
-          sizes="128px"
+          sizes="192px"
+          quality={90}
           className="object-cover"
         />
       </motion.div>
