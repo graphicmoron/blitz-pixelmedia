@@ -80,6 +80,12 @@ export default async function Page({ params }) {
                 {member.role}
               </p>
 
+              {member.bio && (
+                <p className="mx-auto mt-3 max-w-[min(80vw,34ch)] text-[12px] leading-relaxed text-neutral-400 md:max-w-[46ch] md:text-[13px]">
+                  {member.bio}
+                </p>
+              )}
+
               {/* Tool kit — the member's skill logos, small */}
               {member.skills?.length > 0 && (
                 <div className="mt-3 flex items-center justify-center gap-2.5">
