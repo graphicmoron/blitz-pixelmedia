@@ -134,6 +134,10 @@ export default async function Page({ params }) {
           <h2 className="mt-3 font-canela text-3xl font-light tracking-tight text-white sm:text-4xl md:text-6xl">
             My <span className="text-orangish-red">Work</span>
           </h2>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-neutral-400 md:text-base">
+            Edits, films, frames and identities {member.name.split(' ')[0]} has
+            shipped with the crew.
+          </p>
         </div>
 
         <MyWork member={member} />
