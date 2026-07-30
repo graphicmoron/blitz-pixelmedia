@@ -126,7 +126,7 @@ export default function MyWork({ member }) {
 
   return (
     <div className="mx-auto w-full max-w-6xl">
-      {/* Category filters */}
+      {/* Category filters — hidden for now
       <div className="no-scrollbar mb-12 -mx-6 flex snap-x items-center gap-2.5 overflow-x-auto px-6 pb-1 md:mx-0 md:flex-wrap md:justify-center md:overflow-visible md:px-0">
         {WORK_CATEGORIES.map((cat) => {
           const on = cat === active;
@@ -158,6 +158,7 @@ export default function MyWork({ member }) {
           );
         })}
       </div>
+      */}
 
       {/* 2-up grid */}
       <div
