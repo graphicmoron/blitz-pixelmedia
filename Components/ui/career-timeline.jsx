@@ -506,10 +506,26 @@ export default function CareerTimeline({ member }) {
   const [tool, setTool] = useState('select');
   const [selected, setSelected] = useState(null);
   const [playing, setPlaying] = useState(false);
+  // Bumped by Restart to remount the heading, so an edited title reverts too.
+  const [resetKey, setResetKey] = useState(0);
+
+  // Where the playhead settles — flush with the first clip's leading edge, so
+  // it lines up with the ruler's 00:00 tick.
+  const rest = useMemo(
+    () => (clips[0].start / duration) * 100,
+    [clips, duration],
+  );
+
+  // Where the intro sweep starts: the first clip's out point. The playhead
+  // rewinds home from there, since resting at zero leaves nowhere to travel.
+  const introFrom = useMemo(
+    () => clamp(((clips[0].start + clips[0].span) / duration) * 100, 0, 100),
+    [clips, duration],
+  );
 
   // Playhead position as a motion value (percent) — Framer drives every sweep,
   // scrub and drift-home, so there's no hand-rolled rAF loop.
-  const head = useMotionValue(0);
+  const head = useMotionValue(introFrom);
   const headLeft = useMotionTemplate`${head}%`;
 
   // Fixed track labels (V3/V2/V1/A1) — clips move between them, labels don't.
@@ -530,14 +546,6 @@ export default function CareerTimeline({ member }) {
 
   // Each member is its own route, so this fresh-mount init is enough.
   const [lanes, setLanes] = useState(() => cloneLanes(base));
-
-  // Where the playhead settles — the first clip's start, but never flush against
-  // 00:00, so the intro sweep and the drift-home still read as movement now that
-  // clips begin at zero.
-  const rest = useMemo(
-    () => Math.max((clips[0].start / duration) * 100, 8),
-    [clips, duration],
-  );
 
   const ticks = useMemo(() => {
     const out = [];
@@ -729,13 +737,14 @@ export default function CareerTimeline({ member }) {
   const togglePlay = () => (playing ? pause() : play());
 
   // ---- Restart. Rewind the playhead to the top, discard every edit (cuts,
-  // trims, renames, track swaps) back to the pristine sequence, then play from
-  // the start with the pad rolling.
+  // trims, renames, track swaps, the heading) back to the pristine sequence,
+  // then play from the start with the pad rolling.
   const restart = () => {
     head.stop();
     if (idleTimer.current) clearTimeout(idleTimer.current);
     setLanes(cloneLanes(base));
     setSelected(null);
+    setResetKey((k) => k + 1);
     head.set(0);
     setPlaying(true);
     fadeSound(0.12);
@@ -768,7 +777,7 @@ export default function CareerTimeline({ member }) {
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          animate(head, rest, { duration: 2.2, ease: [0.16, 1, 0.3, 1] });
+          animate(head, rest, { duration: 1.8, ease: [0.16, 1, 0.3, 1] });
           io.disconnect();
         }
       },
@@ -810,7 +819,7 @@ export default function CareerTimeline({ member }) {
 
   return (
     <div className="mx-auto w-full max-w-5xl">
-      <TimelineHeading member={member} tool={tool} />
+      <TimelineHeading key={resetKey} member={member} tool={tool} />
 
       <div className="flex overflow-hidden rounded-2xl border border-white/10 bg-neutral-950/80 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] backdrop-blur-sm">
         {/* Tool palette — inside the panel, Premiere-style */}

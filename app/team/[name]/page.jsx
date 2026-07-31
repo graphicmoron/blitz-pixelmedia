@@ -33,12 +33,14 @@ export default async function Page({ params }) {
   return (
     <main className="relative w-full overflow-hidden bg-black text-neutral-200">
       {/* Ambient wash + grain, matching the crew list treatment */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(237,75,37,0.10),transparent_65%)]" />
+      {/* <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(237,75,37,0.10),transparent_65%)]" /> */}
       <div className="pointer-events-none absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] mix-blend-overlay" />
 
       {/* ---------------------------------------------------------------- HERO */}
+      {/* --ring is capped so the tiles' outer edge (0.5975 x --ring) always
+          clears the viewport: anything past ~78vw gets sliced off at the sides. */}
       <section
-        className="relative flex min-h-[82svh] flex-col items-center justify-center px-6 pb-16 pt-24 [--ring:min(84vw,52vh,560px)] md:min-h-screen md:px-12 md:[--ring:min(92vw,92vh,880px)]"
+        className="relative flex min-h-[82svh] flex-col items-center justify-center px-5 pb-16 pt-24 [--ring:min(78vw,44vh,420px)] sm:px-6 sm:[--ring:min(76vw,58vh,560px)] md:min-h-screen md:px-12 md:[--ring:min(80vw,86vh,880px)]"
       >
         {/* Ghosted display type behind the arc */}
         <span
@@ -58,37 +60,40 @@ export default async function Page({ params }) {
 
         {/* Orbiting photo ring, centred on the portrait */}
         <PhotoArc images={gallery}>
-          {/* Centre portrait. Only the avatar sits in the flow, so the ring's
-              centre lands on the avatar itself; the caption hangs below it. */}
-          <div className="relative z-10 size-24 md:size-28">
-            <div className="relative size-full overflow-hidden rounded-full">
+          {/* Pulled up by half the portrait so the *portrait* lands on the
+              ring's centre. Everything under it is in normal flow, so the
+              caption grows the hero instead of overlapping the headline. */}
+          <div className="-mt-12 flex w-full flex-col items-center md:-mt-14">
+            <div className="relative size-24 shrink-0 overflow-hidden rounded-full md:size-28">
               <Image
                 src={member.image}
                 alt={member.name}
                 fill
-                sizes="112px"
+                sizes="(min-width: 768px) 112px, 96px"
                 className="object-cover"
                 priority
               />
             </div>
 
-            <div className="absolute left-1/2 top-full w-max -translate-x-1/2 pt-5 text-center">
-              <h1 className="font-canela text-xl font-light italic tracking-tight text-white md:text-4xl">
+            {/* Kept narrow on phones: the ring's side tiles pass through this
+                band, and a wider column would run under them. */}
+            <div className="mt-5 w-full max-w-[min(72vw,34ch)] text-center md:max-w-[46ch]">
+              <h1 className="text-balance font-canela text-xl font-light italic tracking-tight text-white sm:text-2xl md:text-4xl">
                 {member.name}
               </h1>
-              <p className="mt-1.5 text-[11px] uppercase tracking-[0.25em] text-orangish-red">
+              <p className="mt-1.5 text-[10px] uppercase tracking-[0.22em] text-orangish-red sm:text-[11px] sm:tracking-[0.25em]">
                 {member.role}
               </p>
 
               {member.bio && (
-                <p className="mx-auto mt-3 max-w-[min(80vw,34ch)] text-[12px] leading-relaxed text-neutral-400 md:max-w-[46ch] md:text-[13px]">
+                <p className="mt-3 text-pretty text-[12px] leading-relaxed text-neutral-400 md:text-[13px]">
                   {member.bio}
                 </p>
               )}
 
               {/* Tool kit — the member's skill logos, small */}
               {member.skills?.length > 0 && (
-                <div className="mt-3 flex items-center justify-center gap-2.5">
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5">
                   {member.skills.map((skill) => (
                     <span
                       key={skill.name}
@@ -110,9 +115,9 @@ export default async function Page({ params }) {
           </div>
         </PhotoArc>
 
-        {/* Headline — sits below the caption on phones; tucks up into the
-            ring's faded lower half only from md up (where there's room). */}
-        <div className="relative z-10 mt-10 text-center md:mt-[calc(var(--ring)*-0.16)]">
+        {/* Headline. The arc block now ends above the ring's bottom edge, so a
+            plain margin still tucks this into the ring's faded lower half. */}
+        <div className="relative z-10 mt-8 text-center sm:mt-20 md:mt-40">
           <h2 className="font-canela text-3xl font-light italic tracking-tight text-white sm:text-4xl md:text-6xl">
             The <span className="text-orangish-red">Timeline</span>
           </h2>
@@ -145,7 +150,7 @@ export default async function Page({ params }) {
 
       {/* DESIGN-HELP CTA */}
       <section className="relative z-10 px-6 md:px-12">
-        <DesignHelpCTA member={member} />
+        <DesignHelpCTA />
       </section>
 
     </main>

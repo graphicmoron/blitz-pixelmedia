@@ -176,7 +176,7 @@ export function DesignHelpCTA({ member = DEFAULT_MEMBER }) {
         className="relative z-10 text-balance px-2 text-center font-canela font-light italic leading-[1.05] tracking-tight text-white"
         style={{ fontSize: 'clamp(1.4rem, 6.2vw, 3.75rem)' }}
       >
-        Have Graphic&apos;s Project
+        Have a Project&apos;s
         <br />
         and need <span className="text-orangish-red">help?</span>
       </h2>

@@ -14,6 +14,10 @@ const FADE_START = 55;
 /** Fully transparent beyond this. */
 const FADE_END = 168;
 
+/** Fallback ring diameter, used only when the parent section doesn't set
+ *  --ring itself. */
+const RING = 'min(92vw, 92vh, 880px)';
+
 /** Normalise any angle to (-180, 180], where 0 is top-centre. */
 function normalize(angle) {
   return ((((angle + 180) % 360) + 360) % 360) - 180;
@@ -124,21 +128,35 @@ export default function PhotoArc({ images, children }) {
 
   return (
     <div
-      className="relative mx-auto shrink-0"
+      className="relative mx-auto flex max-w-full flex-col items-center"
       style={{
-        // --ring is set by the parent section so the headline can tuck into
-        // the ring's faded lower half; this is just the fallback.
-        ['--arc-r']: 'calc(var(--ring, min(92vw, 92vh, 880px)) * 0.53)',
-        ['--tile']: 'calc(var(--ring, min(92vw, 92vh, 880px)) * 0.135)',
-        width: 'var(--ring, min(92vw, 92vh, 880px))',
-        height: 'var(--ring, min(92vw, 92vh, 880px))',
+        // --ring comes from the parent section (it varies per breakpoint);
+        // RING is only the fallback. Read it via var() everywhere rather than
+        // re-declaring --ring here, which would shadow the parent's value.
+        ['--arc-r']: `calc(var(--ring, ${RING}) * 0.53)`,
+        ['--tile']: `calc(var(--ring, ${RING}) * 0.135)`,
+        width: `var(--ring, ${RING})`,
       }}
     >
-      {/* Ring origin. --ring-x nudges only the photos, for optically
-          balancing them against the portrait; 0 puts them dead-centre. */}
+      {/* The ring's top half, reserved as real flow space. Everything the
+          caller renders then sits *below* the ring's centre in normal flow, so
+          the block grows with its own content instead of hanging out of the
+          layout and colliding with whatever follows the hero. */}
       <div
-        className="absolute left-1/2 top-1/2 h-0 w-0"
-        style={{ transform: 'translateX(var(--ring-x, 0px))' }}
+        aria-hidden
+        className="w-full shrink-0"
+        style={{ height: `calc(var(--ring, ${RING}) / 2)` }}
+      />
+
+      {/* Ring origin — the bottom edge of that spacer, i.e. the ring's centre.
+          --ring-x nudges only the photos, for optically balancing them against
+          the portrait; 0 puts them dead-centre. */}
+      <div
+        className="absolute left-1/2 h-0 w-0"
+        style={{
+          top: `calc(var(--ring, ${RING}) / 2)`,
+          transform: 'translateX(var(--ring-x, 0px))',
+        }}
       >
         {/* origin-top-left is load-bearing: the slot is tile-sized, so a
             default 50%/50% transform-origin pivots each tile about its own
@@ -159,8 +177,10 @@ export default function PhotoArc({ images, children }) {
         ))}
       </div>
 
-      {/* Dead-centre of the ring */}
-      <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
+      {/* Centre content, in normal flow directly under the ring's midpoint.
+          The caller pulls it up by half the portrait's height so the portrait
+          — not the whole caption — is what lands dead-centre. */}
+      <div className="relative z-10 flex w-full flex-col items-center">
         {children}
       </div>
     </div>
