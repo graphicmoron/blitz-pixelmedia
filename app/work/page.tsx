@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { DesignHelpCTA } from '@/Components/ui/design-help-cta';
+import { VideoModal } from '@/Components/ui/video-modal';
 
 /** Filter rail — order here is the order shown on screen. */
 const CATEGORIES = [
@@ -220,11 +221,10 @@ const WORKS_DATA: WorkItem[] = [
 
 interface WorkCardProps {
     item: WorkItem;
-    playing: boolean;
     onPlay: () => void;
 }
 
-function WorkCard({ item, playing, onPlay }: WorkCardProps) {
+function WorkCard({ item, onPlay }: WorkCardProps) {
     // maxres is a true 16:9 frame; hqdefault is the pillarboxed fallback.
     const [poster, setPoster] = useState(
         `https://img.youtube.com/vi/${item.youtubeId}/maxresdefault.jpg`,
@@ -235,62 +235,51 @@ function WorkCard({ item, playing, onPlay }: WorkCardProps) {
             {/* Landscape player */}
             <div className="relative overflow-hidden rounded-2xl border-2 border-white/10 bg-neutral-950 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.95)] transition-all duration-500 group-hover:-translate-y-1 group-hover:border-white/20">
                 <div className="relative aspect-video overflow-hidden bg-black">
-                    {playing ? (
-                        <iframe
-                            className="absolute inset-0 h-full w-full"
-                            src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
-                            title={item.title}
+                    <button
+                        type="button"
+                        onClick={onPlay}
+                        aria-label={`Play ${item.title}`}
+                        className="absolute inset-0 h-full w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-orangish-red"
+                    >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={poster}
+                            alt=""
                             loading="lazy"
-                            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                            allowFullScreen
+                            onError={() =>
+                                setPoster(
+                                    `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`,
+                                )
+                            }
+                            className="absolute inset-0 h-full w-full scale-[1.01] object-cover transition-transform duration-700 group-hover:scale-105"
                         />
-                    ) : (
-                        <button
-                            type="button"
-                            onClick={onPlay}
-                            aria-label={`Play ${item.title}`}
-                            className="absolute inset-0 h-full w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-orangish-red"
-                        >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                                src={poster}
-                                alt=""
-                                loading="lazy"
-                                onError={() =>
-                                    setPoster(
-                                        `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`,
-                                    )
-                                }
-                                className="absolute inset-0 h-full w-full scale-[1.01] object-cover transition-transform duration-700 group-hover:scale-105"
-                            />
-                            <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/25" />
+                        <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/25" />
 
-                            {/* Tool badge */}
-                            {item.tool && (
-                                <span className="absolute left-3 top-3 grid size-8 place-items-center rounded-lg bg-black/50 backdrop-blur-md">
-                                    <Image
-                                        src={item.tool}
-                                        alt=""
-                                        width={18}
-                                        height={18}
-                                        className="object-contain"
-                                    />
-                                </span>
-                            )}
-
-                            {/* Category badge */}
-                            <span className="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-[11px] font-medium tracking-wide text-neutral-100 backdrop-blur-md">
-                                {item.category}
+                        {/* Tool badge */}
+                        {item.tool && (
+                            <span className="absolute left-3 top-3 grid size-8 place-items-center rounded-lg bg-black/50 backdrop-blur-md">
+                                <Image
+                                    src={item.tool}
+                                    alt=""
+                                    width={18}
+                                    height={18}
+                                    className="object-contain"
+                                />
                             </span>
+                        )}
 
-                            {/* Play control */}
-                            <span className="absolute left-1/2 top-1/2 grid h-12 w-[4.5rem] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-xl bg-[#ff0000] shadow-[0_10px_30px_-8px_rgba(255,0,0,0.75)] transition-transform duration-300 group-hover:scale-110">
-                                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-white">
-                                    <path d="M8 5v14l11-7z" />
-                                </svg>
-                            </span>
-                        </button>
-                    )}
+                        {/* Category badge */}
+                        <span className="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-[11px] font-medium tracking-wide text-neutral-100 backdrop-blur-md">
+                            {item.category}
+                        </span>
+
+                        {/* Play control */}
+                        <span className="absolute left-1/2 top-1/2 grid h-12 w-[4.5rem] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-xl bg-[#ff0000] shadow-[0_10px_30px_-8px_rgba(255,0,0,0.75)] transition-transform duration-300 group-hover:scale-110">
+                            <svg viewBox="0 0 24 24" className="h-6 w-6 fill-white">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        </span>
+                    </button>
                 </div>
             </div>
 
@@ -328,7 +317,8 @@ export default function Page() {
     }, []);
 
     const [activeCategory, setActiveCategory] = useState<Category>('All');
-    const [playingId, setPlayingId] = useState<string | null>(null);
+    /** Item shown in the lightbox — null when the modal is closed. */
+    const [activeItem, setActiveItem] = useState<WorkItem | null>(null);
 
     const visibleWorks =
         activeCategory === 'All'
@@ -360,7 +350,7 @@ export default function Page() {
                             disabled={count === 0}
                             onClick={() => {
                                 setActiveCategory(cat);
-                                setPlayingId(null);
+                                setActiveItem(null);
                             }}
                             className={`shrink-0 snap-start cursor-pointer rounded-full border px-5 py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
                                 isActive
@@ -394,14 +384,17 @@ export default function Page() {
                         viewport={{ once: true, amount: 0.2 }}
                         transition={{ duration: 0.5, delay: (i % 2) * 0.08 }}
                     >
-                        <WorkCard
-                            item={item}
-                            playing={playingId === item.id}
-                            onPlay={() => setPlayingId(item.id)}
-                        />
+                        <WorkCard item={item} onPlay={() => setActiveItem(item)} />
                     </motion.div>
                 ))}
             </div>
+
+            {/* Video lightbox */}
+            <VideoModal
+                youtubeId={activeItem?.youtubeId ?? null}
+                title={activeItem?.title}
+                onClose={() => setActiveItem(null)}
+            />
 
             {visibleWorks.length === 0 && (
                 <p className="py-20 text-center text-sm text-neutral-500">
