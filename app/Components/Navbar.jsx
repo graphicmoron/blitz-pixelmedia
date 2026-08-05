@@ -20,7 +20,7 @@ export default function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="px-4 pt-16 flex justify-center">
+    <header className="px-4 pt-16 flex justify-center z-10">
       <motion.nav
         initial={{
           width: "30%",

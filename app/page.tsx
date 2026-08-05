@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import Lenis from 'lenis';
 import ScrollProgress from './Components/ScrollProgress';
 import { DesignHelpCTA } from '@/Components/ui/design-help-cta';
+import AboutSection from './Components/AboutSection';
 
 export default function Home() {
 
@@ -25,16 +26,44 @@ export default function Home() {
 
   return (
     <>
-      <div className='container mx-auto relative'>
+      <div className='mx-auto relative w-full'>
 
-        <Hero2 />
+        <section className="mx-auto container ">
+          <Hero2 />
+        </section>
 
-        <section className="mt-20">
+        {/* <LogoCloud /> */}
+
+        <section className="mx-auto mask-t-from-80% mask-b-from-60% ">
+          <div className="min-h-screen w-full bg-black relative text-white flex flex-col items-center justify-center overflow-hidden">
+            {/* Variable Spacing Pattern */}
+            <div
+              className="absolute inset-0 z-0 pointer-events-none opacity-80 "
+              style={{
+                backgroundImage: `
+        repeating-linear-gradient(30deg, 
+          rgba(255, 100, 0, 0.1) 0, 
+          rgba(255, 100, 0, 0.1) 1px, 
+          transparent 1px, 
+          transparent 10px,
+          rgba(255, 100, 0, 0.15) 11px, 
+          rgba(255, 100, 0, 0.15) 12px, 
+          transparent 12px, 
+          transparent 40px
+        )
+      `,
+              }}
+            />
+            <AboutSection />
+          </div>
+
+
+        </section>
+        <section className="-mt-50">
           <VideoIntro />
         </section>
 
         {/* <Aboutus /> */}
-        {/* <LogoCloud /> */}
 
         {/* <BookMeet /> */}
 
