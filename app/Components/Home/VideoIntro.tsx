@@ -48,7 +48,7 @@ export default function VideoIntro() {
     offset: ['start end', 'center end'],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [0.75, 0.95]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.75, 1]);
   const borderRadius = useTransform(scrollYProgress, [0, 1], ['24px', '8px']);
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0.4, 1]);
 
@@ -353,7 +353,7 @@ export default function VideoIntro() {
               <div className="relative flex flex-col gap-[1px] bg-[#141414]">
                 {/* Global Timeline Playhead Overlay Line */}
                 <div
-                  className="pointer-events-none absolute bottom-0 top-0 z-20 ml-[140px] w-[1px] bg-[#2da8ec]"
+                  className="pointer-events-none absolute bottom-0 top-0 z-20 ml-[135px] w-[1px] bg-[#2da8ec]"
                   style={{
                     left: `calc((100% - 140px) * ${progressPercent / 100})`,
                   }}
