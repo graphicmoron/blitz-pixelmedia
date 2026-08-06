@@ -8,28 +8,28 @@ import Link from 'next/link';
 
 const galleryItems = [
   {
-    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop',
-    text: 'Strategy',
+    image: '/services/Video_Editing.png',
+    text: 'Video Editing',
   },
   {
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop',
-    text: 'Production',
+    image: '/services/Motion_Graphics.png',
+    text: 'Motion Graphics',
   },
   {
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop',
-    text: 'Editing',
+    image: '/services/Graphic_Designing.png',
+    text: 'Graphic Designing',
   },
   {
-    image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1200&auto=format&fit=crop',
-    text: 'Launch',
+    image: '/services/Photography.png',
+    text: 'Photography',
   },
   {
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop',
-    text: 'Creative',
+    image: '/services/VideoGraphy.png',
+    text: 'Videography',
   },
   {
-    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop',
-    text: 'Team',
+    image: '/services/Graphic_Designing.png',
+    text: 'Graphic Designing',
   },
 ]
 
@@ -88,7 +88,7 @@ const AnimatedText = ({ text, className = "text-7xl font-light font-canela" }: A
 const Hero2 = () => {
 
   return (
-    <div className='relative'>
+    <div className='relative mx-auto'>
 
       <motion.img 
       initial={{

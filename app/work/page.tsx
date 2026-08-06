@@ -1,10 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { DesignHelpCTA } from '@/Components/ui/design-help-cta';
 import { VideoModal } from '@/Components/ui/video-modal';
+import { MasonryGrid } from '@/Components/ui/image-testimonial-grid';
 
 /** Filter rail — order here is the order shown on screen. */
 const CATEGORIES = [
@@ -219,6 +220,90 @@ const WORKS_DATA: WorkItem[] = [
 
 ];
 
+/** The three categories that are stills rather than films — they render as a
+ *  masonry photo wall instead of the video grid. */
+const PHOTO_CATEGORIES = ['Photography', 'Graphic Designing'] as const;
+
+type PhotoCategory = (typeof PHOTO_CATEGORIES)[number];
+
+interface PhotoItem {
+    id: string;
+    /** Image path under /public. */
+    src: string;
+    /** One-line caption laid over the top of the frame. */
+    caption: string;
+}
+
+const PHOTO_SETS: Record<PhotoCategory, PhotoItem[]> = {
+    Photography: [
+        { id: 'ph1', src: '/work/1.jpg', caption: 'Golden hour, one frame' },
+        { id: 'ph2', src: '/work/2.jpg', caption: 'Founder portrait, rebrand rollout' },
+        { id: 'ph3', src: '/work/5.jpg', caption: 'Street textures after rain' },
+        { id: 'ph4', src: '/work/7.jpg', caption: 'Wide open, shallow depth' },
+        { id: 'ph5', src: '/work/11.jpg', caption: 'Editorial set, natural light' },
+        { id: 'ph6', src: '/work/8.jpg', caption: 'Fest floor, candid frames' },
+        { id: 'ph7', src: '/work/13.jpg', caption: 'Last light on location' },
+    ],
+    'Graphic Designing': [
+        { id: 'gd1', src: '/work/3.png', caption: 'Brand identity, first pass' },
+        { id: 'gd2', src: '/work/4.png', caption: 'Poster series, bold type' },
+        { id: 'gd3', src: '/work/10.jpg', caption: 'Campaign key visual' },
+        { id: 'gd4', src: '/work/12.jpg', caption: 'Social system, one grid' },
+    ],
+};
+
+const isPhotoCategory = (cat: Category): cat is PhotoCategory =>
+    (PHOTO_CATEGORIES as readonly string[]).includes(cat);
+
+/** A single still in the photo wall — caption sits over the top of the frame. */
+function PhotoCard({ photo, category }: { photo: PhotoItem; category: string }) {
+    return (
+        <div className="group relative overflow-hidden rounded-2xl border border-white/10 transition-transform duration-300 ease-in-out hover:scale-[1.03]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+                src={photo.src}
+                alt={photo.caption}
+                loading="lazy"
+                className="h-auto w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/10 to-transparent" />
+            <span className="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-[11px] font-medium tracking-wide text-neutral-100 backdrop-blur-md">
+                {category}
+            </span>
+            <p className="absolute left-0 top-0 max-w-[70%] p-4 text-sm font-medium leading-tight text-white drop-shadow-md">
+                {photo.caption}
+            </p>
+        </div>
+    );
+}
+
+/** Responsive masonry wall of stills. */
+function PhotoWall({ photos, category }: { photos: PhotoItem[]; category: string }) {
+    const [columns, setColumns] = useState(3);
+
+    useEffect(() => {
+        const getColumns = (width: number) => {
+            if (width < 640) return 1;
+            if (width < 1024) return 2;
+            return 3;
+        };
+
+        const handleResize = () => setColumns(getColumns(window.innerWidth));
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return (
+        <MasonryGrid columns={columns} gap={4}>
+            {photos.map((photo) => (
+                <PhotoCard key={photo.id} photo={photo} category={category} />
+            ))}
+        </MasonryGrid>
+    );
+}
+
 interface WorkCardProps {
     item: WorkItem;
     onPlay: () => void;
@@ -313,6 +398,11 @@ export default function Page() {
         for (const w of WORKS_DATA) {
             map.set(w.category, (map.get(w.category) ?? 0) + 1);
         }
+        // The stills categories are counted from their photo sets, not from the
+        // video list — that's what the wall actually renders.
+        for (const cat of PHOTO_CATEGORIES) {
+            map.set(cat, PHOTO_SETS[cat].length);
+        }
         return map;
     }, []);
 
@@ -371,35 +461,46 @@ export default function Page() {
                 })}
             </div>
 
-            {/* 2-up grid */}
-            <div
-                key={activeCategory}
-                className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2"
-            >
-                {visibleWorks.map((item, i) => (
-                    <motion.div
-                        key={item.id}
-                        initial={{ opacity: 0, y: 24 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.5, delay: (i % 2) * 0.08 }}
+            {isPhotoCategory(activeCategory) ? (
+                /* Stills — masonry wall */
+                <PhotoWall
+                    key={activeCategory}
+                    photos={PHOTO_SETS[activeCategory]}
+                    category={activeCategory}
+                />
+            ) : (
+                <>
+                    {/* 2-up grid */}
+                    <div
+                        key={activeCategory}
+                        className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2"
                     >
-                        <WorkCard item={item} onPlay={() => setActiveItem(item)} />
-                    </motion.div>
-                ))}
-            </div>
+                        {visibleWorks.map((item, i) => (
+                            <motion.div
+                                key={item.id}
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                                transition={{ duration: 0.5, delay: (i % 2) * 0.08 }}
+                            >
+                                <WorkCard item={item} onPlay={() => setActiveItem(item)} />
+                            </motion.div>
+                        ))}
+                    </div>
 
-            {/* Video lightbox */}
-            <VideoModal
-                youtubeId={activeItem?.youtubeId ?? null}
-                title={activeItem?.title}
-                onClose={() => setActiveItem(null)}
-            />
+                    {/* Video lightbox */}
+                    <VideoModal
+                        youtubeId={activeItem?.youtubeId ?? null}
+                        title={activeItem?.title}
+                        onClose={() => setActiveItem(null)}
+                    />
 
-            {visibleWorks.length === 0 && (
-                <p className="py-20 text-center text-sm text-neutral-500">
-                    Nothing here yet — new work is on the way.
-                </p>
+                    {visibleWorks.length === 0 && (
+                        <p className="py-20 text-center text-sm text-neutral-500">
+                            Nothing here yet — new work is on the way.
+                        </p>
+                    )}
+                </>
             )}
 
             {/* DESIGN-HELP CTA */}

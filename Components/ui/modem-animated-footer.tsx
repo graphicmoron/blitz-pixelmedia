@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import { NotepadTextDashed } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -99,12 +98,12 @@ export const Footer = ({
             {creatorName && creatorUrl && (
               <nav className="flex gap-4">
                 <Link
-                  href={creatorUrl}
+                  href={'https://graphicmoron.vercel.app/'}
                   target={creatorUrlIsExternal ? "_blank" : undefined}
                   rel={creatorUrlIsExternal ? "noopener noreferrer" : undefined}
-                  className="text-base text-muted-foreground transition-colors duration-300 hover:font-medium hover:text-foreground"
+                  className="group relative text-base text-muted-foreground transition-colors duration-300 hover:font-medium hover:text-foreground"
                 >
-                  Crafted by {creatorName}
+                  Crafted by Graphic Moron
                 </Link>
               </nav>
             )}
@@ -122,8 +121,8 @@ export const Footer = ({
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-foreground to-foreground/80 shadow-lg sm:h-16 sm:w-16 md:h-24 md:w-24">
             {brandIcon || (
               <Image src="/logo.png" alt="Blitz Pixel Media"
-            width={200}
-            height={80} className="w-[400px] h-full" />
+                width={200}
+                height={80} className="w-[400px] h-full" />
             )}
           </div>
         </div>

@@ -176,9 +176,9 @@ export function DesignHelpCTA({ member = DEFAULT_MEMBER }) {
         className="relative z-10 text-balance px-2 text-center font-canela font-light italic leading-[1.05] tracking-tight text-white"
         style={{ fontSize: 'clamp(1.4rem, 6.2vw, 3.75rem)' }}
       >
-        Have a Project&apos;s
+        Ready to make
         <br />
-        and need <span className="text-orangish-red">help?</span>
+        your videos <span className="text-orangish-red">go viral?</span>
       </h2>
 
       {/* Booking pill — frosted glass */}

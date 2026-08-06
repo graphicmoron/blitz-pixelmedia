@@ -66,6 +66,18 @@ export interface WorkItem {
   tool?: string;
 }
 
+/** A still shown in the masonry photo gallery (used instead of the video grid
+ *  for the photographers / cinematographers). */
+export interface PhotoItem {
+  id: string;
+  /** Image path under /public. */
+  src: string;
+  /** One-line caption laid over the top of the frame. */
+  caption: string;
+  /** Optional pill shown in the top-right corner of the frame. */
+  category?: Exclude<WorkCategory, "All">;
+}
+
 export interface TeamMember {
   id: string;
   name: string;
@@ -84,6 +96,9 @@ export interface TeamMember {
   timeline?: Timeline;
   /** Portfolio pieces for the "My Work" gallery. Falls back to DEFAULT_WORK. */
   work?: WorkItem[];
+  /** Stills for the masonry photo gallery. When present, "My Work" renders the
+   *  photo grid instead of the video grid — used for the photographers. */
+  photos?: PhotoItem[];
 }
 
 /** Placeholder stock photography for the orbiting arc. */
@@ -265,6 +280,14 @@ export const TEAM: TeamMember[] = [
       { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
       { name: "Adobe Lightroom", icon: "/logos/adobe-lightroom-icon.png" },
     ],
+    photos: [
+      { id: "rp1", src: "/work/3.png", caption: "Brand identity, first pass", category: "Graphic Designing" },
+      { id: "rp2", src: "/work/4.png", caption: "Poster series, bold type", category: "Graphic Designing" },
+      { id: "rp3", src: "/work/12.jpg", caption: "Illustration study in colour", category: "Graphic Designing" },
+      { id: "rp4", src: "/work/6.jpg", caption: "Campaign key visual", category: "Graphic Designing" },
+      { id: "rp5", src: "/work/9.jpg", caption: "Social system, one grid", category: "Graphic Designing" },
+      { id: "rp6", src: "/work/13.jpg", caption: "Packaging mock, late night", category: "Graphic Designing" },
+    ],
   },
   {
     id: "04",
@@ -344,6 +367,15 @@ export const TEAM: TeamMember[] = [
       { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
       { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
     ],
+    photos: [
+      { id: "hp1", src: "/work/1.jpg", caption: "Golden hour, one frame", category: "Photography" },
+      { id: "hp2", src: "/work/2.jpg", caption: "Portrait study in natural light", category: "Photography" },
+      { id: "hp3", src: "/work/3.png", caption: "On-set stills, campaign day", category: "Photography" },
+      { id: "hp4", src: "/work/4.png", caption: "Cinematic product frame", category: "Photography" },
+      { id: "hp5", src: "/work/5.jpg", caption: "Street textures after rain", category: "Photography" },
+      { id: "hp6", src: "/work/6.jpg", caption: "Behind the lens, live shoot", category: "Photography" },
+      { id: "hp7", src: "/work/7.jpg", caption: "Wide open, shallow depth", category: "Photography" },
+    ],
   },
   {
     id: "06",
@@ -360,6 +392,14 @@ export const TEAM: TeamMember[] = [
         name: "Adobe Premiere Pro",
         icon: "/logos/adobe-premiere-pro-icon.png",
       },
+    ],
+    photos: [
+      { id: "bp1", src: "/work/8.jpg", caption: "Candid frames, no direction", category: "Photography" },
+      { id: "bp2", src: "/work/9.jpg", caption: "Vlog day, city run", category: "Photography" },
+      { id: "bp3", src: "/work/10.jpg", caption: "Colour graded on set", category: "Photography" },
+      { id: "bp4", src: "/work/11.jpg", caption: "Quirky light, quiet moment", category: "Photography" },
+      { id: "bp5", src: "/work/12.jpg", caption: "Lifestyle shoot, morning call", category: "Photography" },
+      { id: "bp6", src: "/work/13.jpg", caption: "Frame from the last edit", category: "Photography" },
     ],
   },
   {
