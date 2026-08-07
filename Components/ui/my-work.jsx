@@ -1,10 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { getWork, WORK_CATEGORIES } from '@/lib/team';
 import { VideoModal } from '@/Components/ui/video-modal';
+import { MasonryGrid } from '@/Components/ui/image-testimonial-grid';
 
 /** One portfolio piece in a landscape frame. Shows a poster + play button; the
  *  click opens the YouTube embed in a lightbox (facade pattern — no iframe cost
@@ -97,6 +98,59 @@ function WorkCard({ item, onPlay }) {
   );
 }
 
+/** A single still in the photo wall — caption top-left, category pill top-right,
+ *  matching the cards on /work. */
+function PhotoCard({ photo }) {
+  return (
+    <div className="group relative overflow-hidden rounded-2xl border border-white/10 transition-transform duration-300 ease-in-out hover:scale-[1.03]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={photo.src}
+        alt={photo.caption}
+        loading="lazy"
+        className="h-auto w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/10 to-transparent" />
+      {photo.category && (
+        <span className="absolute right-3 top-3 rounded-full bg-black/60 px-3 py-1 text-[11px] font-medium tracking-wide text-neutral-100 backdrop-blur-md">
+          {photo.category}
+        </span>
+      )}
+      <p className="absolute left-0 top-0 max-w-[70%] p-4 text-sm font-medium leading-tight text-white drop-shadow-md">
+        {photo.caption}
+      </p>
+    </div>
+  );
+}
+
+/** Responsive masonry wall of stills — used for the photographers instead of
+ *  the video grid. */
+function PhotoWall({ member }) {
+  const [columns, setColumns] = useState(3);
+
+  useEffect(() => {
+    const getColumns = (width) => {
+      if (width < 640) return 1;
+      if (width < 1024) return 2;
+      return 3;
+    };
+
+    const handleResize = () => setColumns(getColumns(window.innerWidth));
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    <MasonryGrid columns={columns} gap={4}>
+      {member.photos.map((photo) => (
+        <PhotoCard key={photo.id} photo={photo} />
+      ))}
+    </MasonryGrid>
+  );
+}
+
 export default function MyWork({ member }) {
   const work = useMemo(() => getWork(member), [member]);
 
@@ -109,11 +163,23 @@ export default function MyWork({ member }) {
   }, [work]);
 
   const [active, setActive] = useState('All');
+
+  // Photographers (Herain, Bharat) carry stills rather than YouTube pieces —
+  // they get the masonry photo wall instead of the video grid.
+  const hasPhotos = member.photos?.length > 0;
   /** Item shown in the lightbox — null when the modal is closed. */
   const [activeItem, setActiveItem] = useState(null);
 
   const visible =
     active === 'All' ? work : work.filter((w) => w.category === active);
+
+  if (hasPhotos) {
+    return (
+      <div className="mx-auto w-full max-w-6xl">
+        <PhotoWall member={member} />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto w-full max-w-6xl">

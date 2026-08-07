@@ -66,6 +66,18 @@ export interface WorkItem {
   tool?: string;
 }
 
+/** A still shown in the masonry photo gallery (used instead of the video grid
+ *  for the photographers / cinematographers). */
+export interface PhotoItem {
+  id: string;
+  /** Image path under /public. */
+  src: string;
+  /** One-line caption laid over the top of the frame. */
+  caption: string;
+  /** Optional pill shown in the top-right corner of the frame. */
+  category?: Exclude<WorkCategory, "All">;
+}
+
 export interface TeamMember {
   id: string;
   name: string;
@@ -84,6 +96,9 @@ export interface TeamMember {
   timeline?: Timeline;
   /** Portfolio pieces for the "My Work" gallery. Falls back to DEFAULT_WORK. */
   work?: WorkItem[];
+  /** Stills for the masonry photo gallery. When present, "My Work" renders the
+   *  photo grid instead of the video grid — used for the photographers. */
+  photos?: PhotoItem[];
 }
 
 /** Placeholder stock photography for the orbiting arc. */
@@ -108,7 +123,7 @@ export const TEAM: TeamMember[] = [
     id: "01",
     name: "Manvaditya Singh",
     username: "manavaditya",
-    role: "Motion Designer",
+    role: "VIDEO EDITOR",
     image: "/team/manavadityasingh.jpeg",
     tagline: "Motion, rhythm and timing",
     bio: "Creating scroll-stopping short-form edits with fast-paced storytelling and seamless transitions.",
@@ -175,7 +190,7 @@ export const TEAM: TeamMember[] = [
     id: "02",
     name: "Gaurav Agarwal",
     username: "gaurav",
-    role: "Lead Photographer",
+    role: "VIDEO EDITOR/ MOTION DESIGNER",
     image: "/team/gauravagrawal.jpeg",
     tagline: "Light, frame and colour",
     bio: "Using professional editing and color grading software to craft polished, cinematic visuals",
@@ -252,7 +267,7 @@ export const TEAM: TeamMember[] = [
     id: "03",
     name: "Ritul Tripathi",
     username: "ritul",
-    role: "Creative Technologist",
+    role: "GRAPHIC DESIGNER, ILLUSTRATOR, VISUAL ARTIST",
     image: "/team/ritultripathi.jpeg",
     tagline: "Ideas built into pixels",
     bio: "I turn ideas into bold visuals that stand out. From branding and illustrations to animation and graphic design",
@@ -265,12 +280,29 @@ export const TEAM: TeamMember[] = [
       { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
       { name: "Adobe Lightroom", icon: "/logos/adobe-lightroom-icon.png" },
     ],
+    photos: [
+      { id: "rp1", src: "/work/ritul/thaely-03.png", caption: "Thaely — campaign key visual", category: "Graphic Designing" },
+      { id: "rp2", src: "/work/ritul/thaely-08.png", caption: "Thaely — product layout", category: "Graphic Designing" },
+      { id: "rp3", src: "/work/ritul/thaely-10.png", caption: "Thaely — closing frame", category: "Graphic Designing" },
+      { id: "rp4", src: "/work/ritul/magazine-05.png", caption: "Magazine spread, editorial grid", category: "Graphic Designing" },
+      { id: "rp5", src: "/work/ritul/publication-01.png", caption: "Publication cover, bold type", category: "Graphic Designing" },
+      { id: "rp6", src: "/work/ritul/poster-frame-mockup.jpg", caption: "Poster series in frame", category: "Graphic Designing" },
+      { id: "rp7", src: "/work/ritul/wine-box-mockup.jpg", caption: "Packaging mock, wine box", category: "Graphic Designing" },
+      { id: "rp8", src: "/work/ritul/money-in-the-bank.jpg", caption: "Money in the Bank — poster", category: "Graphic Designing" },
+      { id: "rp9", src: "/work/ritul/ritul-01.jpg", caption: "Brand identity, first pass", category: "Graphic Designing" },
+      { id: "rp10", src: "/work/ritul/ritul-02.jpg", caption: "Illustration study in colour", category: "Graphic Designing" },
+      { id: "rp15", src: "/work/ritul/4.png", caption: "Cinematic product frame", category: "Graphic Designing" },
+      { id: "rp11", src: "/work/ritul/ritul-03.png", caption: "Visual system, one grid", category: "Graphic Designing" },
+      { id: "rp12", src: "/work/ritul/ritul-05.jpg", caption: "Type experiment, late night", category: "Graphic Designing" },
+      { id: "rp13", src: "/work/ritul/ritul-06.jpg", caption: "Layout exploration", category: "Graphic Designing" },
+      { id: "rp14", src: "/work/ritul/ritul-07.jpg", caption: "Poster study, bold colour", category: "Graphic Designing" },
+    ],
   },
   {
     id: "04",
     name: "Arihan Jain",
     username: "arihant",
-    role: "Creative Technologist",
+    role: "VIDEO EDITOR",
     image: "/team/arihanjain.jpg",
     tagline: "Ideas built into pixels",
     bio: "I specialize in flow-style edits, dynamic pacing, and immersive sound design. From viral editing styles to seamless transitions",
@@ -336,13 +368,32 @@ export const TEAM: TeamMember[] = [
     id: "05",
     name: "Herain Deegwal",
     username: "herain",
-    role: "Creative Technologist",
+    role: "PHOOGRAPHER/ CINEMATOGRAPHER",
     image: "/team/Herain.jpg",
     tagline: "Ideas built into pixels",
     bio: "Always chasing the perfect frame. From photography and cinematography to camera handling, I create clean, cinematic visuals with purpose where every frame tells a story.",
     skills: [
       { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
       { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
+    ],
+    photos: [
+      { id: "hp1", src: "/work/herain/AKP06977.jpg", caption: "Golden hour, one frame", category: "Photography" },
+      { id: "hp2", src: "/work/herain/AKP06993.jpg", caption: "Portrait study in natural light", category: "Photography" },
+      { id: "hp3", src: "/work/herain/AKP07012.jpg", caption: "On-set stills, campaign day", category: "Photography" },
+      { id: "hp4", src: "/work/herain/DSC02842.jpg", caption: "Cinematic frame, shallow depth", category: "Photography" },
+      { id: "hp5", src: "/work/herain/DSC02891.jpg", caption: "Available light, quiet moment", category: "Photography" },
+      { id: "hp6", src: "/work/herain/DSC02907.jpg", caption: "Behind the lens, live shoot", category: "Photography" },
+      { id: "hp14", src: "/work/herain/DSC07941.jpg", caption: "Frame held, natural light", category: "Photography" },
+      { id: "hp15", src: "/work/herain/DSC08726.jpg", caption: "On location, mid-shoot", category: "Photography" },
+      { id: "hp16", src: "/work/herain/DSC09596.jpg", caption: "Wide frame, open sky", category: "Photography" },
+      { id: "hp17", src: "/work/herain/DSC09970.jpg", caption: "Close crop, soft key", category: "Photography" },
+      { id: "hp7", src: "/work/herain/Gem-3.jpg", caption: "Product still, controlled light", category: "Photography" },
+      { id: "hp8", src: "/work/herain/Gem-6.jpg", caption: "Detail shot, macro pass", category: "Photography" },
+      { id: "hp9", src: "/work/herain/IMG_0072.jpg", caption: "Street textures after rain", category: "Photography" },
+      { id: "hp10", src: "/work/herain/IMG_0176.jpg", caption: "Wide open, natural frame", category: "Photography" },
+      { id: "hp11", src: "/work/herain/IMG_0185.jpg", caption: "Location scout, first light", category: "Photography" },
+      { id: "hp12", src: "/work/herain/IMG_0452.jpg", caption: "Editorial set, soft key", category: "Photography" },
+      { id: "hp13", src: "/work/herain/IMG_0858.jpg", caption: "Last light on location", category: "Photography" },
     ],
   },
   {
@@ -360,6 +411,19 @@ export const TEAM: TeamMember[] = [
         name: "Adobe Premiere Pro",
         icon: "/logos/adobe-premiere-pro-icon.png",
       },
+    ],
+    photos: [
+      { id: "bp1", src: "/work/bharat/AKP09827.jpg", caption: "Candid frames, no direction", category: "Photography" },
+      { id: "bp2", src: "/work/bharat/AKP09869.jpg", caption: "Vlog day, city run", category: "Photography" },
+      { id: "bp3", src: "/work/bharat/AKP09879.jpg", caption: "Colour graded on set", category: "Photography" },
+      { id: "bp4", src: "/work/bharat/DSC00966.jpg", caption: "Quirky light, quiet moment", category: "Photography" },
+      { id: "bp5", src: "/work/bharat/DSC01273.jpg", caption: "Lifestyle shoot, morning call", category: "Photography" },
+      { id: "bp6", src: "/work/bharat/DSC01276.jpg", caption: "Second look, same set", category: "Photography" },
+      { id: "bp7", src: "/work/bharat/DSC01383.jpg", caption: "Portrait, available light", category: "Photography" },
+      { id: "bp8", src: "/work/bharat/DSC02728.jpg", caption: "Event floor, wide frame", category: "Photography" },
+      { id: "bp9", src: "/work/bharat/DSC02867.jpg", caption: "Cinematic still, low key", category: "Photography" },
+      { id: "bp10", src: "/work/bharat/DSC02906.jpg", caption: "Motion caught mid-frame", category: "Photography" },
+      { id: "bp11", src: "/work/bharat/DSC02978.jpg", caption: "Frame from the last edit", category: "Photography" },
     ],
   },
   {
