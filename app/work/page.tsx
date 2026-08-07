@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { DesignHelpCTA } from '@/Components/ui/design-help-cta';
 import { VideoModal } from '@/Components/ui/video-modal';
 import { MasonryGrid } from '@/Components/ui/image-testimonial-grid';
+import { TEAM } from '@/lib/team';
 
 /** Filter rail — order here is the order shown on screen. */
 const CATEGORIES = [
@@ -234,22 +235,15 @@ interface PhotoItem {
     caption: string;
 }
 
+/** Pull a member's stills straight off the team record so this page and their
+ *  own "My Work" bento can never drift apart — add an image in one place only. */
+const photosOf = (username: string): PhotoItem[] =>
+    TEAM.find((m) => m.username === username)?.photos ?? [];
+
 const PHOTO_SETS: Record<PhotoCategory, PhotoItem[]> = {
-    Photography: [
-        { id: 'ph1', src: '/work/1.jpg', caption: 'Golden hour, one frame' },
-        { id: 'ph2', src: '/work/2.jpg', caption: 'Founder portrait, rebrand rollout' },
-        { id: 'ph3', src: '/work/5.jpg', caption: 'Street textures after rain' },
-        { id: 'ph4', src: '/work/7.jpg', caption: 'Wide open, shallow depth' },
-        { id: 'ph5', src: '/work/11.jpg', caption: 'Editorial set, natural light' },
-        { id: 'ph6', src: '/work/8.jpg', caption: 'Fest floor, candid frames' },
-        { id: 'ph7', src: '/work/13.jpg', caption: 'Last light on location' },
-    ],
-    'Graphic Designing': [
-        { id: 'gd1', src: '/work/3.png', caption: 'Brand identity, first pass' },
-        { id: 'gd2', src: '/work/4.png', caption: 'Poster series, bold type' },
-        { id: 'gd3', src: '/work/10.jpg', caption: 'Campaign key visual' },
-        { id: 'gd4', src: '/work/12.jpg', caption: 'Social system, one grid' },
-    ],
+    // Both photographers on one wall.
+    Photography: [...photosOf('herain'), ...photosOf('bharat')],
+    'Graphic Designing': photosOf('ritul'),
 };
 
 const isPhotoCategory = (cat: Category): cat is PhotoCategory =>
