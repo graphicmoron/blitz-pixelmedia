@@ -140,7 +140,7 @@ export const TEAM: TeamMember[] = [
     work: [
             {
         id: "mv5",
-        title: "Ronaldo",
+        title: "CR7 Reunited",
         description: "High-energy sports montage.",
         category: "Video Editing",
         youtubeId: "SKaZAbTKxnY",
@@ -149,7 +149,7 @@ export const TEAM: TeamMember[] = [
       },
       {
         id: "mv1",
-        title: "Leo",
+        title: "IT'S NOT THE STATISTICS",
         description: "Character edit cut to the beat.",
         category: "Video Editing",
         youtubeId: "_8uDBBKoJ2o",
@@ -167,7 +167,7 @@ export const TEAM: TeamMember[] = [
       },
       {
         id: "mv3",
-        title: "Messi",
+        title: "Another version of me",
         description: "Football edit with punchy pacing.",
         category: "Video Editing",
         youtubeId: "r5aJ9tG-lFA",

@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 const TEXT_PARAGRAPH =
-  'We’re a short-form video editing agency helping creators and brands turn raw clips into viral Reels, Shorts, and TikToks — fast, engaging, and tailored to trends that perform.';
+  'We’re a creative media agency turning ideas into visuals that demand attention from cinematic edits and striking photography to motion, design, and stories built to be remembered From frame to final cut, every detail has a purpose6.';
 
 const TAGS = [
   { name: 'Videography', icon: Video },
