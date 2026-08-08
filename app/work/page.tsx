@@ -417,8 +417,8 @@ export default function Page() {
                     Our <span className="text-orangish-red">Work</span>
                 </h2>
                 <p className="mt-4 max-w-xl text-sm leading-relaxed text-neutral-400 md:text-base">
-                    Edits, films, frames and identities we&apos;ve shipped for brands
-                    that wanted to be looked at twice.
+                    Short-form video editing for Influencers, Creators and Brands 
+                    replace with  Your story. Our edit. Their attention.
                 </p>
             </div>
 

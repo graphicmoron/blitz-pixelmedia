@@ -6,6 +6,39 @@ import MyWork from '@/Components/ui/my-work';
 import DesignHelpCTA from '@/Components/ui/design-help-cta';
 import { TEAM, DEFAULT_GALLERY, getMemberByUsername } from '@/lib/team';
 
+/** The craft each member is credited with above their work grid, keyed by
+ *  username. Members not listed here simply don't get the tag. */
+const CRAFT_BY_USERNAME = {
+  manavaditya: {
+    name: 'Video Editing',
+    description: 'Cuts, rhythm and storytelling designed to hold attention.',
+  },
+  arihant: {
+    name: 'Video Editing',
+    description: 'Cuts, rhythm and storytelling designed to hold attention.',
+  },
+  gaurav: {
+    name: 'Motion Graphics',
+    description: 'Turning concepts into motion, frame by frame.',
+  },
+  kunal: {
+    name: 'Motion Graphics',
+    description: 'Turning concepts into motion, frame by frame.',
+  },
+  herain: {
+    name: 'Photography',
+    description: 'Frames crafted to capture attention and preserve the moment.',
+  },
+  bharat: {
+    name: 'Videography',
+    description: 'Real moments, captured with a cinematic eye.',
+  },
+  ritul: {
+    name: 'Graphic Designing',
+    description: 'Design that gives your brand a face, a voice and a presence.',
+  },
+};
+
 export function generateStaticParams() {
   return TEAM.map((member) => ({ name: member.username }));
 }
@@ -29,6 +62,7 @@ export default async function Page({ params }) {
   if (!member) notFound();
 
   const gallery = member.gallery?.length ? member.gallery : DEFAULT_GALLERY;
+  const craft = CRAFT_BY_USERNAME[member.username];
 
   return (
     <main className="relative w-full overflow-hidden bg-black text-neutral-200">
@@ -139,10 +173,12 @@ export default async function Page({ params }) {
           <h2 className="mt-3 font-canela text-3xl font-light tracking-tight text-white sm:text-4xl md:text-6xl">
             My <span className="text-orangish-red">Work</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-neutral-400 md:text-base">
-            Edits, films, frames and identities {member.name.split(' ')[0]} has
-            shipped with the crew.
-          </p>
+          {craft && (
+              <p className="mt-4 text-[13px] leading-relaxed text-neutral-400 md:text-sm">
+                {craft.description}
+              </p>
+
+          )}
         </div>
 
         <MyWork member={member} />
