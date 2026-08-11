@@ -8,27 +8,27 @@ import Link from 'next/link';
 
 const galleryItems = [
   {
-    image: '/services/Video_Editing.png',
+    image: '/services/Video_Editing.webp',
     text: 'Video Editing',
   },
   {
-    image: '/services/Motion_Graphics.png',
+    image: '/services/Motion_Graphics.webp',
     text: 'Motion Graphics',
   },
   {
-    image: '/services/Graphic_Designing.png',
+    image: '/services/Graphic_Designing.webp',
     text: 'Graphic Designing',
   },
   {
-    image: '/services/Photography.png',
+    image: '/services/Photography.webp',
     text: 'Photography',
   },
   {
-    image: '/services/VideoGraphy.png',
+    image: '/services/VideoGraphy.webp',
     text: 'Videography',
   },
   {
-    image: '/services/Graphic_Designing.png',
+    image: '/services/Graphic_Designing.webp',
     text: 'Graphic Designing',
   },
 ]
