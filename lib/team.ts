@@ -28,6 +28,8 @@ export interface AudioClip {
   tags: string[];
   start: number;
   span: number;
+  /** Optional audio file path under /public (for timeline playback). */
+  source?: string;
 }
 
 export interface Timeline {
@@ -88,6 +90,8 @@ export interface TeamMember {
   tagline: string;
   bio: string;
   skills: Skill[];
+  /** Optional personal timeline song path under /public. */
+  song?: string;
   /** Photos orbiting the portrait on the detail page. Falls back to
    *  DEFAULT_GALLERY — swap in real project stills per person. */
   gallery?: string[];
@@ -127,6 +131,7 @@ export const TEAM: TeamMember[] = [
     image: "/team/manavadityasingh.jpeg",
     tagline: "Motion, rhythm and timing",
     bio: "Creating scroll-stopping short-form edits with fast-paced storytelling and seamless transitions.",
+    song: "/songs/MANAV.mp3",
     skills: [
       {
         name: "Adobe After Effects",
@@ -194,6 +199,7 @@ export const TEAM: TeamMember[] = [
     image: "/team/gauravagrawal.jpeg",
     tagline: "Light, frame and colour",
     bio: "Using professional editing and color grading software to craft polished, cinematic visuals",
+    song: "/songs/GAURAV.mp3",
     skills: [
       { name: "DaVinci Resolve", icon: "/logos/DaVinci_Resolve_Studio.png" },
       { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
@@ -271,6 +277,7 @@ export const TEAM: TeamMember[] = [
     image: "/team/ritultripathi.jpeg",
     tagline: "Ideas built into pixels",
     bio: "I turn ideas into bold visuals that stand out. From branding and illustrations to animation and graphic design",
+    song: "/songs/RITUL.mp3",
     skills: [
       {
         name: "Adobe After Effects",
@@ -306,6 +313,7 @@ export const TEAM: TeamMember[] = [
     image: "/team/arihanjain.jpg",
     tagline: "Ideas built into pixels",
     bio: "I specialize in flow-style edits, dynamic pacing, and immersive sound design. From viral editing styles to seamless transitions",
+    song: "/songs/ARIHAN.mp3",
     skills: [
       {
         name: "Adobe After Effects",
@@ -372,6 +380,7 @@ export const TEAM: TeamMember[] = [
     image: "/team/Herain.jpg",
     tagline: "Ideas built into pixels",
     bio: "Always chasing the perfect frame. From photography and cinematography to camera handling, I create clean, cinematic visuals with purpose where every frame tells a story.",
+    song: "/songs/HERAIN.mp3",
     skills: [
       { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
       { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
@@ -404,6 +413,7 @@ export const TEAM: TeamMember[] = [
     image: "/team/bharat.JPG",
     tagline: "Ideas built into pixels",
     bio: "A photographer and videographer capturing fresh, authentic moments with a cinematic touch. From quirky visuals to modern vlogs, I bring creativity and energy to every frame.",
+    song: "/songs/BHARAT.mp3",
     skills: [
       { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
       { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
@@ -434,6 +444,7 @@ export const TEAM: TeamMember[] = [
     image: "/team/kunal.jpg",
     tagline: "Ideas built into pixels",
     bio: "Turning ideas into motion with sleek animations and dynamic video edits that are clean, engaging, and built to stand out",
+    song: "/songs/KUNAL.mp3",
     skills: [
       { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
       { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
@@ -490,6 +501,17 @@ function titleCase(word: string) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
+function songTag(songPath?: string): string | null {
+  if (!songPath) return null;
+  const raw = songPath.split("/").pop()?.replace(/\.[^.]+$/, "");
+  if (!raw) return null;
+  return raw
+    .toLowerCase()
+    .split(/[_\s-]+/)
+    .map(titleCase)
+    .join(" ");
+}
+
 /** Turn a tagline into a few "craft" words for the audio waveform track.
  *  "Motion, rhythm and timing" -> ["Motion", "Rhythm", "Timing"]. */
 function craftWords(tagline: string): string[] {
@@ -518,6 +540,8 @@ export function getTimeline(member: TeamMember): Timeline {
   if (member.timeline) return member.timeline;
 
   const tools = skillTags(member);
+
+  const songName = songTag(member.song);
 
   return {
     duration: 24,
@@ -556,10 +580,11 @@ export function getTimeline(member: TeamMember): Timeline {
     audio: {
       track: "A1",
       period: "Always",
-      tags: craftWords(member.tagline),
+      tags: songName ? [songName, "Timeline Song"] : craftWords(member.tagline),
       // Runs the full length of the sequence (00:00 → duration).
       start: 0,
       span: 24,
+      source: member.song,
     },
   };
 }

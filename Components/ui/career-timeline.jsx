@@ -500,6 +500,8 @@ export default function CareerTimeline({ member }) {
   const idleTimer = useRef(null);
   const cutSeq = useRef(0);
   const audioRef = useRef(null);
+  const fadeRef = useRef(null);
+  const transportRunRef = useRef(0);
   const toggleRef = useRef(() => {});
 
   const [grabbing, setGrabbing] = useState(false);
@@ -654,74 +656,98 @@ export default function CareerTimeline({ member }) {
     }, 3000);
   };
 
-  // ---- Sound. A soft ambient pad, synthesised with the Web Audio API so no
-  // asset is needed. Built lazily on the first play gesture (browsers require
-  // one), then just faded in/out on play/pause.
-  const ensureAudio = () => {
-    if (audioRef.current) return audioRef.current;
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return null;
-    const ctx = new AC();
-
-    const master = ctx.createGain();
-    master.gain.value = 0; // silent until faded in
-    master.connect(ctx.destination);
-
-    // Gentle tremolo → a sense of "rhythm" without a metronome tick.
-    const trem = ctx.createGain();
-    trem.gain.value = 0.7;
-    trem.connect(master);
-    const lfo = ctx.createOscillator();
-    lfo.frequency.value = 2.1;
-    const lfoDepth = ctx.createGain();
-    lfoDepth.gain.value = 0.25;
-    lfo.connect(lfoDepth).connect(trem.gain);
-    lfo.start();
-
-    // Warm low-pass over two detuned voices (A2 + E3).
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 900;
-    filter.connect(trem);
-    [110, 164.81].forEach((f) => {
-      const osc = ctx.createOscillator();
-      osc.type = 'sawtooth';
-      osc.frequency.value = f;
-      const g = ctx.createGain();
-      g.gain.value = 0.28;
-      osc.connect(g).connect(filter);
-      osc.start();
-    });
-
-    audioRef.current = { ctx, master };
-    return audioRef.current;
+  // ---- Sound. Personal timeline song from /public, faded on play/pause.
+  const clearFade = () => {
+    if (fadeRef.current) {
+      cancelAnimationFrame(fadeRef.current);
+      fadeRef.current = null;
+    }
   };
 
-  const fadeSound = (to) => {
-    const a = to > 0 ? ensureAudio() : audioRef.current;
-    if (!a) return;
-    if (a.ctx.state === 'suspended') a.ctx.resume();
-    const now = a.ctx.currentTime;
-    a.master.gain.cancelScheduledValues(now);
-    a.master.gain.setValueAtTime(a.master.gain.value, now);
-    a.master.gain.linearRampToValueAtTime(to, now + 0.18);
+  const ensureAudio = () => {
+    if (audioRef.current) return audioRef.current;
+    if (!audio.source) return null;
+    const el = new Audio(audio.source);
+    el.preload = 'auto';
+    el.loop = false;
+    el.volume = 0;
+    audioRef.current = el;
+    return el;
+  };
+
+  const resolveSongDuration = async (el) => {
+    if (!el) return 9;
+    if (Number.isFinite(el.duration) && el.duration > 0) return el.duration;
+    await new Promise((resolve) => {
+      const done = () => resolve();
+      el.addEventListener('loadedmetadata', done, { once: true });
+      el.addEventListener('error', done, { once: true });
+    });
+    return Number.isFinite(el.duration) && el.duration > 0 ? el.duration : 9;
+  };
+
+  const fadeSound = (to, options = {}) => {
+    const { rewind = false } = options;
+    const el = to > 0 ? ensureAudio() : audioRef.current;
+    if (!el) return;
+    if (rewind) el.currentTime = 0;
+
+    if (to > 0 && el.paused) {
+      const playPromise = el.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch((err) => {
+          console.error('Timeline song playback failed:', err);
+        });
+      }
+    }
+
+    clearFade();
+    const from = el.volume;
+    const start = performance.now();
+    const step = (now) => {
+      const progress = Math.min((now - start) / 180, 1);
+      el.volume = from + (to - from) * progress;
+      if (progress < 1) {
+        fadeRef.current = requestAnimationFrame(step);
+        return;
+      }
+      fadeRef.current = null;
+      if (to === 0) el.pause();
+    };
+    fadeRef.current = requestAnimationFrame(step);
   };
 
   // ---- Transport. Play sweeps the playhead to the end at a steady rate and
   // starts the pad; pause freezes it and fades the pad out.
   const PLAY_SECONDS = 9;
 
-  const play = () => {
+  const play = async ({ rewind = false } = {}) => {
+    const runId = (transportRunRef.current += 1);
     head.stop();
     if (idleTimer.current) clearTimeout(idleTimer.current);
-    if (head.get() >= 99.9) head.set(0); // restart from the top when at the end
+    if (rewind || head.get() >= 99.9) head.set(0);
+
+    const el = ensureAudio();
+    let songSeconds = PLAY_SECONDS;
+    if (el) {
+      songSeconds = await resolveSongDuration(el);
+      if (runId !== transportRunRef.current) return;
+      const progress = clamp(head.get() / 100, 0, 1);
+      const seekTo = Math.min(
+        progress * songSeconds,
+        Math.max(songSeconds - 0.05, 0),
+      );
+      el.currentTime = seekTo;
+    }
+
     const remaining = (100 - head.get()) / 100;
     setPlaying(true);
     fadeSound(0.12);
     animate(head, 100, {
-      duration: PLAY_SECONDS * remaining,
+      duration: songSeconds * remaining,
       ease: 'linear',
       onComplete: () => {
+        if (runId !== transportRunRef.current) return;
         setPlaying(false);
         fadeSound(0);
       },
@@ -729,6 +755,7 @@ export default function CareerTimeline({ member }) {
   };
 
   const pause = () => {
+    transportRunRef.current += 1;
     head.stop();
     setPlaying(false);
     fadeSound(0);
@@ -742,20 +769,12 @@ export default function CareerTimeline({ member }) {
   const restart = () => {
     head.stop();
     if (idleTimer.current) clearTimeout(idleTimer.current);
+    transportRunRef.current += 1;
     setLanes(cloneLanes(base));
     setSelected(null);
     setResetKey((k) => k + 1);
     head.set(0);
-    setPlaying(true);
-    fadeSound(0.12);
-    animate(head, 100, {
-      duration: PLAY_SECONDS,
-      ease: 'linear',
-      onComplete: () => {
-        setPlaying(false);
-        fadeSound(0);
-      },
-    });
+    play({ rewind: true });
   };
 
   // Keep the Spacebar handler pointing at the current transport state without
@@ -804,11 +823,15 @@ export default function CareerTimeline({ member }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [chooseTool]);
 
-  // ---- Clear the idle timer and tear down audio on unmount.
+  // ---- Clear the idle timer and tear down timeline audio on unmount.
   useEffect(
     () => () => {
       if (idleTimer.current) clearTimeout(idleTimer.current);
-      if (audioRef.current) audioRef.current.ctx.close();
+      clearFade();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
     },
     [],
   );
