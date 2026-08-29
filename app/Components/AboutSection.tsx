@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 const TEXT_PARAGRAPH =
-  'We’re a creative media agency turning ideas into visuals that demand attention from cinematic edits and striking photography to motion, design, and stories built to be remembered From frame to final cut, every detail has a purpose6.';
+  'We’re a creative bunch turning ideas into visuals that make people stop and pay attention. From cinematic edits and striking photography to motion, design, and everything in between, we bring a mix of creativity, experimentation, and storytelling to everything we do.';
 
 const TAGS = [
   { name: 'Videography', icon: Video },
@@ -47,7 +47,7 @@ export default function TextFillSection() {
           transition={{ duration: 0.5 }}
           className="font-serif text-2xl italic tracking-wide text-orangish-red md:text-3xl"
         >
-          (hello)
+          (creativity in motion)
         </motion.span>
 
         {/* Scroll-Revealing Headline */}

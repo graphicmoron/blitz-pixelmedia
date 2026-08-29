@@ -515,7 +515,7 @@ export default function CareerTimeline({ member }) {
   // it lines up with the ruler's 00:00 tick.
   const rest = useMemo(
     () => (clips[0].start / duration) * 100,
-    [clips, duration],
+    [clips, duration], 
   );
 
   // Where the intro sweep starts: the first clip's out point. The playhead

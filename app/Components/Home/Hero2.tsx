@@ -149,7 +149,7 @@ const Hero2 = () => {
           </motion.button>
             </Link>
 
-
+<Link href="/work">
           <motion.button
             initial={{
               opacity: 0,
@@ -169,6 +169,7 @@ const Hero2 = () => {
               ease: "easeInOut",
             }}
             className='w-full md:w-auto group flex items-center justify-center gap-2 bg-white text-black  px-4 py-3 md:px-6 md:py-4 rounded-lg cursor-pointer'>View Our Work</motion.button>
+            </Link>
           <span className="absolute inset-x-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bottom-px bg-linear-to-r from-transparent via-white to-transparent h-1 mx-auto blur-md"></span>
         </div>
       </div>
