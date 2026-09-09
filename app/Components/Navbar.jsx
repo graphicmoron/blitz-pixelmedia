@@ -10,7 +10,7 @@ import { motion } from "motion/react"
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Work", href: "/work" },
-  { label: "About", href: "/about" },
+  // { label: "About", href: "/about" },
 ];
 
 export default function Navbar() {
