@@ -215,7 +215,7 @@ export const TEAM: TeamMember[] = [
     work: [
       {
         id: "ga1",
-        title: "Cinema as Art",
+        title: "Cinema As Art",
         description: "Visual essay on cinema as art.",
         category: "Video Editing",
         youtubeId: "NZEk-__pAt0",
@@ -224,7 +224,7 @@ export const TEAM: TeamMember[] = [
       },
       {
         id: "ga2",
-        title: "Mosaic Motion",
+        title: "Mosaic Motion Introductory Video",
         description: "Introductory film for Mosaic Motion.",
         category: "Videography",
         youtubeId: "b3874OrtkdI",
@@ -233,7 +233,7 @@ export const TEAM: TeamMember[] = [
       },
       {
         id: "ga3",
-        title: "Poster Reveal",
+        title: "Poster Reveal After Movie (Intro Part)",
         description: "After-movie intro with poster reveal.",
         category: "Motion Graphics",
         youtubeId: "XeGg443DWOs",
@@ -260,7 +260,7 @@ export const TEAM: TeamMember[] = [
       },
       {
         id: "ga6",
-        title: "Barfi",
+        title: "Barfi X Can't Help Falling In Love",
         description: "Film tribute cut to score.",
         category: "Video Editing",
         youtubeId: "Qf_9P3uq2LM",
@@ -354,7 +354,7 @@ export const TEAM: TeamMember[] = [
       },
       {
         id: "ar4",
-        title: "LV Sandals",
+        title: "LV Sandals Flow Style",
         description: "Product edit in flow style.",
         category: "Video Editing",
         youtubeId: "TeEmZGgRtII",
@@ -363,7 +363,7 @@ export const TEAM: TeamMember[] = [
       },
       {
         id: "ar5",
-        title: "Radiance",
+        title: "Radiance Flow Style",
         description: "Flow-style edit with tight sound design.",
         category: "Video Editing",
         youtubeId: "7MFUZZsYeKo",
