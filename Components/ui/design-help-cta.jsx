@@ -3,7 +3,8 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
+import CRTWarp from '@/Components/CRTWarp';
 
 const TAGS = [
   { label: 'vfx', x: 79, y: 8, rot: 14, delay: 1.8, small: true },
@@ -159,8 +160,28 @@ function OpenBox() {
   );
 }
 
+/* Darkens the plasma unevenly: hardest at the bottom, where the box art and the
+   tag pills need to stay readable, lightest through the middle band. */
+const CRT_SCRIM =
+  'linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.42) 34%, rgba(0,0,0,0.62) 68%, rgba(0,0,0,0.88) 100%)';
+
+/* Bleeds the backdrop past the max-w-4xl text column so the glow reads as page
+   light rather than a panel. Sized against the viewport, not the column: a flat
+   percentage bleed overflows and adds a horizontal scrollbar under ~1440px.
+   The -12px keeps clear of the vertical scrollbar 100vw doesn't account for. */
+const CRT_BLEED = 'calc(-1 * max(0px, min((100vw - 100%) / 2 - 12px, 200px)))';
+const CRT_BOX = { insetInline: CRT_BLEED, insetBlock: '-6%' };
+
+/* Black fader that hands the top of the section back to the black above it.
+   The shader quantises into 24 vertical blocks at 4 brightness levels, so its
+   topmost visible block arrives as a flat horizontal line that an alpha mask
+   alone can't hide — only a long black ramp dissolves those steps. */
+const CRT_TOP_FADE =
+  'linear-gradient(to bottom, #000 0%, #000 10%, rgba(0,0,0,0.94) 20%, rgba(0,0,0,0.78) 30%, rgba(0,0,0,0.54) 40%, rgba(0,0,0,0.28) 50%, rgba(0,0,0,0.1) 58%, transparent 66%)';
+
 export function DesignHelpCTA({ member = DEFAULT_MEMBER }) {
   const sceneRef = useRef(null);
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: sceneRef,
     offset: ['start end', 'center center'],
@@ -168,8 +189,56 @@ export function DesignHelpCTA({ member = DEFAULT_MEMBER }) {
 
   return (
     <div className="relative mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 md:px-12">
+      {/* CRT plasma backdrop. Bleeds past the text column and feathers out on
+          all four sides so it reads as ambient light rather than a pasted
+          panel. Stays interactive so mouseReact still tracks the cursor; the
+          content above sits at z-10. */}
+      <div
+        aria-hidden
+        className="absolute z-0 overflow-hidden opacity-45 mask-x-from-55% mask-y-from-45%"
+        style={CRT_BOX}
+      >
+        <CRTWarp
+          color="#ed4b25"
+          backgroundColor="#05010a"
+          speed={0.2}
+          curvature={0.04}
+          scanlineStrength={0.25}
+          scanlineFrequency={500}
+          waveAmplitude={1}
+          waveFrequency={1.9}
+          bloom={1.1}
+          bloomRadius={1.25}
+          noise={0.1}
+          vignette={0}
+          brightness={1.25}
+          pixelation={1}
+          rgbShift={0.015}
+          mouseReact
+          mouseStrength={0.5}
+          dpr={1}
+          fps={30}
+          paused={Boolean(reduceMotion)}
+        />
+      </div>
+
+      {/* Scrim over the plasma so the heading, pill and box keep their contrast */}
+      <div
+        className="pointer-events-none absolute z-0"
+        style={{ ...CRT_BOX, backgroundImage: CRT_SCRIM }}
+      />
+
       {/* Soft stage wash behind everything */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(237,75,37,0.12),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_18%,rgba(237,75,37,0.12),transparent_60%)]" />
+
+      {/* Black fader into the section above. Painted last of the backdrop
+          layers so it also crushes the stage wash, which would otherwise add
+          orange back into the very band being faded out. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute z-0"
+        style={{ ...CRT_BOX, backgroundImage: CRT_TOP_FADE }}
+      />
 
       {/* Heading */}
       <h2
