@@ -13,9 +13,6 @@ import ScrollProgress from './Components/ScrollProgress';
 import { DesignHelpCTA } from '@/Components/ui/design-help-cta';
 import AboutSection from './Components/AboutSection';
 
-const PATTERN_FADE =
-  'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.12) 16%, rgba(0,0,0,0.5) 38%, #000 62%, #000 80%, transparent 100%)';
-
 export default function Home() {
 
   useEffect(() => {
@@ -41,23 +38,20 @@ export default function Home() {
           <div className="min-h-screen w-full bg-black relative text-white flex flex-col items-center justify-center overflow-hidden">
             {/* Variable Spacing Pattern */}
             <div
-              className="absolute inset-0 z-0 pointer-events-none opacity-45"
+              className="absolute inset-0 z-0 pointer-events-none opacity-80 "
               style={{
                 backgroundImage: `
-        repeating-linear-gradient(30deg,
-          rgba(255, 100, 0, 0.05) 0,
-          rgba(255, 100, 0, 0.05) 1px,
-          transparent 1px,
+        repeating-linear-gradient(30deg, 
+          rgba(255, 100, 0, 0.1) 0, 
+          rgba(255, 100, 0, 0.1) 1px, 
+          transparent 1px, 
           transparent 10px,
-          rgba(255, 100, 0, 0.08) 11px,
-          rgba(255, 100, 0, 0.08) 12px,
-          transparent 12px,
+          rgba(255, 100, 0, 0.15) 11px, 
+          rgba(255, 100, 0, 0.15) 12px, 
+          transparent 12px, 
           transparent 40px
         )
       `,
-                // ease the pattern in from the top so it never reads as a separate block
-                maskImage: PATTERN_FADE,
-                WebkitMaskImage: PATTERN_FADE,
               }}
             />
             <AboutSection />
