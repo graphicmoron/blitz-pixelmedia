@@ -216,7 +216,7 @@
 //           >
 //             <div className="p-4">
 //               <div className="relative aspect-video w-full overflow-hidden rounded-lg">
-//                 <Image src={data.image} alt={data.name} className="h-full w-full object-cover" fill />
+//                 <Image src={data.image} alt={data.name} className="h-full w-full object-cover" fill sizes="100vw" />
 //                 <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
 //                 <div className="absolute bottom-4 left-4">
 //                   <p className="text-xs uppercase tracking-widest text-white">View Profile</p>
@@ -316,6 +316,7 @@ export default function KineticTeamHybrid() {
                   src={TEAM.find((teamMember) => teamMember.id === activeId)?.image ?? TEAM[0].image}
                   alt="Preview"
                   fill
+                  sizes="320px"
                   className="h-full w-full object-cover"
                 />
 
@@ -398,7 +399,7 @@ function TeamRow({
                 onClick={(e) => e.stopPropagation()}
                 className="relative block aspect-video w-full overflow-hidden rounded-lg"
               >
-                <Image src={data.image} alt={data.name} className="h-full w-full object-cover" fill />
+                <Image src={data.image} alt={data.name} className="h-full w-full object-cover" fill sizes="100vw" />
                 <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 flex items-center gap-1.5 text-xs font-medium uppercase tracking-widest text-white">
                   <span>View Profile</span>
