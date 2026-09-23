@@ -47,7 +47,7 @@ export default function Navbar() {
         >
           <Image
             className=""
-            src="/logos/Blitz-logo-white.svg"
+            src="/logos/blitzlogowhite.png"
             alt="Blitz Pixel Media"
             width={100}
             height={100}
@@ -97,7 +97,7 @@ export default function Navbar() {
         >
           <Image
             className=""
-            src="/logos/Blitz-logo-white.svg"
+            src="/logos/blitzlogowhite.png"
             alt="Blitz Pixel Media"
             width={80}
             height={100}
