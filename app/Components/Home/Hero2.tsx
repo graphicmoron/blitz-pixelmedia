@@ -108,7 +108,7 @@ const Hero2 = () => {
           <AnimatedText text="Agency that makes your"
             className="text-3xl lg:text-7xl font-light font-canela" />
 
-          <AnimatedText text="videos & reels viral"
+          <AnimatedText text="Videos & Reels Viral"
             className="text-3xl lg:text-7xl font-light text-orangish-red font-canela tracking-tight -mt-3" />
 
           <div className='px-4 text-center'>

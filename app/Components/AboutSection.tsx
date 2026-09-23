@@ -47,7 +47,7 @@ export default function TextFillSection() {
           transition={{ duration: 0.5 }}
           className="font-serif text-2xl italic tracking-wide text-orangish-red md:text-3xl"
         >
-          (creativity in motion)
+         CREATIVITY IN MOTION
         </motion.span>
 
         {/* Scroll-Revealing Headline */}
