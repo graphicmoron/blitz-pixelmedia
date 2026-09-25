@@ -44,7 +44,7 @@ const BookMeet = () => {
                         config={{ "layout": "month_view", "theme": "light" }}
                     /> */}
                     <Cal namespace="15min"
-                        calLink="graphicmoron/15min"
+                        calLink="blitz-pixelmedia/15min"
                         style={{ width: "100%", height: "100%", overflow: "scroll", borderRadius: "1.2rem" }}
                         config={{ "layout": "month_view","theme": "dark" , "useSlotsViewOnSmallScreen": "true" }}
                     />

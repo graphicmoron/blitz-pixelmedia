@@ -280,12 +280,11 @@ export const TEAM: TeamMember[] = [
     song: "/songs/RITUL.mp3",
     skills: [
       {
-        name: "Adobe After Effects",
-        icon: "/logos/adobe-after-effects-icon.png",
+        name: "Canva",
+        icon: "/logos/canva-icon.png",
       },
-      { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
-      { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
-      { name: "Adobe Lightroom", icon: "/logos/adobe-lightroom-icon.png" },
+      { name: "Adobe", icon: "/logos/adobe-icon.png" },
+      { name: "Pro Create", icon: "/logos/Procreate_logo.png" },
     ],
     photos: [
       { id: "rp1", src: "/work/ritul/thaely-03.webp", caption: "Thaely — campaign key visual", category: "Graphic Designing" },
@@ -376,7 +375,7 @@ export const TEAM: TeamMember[] = [
     id: "05",
     name: "Herain Deegwal",
     username: "herain",
-    role: "PHOOGRAPHER/ CINEMATOGRAPHER",
+    role: "PHOTOGRAPHER/ CINEMATOGRAPHER",
     image: "/team/Herain.jpg",
     tagline: "Ideas built into pixels",
     bio: "Always chasing the perfect frame. From photography and cinematography to camera handling, I create clean, cinematic visuals with purpose where every frame tells a story.",
@@ -446,9 +445,14 @@ export const TEAM: TeamMember[] = [
     bio: "Turning ideas into motion with sleek animations and dynamic video edits that are clean, engaging, and built to stand out",
     song: "/songs/KUNAL.mp3",
     skills: [
-      { name: "Adobe Illustrator", icon: "/logos/adobe-illustrator-icon.png" },
-      { name: "Adobe Photoshop", icon: "/logos/adobe-photoshop-icon.png" },
-      { name: "Blender", icon: "/logos/blender.png" },
+      {
+        name: "Adobe After Effects",
+        icon: "/logos/adobe-after-effects-icon.png",
+      },
+      {
+        name: "Adobe Premiere Pro",
+        icon: "/logos/adobe-premiere-pro-icon.png",
+      },
     ],
     work: [
       {
@@ -638,15 +642,7 @@ export const DEFAULT_WORK: WorkItem[] = [
     tags: ["Product", "Retouching"],
     tool: "/logos/adobe-lightroom-icon.png",
   },
-  {
-    id: "w8",
-    title: "Portrait Series",
-    description: "Founder portraits shot for a rebrand rollout.",
-    category: "Photography",
-    youtubeId: "LXb3EKWsInQ",
-    tags: ["Editorial", "Colour Grade"],
-    tool: "/logos/adobe-photoshop-icon.png",
-  },
+
   {
     id: "w9",
     title: "AXN",
