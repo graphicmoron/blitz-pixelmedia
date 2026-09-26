@@ -209,15 +209,6 @@ const WORKS_DATA: WorkItem[] = [
         tags: ['Event', 'Recap'],
         tool: '/logos/adobe-premiere-pro-icon.png',
     },
-    {
-        id: 'portrait-series',
-        title: 'Portrait Series',
-        description: 'Founder portraits shot for a rebrand rollout.',
-        category: 'Photography',
-        youtubeId: 'LXb3EKWsInQ',
-        tags: ['Editorial', 'Colour Grade'],
-        tool: '/logos/adobe-photoshop-icon.png',
-    },
 
 ];
 
