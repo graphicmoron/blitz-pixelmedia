@@ -8,9 +8,9 @@ import CRTWarp from '@/Components/CRTWarp';
 
 const TAGS = [
   { label: 'Vfx', x: 79, y: 8, rot: 14, delay: 1.8, small: true },
-  { label: 'Brand', x: 44, y: 24, rot: 12, delay: 0.9, faint: true },
+  { label: 'Motion', x: 44, y: 24, rot: 12, delay: 0.9, faint: true },
   { label: 'Cinematography', x: 82, y: 30, rot: 8, delay: 0.5, accent: true },
-  { label: 'Motion', x: 26, y: 40, rot: 6, delay: 0.6, accent: true },
+  { label: 'Typography ', x: 26, y: 40, rot: 6, delay: 0.6, accent: true },
   { label: 'Branding', x: 75, y: 44, rot: -12, delay: 1.1 },
   { label: 'Photography', x: 87, y: 58, rot: 6, delay: 1.4 },
   { label: 'Video Editing', x: 12, y: 72, rot: -8, delay: 1.2 },
